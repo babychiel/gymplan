@@ -82,9 +82,22 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .hero-in{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
 .eyebrow{display:inline-flex;align-items:center;gap:.55rem;padding:.4rem .85rem;border:1px solid var(--line2);
   border-radius:99px;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);font-weight:600;background:rgba(211,255,78,.05)}
-.hero h1{font-size:clamp(3rem,8.5vw,5.7rem);text-transform:uppercase;letter-spacing:-.015em;margin:1.1rem 0 .9rem}
+@media (prefers-reduced-motion:reduce){.motto .m-a,.motto .m-b{transition:none}}
+.hero h1{font-size:clamp(2.5rem,7.2vw,4.9rem);text-transform:uppercase;letter-spacing:-.015em;margin:1.1rem 0 .8rem}
 .hero h1 em{font-style:normal;color:var(--lime);text-shadow:0 0 44px rgba(211,255,78,.35)}
-.hero p.lead{color:var(--fg2);font-size:clamp(1rem,1.6vw,1.15rem);max-width:46ch;margin:0 0 1.8rem}
+.hero p.lead{color:var(--fg2);font-size:clamp(1rem,1.6vw,1.15rem);max-width:46ch;margin:1.1rem 0 1.8rem}
+
+/* motto berganti-ganti */
+.motto{min-height:2.9em;text-wrap:balance}
+.motto .m-a,.motto .m-b{display:inline-block;transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.motto .m-b{transition-delay:.06s}
+.motto.out .m-a,.motto.out .m-b{opacity:0;transform:translateY(14px)}
+.shuffle{display:inline-flex;align-items:center;gap:.4rem;padding:.34rem .75rem;border-radius:99px;
+  border:1px solid var(--line);color:var(--muted);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;
+  transition:color .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}
+.shuffle:hover{color:var(--lime);border-color:var(--lime);transform:translateY(-1px)}
+.shuffle svg{transition:transform .5s var(--ease)}
+.shuffle:hover svg{transform:rotate(180deg)}
 .cta-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2.2rem}
 .btn{
   display:inline-flex;align-items:center;gap:.55rem;padding:.85rem 1.4rem;border-radius:99px;
@@ -350,8 +363,15 @@ footer{border-top:1px solid var(--line);padding:2.4rem 0;color:var(--muted);font
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="wrap hero-in">
       <div>
-        <span class="eyebrow"><span class="dot" style="width:7px;height:7px;border-radius:50%;background:currentColor"></span> Program pribadi · fat loss + core</span>
-        <h1>Lima hari.<br><em>Satu rencana.</em></h1>
+        <span class="eyebrow"><span class="dot" style="width:7px;height:7px;border-radius:50%;background:currentColor"></span> <span id="greet">Halo, Cheri</span></span>
+        <h1 class="motto" id="motto" aria-live="polite">
+          <span class="m-a" id="mottoA">Nggak ada mood.</span><br>
+          <em class="m-b" id="mottoB">Yang ada cuma jadwal.</em>
+        </h1>
+        <button type="button" class="shuffle" id="shuffleBtn" aria-label="Ganti kalimat motivasi">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+          Ganti
+        </button>
         <p class="lead">Jadwal latihan mingguan lengkap dengan animasi tiap gerakan, checklist set, timer istirahat, timer HIIT 40/20, dan menu makan harian. Semua tersimpan otomatis di browsermu.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#latihan" id="startBtn">
@@ -1459,7 +1479,75 @@ window.PROGRAM = {
   });
 
   /* ---------------- init ---------------- */
-  var wk = new Date();
+
+  /* ---------------- sapaan & motto ---------------- */
+  var MOTTO = [
+    ['Nggak ada mood.', 'Yang ada cuma jadwal.'],
+    ['Alasan atau hasil.', 'Pilih satu.'],
+    ['Yang diskip hari ini', 'nagih bulan depan.'],
+    ['Berhenti nunggu semangat.', 'Mulai aja.'],
+    ['Set terakhir', 'bukan formalitas.'],
+    ['Malasnya sementara.', 'Nyeselnya lama.'],
+    ['Badan berubah setelah', 'kepala berhenti nawar.'],
+    ['Diskon buat diri sendiri', 'itu yang bikin stuck.'],
+    ['Latihan 45 menit.', 'Atau nyesel 5 tahun.'],
+    ['Rencana tanpa keringat', 'cuma angan-angan.'],
+    ['Besok itu', 'nama lain dari nggak pernah.'],
+    ['Yang berat', 'emang bagiannya kamu.'],
+    ['Nggak ada versi gampang', 'dari versi terbaik.'],
+    ['Disiplin dulu.', 'Motivasi nyusul.'],
+    ['Satu rep lagi.', 'Selalu ada satu rep lagi.'],
+    ['Nggak ada yang nolong.', 'Angkat sendiri.'],
+    ['Progres itu pelan.', 'Berhenti itu instan.'],
+    ['Jangan hitung hari.', 'Bikin harinya berhitung.'],
+    ['Badan cuma ngikut', 'apa yang kepala putuskan.'],
+    ['Yang bikin beda', 'bukan hari pas semangat.'],
+    ['Datang aja dulu.', 'Sisanya urusan nanti.'],
+    ['Form dulu.', 'Ego belakangan.'],
+    ['Nggak sempat itu', 'cuma nggak prioritas.'],
+    ['Hari ini berat?', 'Bagus. Berarti kerja.'],
+    ['Konsisten emang nggak keren.', 'Tapi cuma itu yang jalan.'],
+    ['Berhenti nego', 'sama diri sendiri.'],
+    ['Piring juga latihan.', 'Jangan cuma barbel.'],
+    ['Tidur 7 jam', 'bagian dari programnya.'],
+    ['Minggu depan mulai?', 'Minggu lalu juga bilang gitu.'],
+    ['Yang lihat hasilnya', 'cuma yang selesaikan setnya.']
+  ];
+
+  function greeting() {
+    var h = new Date().getHours();
+    if (h < 4) return 'Belum tidur, Cheri';
+    if (h < 11) return 'Selamat pagi, Cheri';
+    if (h < 15) return 'Selamat siang, Cheri';
+    if (h < 18) return 'Selamat sore, Cheri';
+    return 'Selamat malam, Cheri';
+  }
+
+  var mIdx = Math.floor(Math.random() * MOTTO.length), mTimer = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function paintMotto() {
+    var m = MOTTO[mIdx];
+    $('#mottoA').textContent = m[0];
+    $('#mottoB').textContent = m[1];
+  }
+  function nextMotto(step) {
+    var el = $('#motto');
+    mIdx = (mIdx + (step || 1) + MOTTO.length) % MOTTO.length;
+    if (reduce) { paintMotto(); return; }
+    el.classList.add('out');
+    setTimeout(function () { paintMotto(); el.classList.remove('out'); }, 460);
+  }
+  function armMotto() {
+    clearInterval(mTimer);
+    mTimer = setInterval(function () { if (!document.hidden) nextMotto(1); }, 9000);
+  }
+
+  $('#greet').textContent = greeting();
+  paintMotto();
+  armMotto();
+  $('#shuffleBtn').addEventListener('click', function () { nextMotto(1); armMotto(); });
+
   $('#footWeek').textContent = 'Minggu mulai ' + weekKey() + ' · diperbarui otomatis';
   renderToday(); renderDays(); renderDetail(); renderMeals(); renderProgress(); reveal();
   // jaring pengaman: pastikan tidak ada konten yang tertinggal tersembunyi
