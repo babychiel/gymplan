@@ -1,5 +1,5 @@
 /* Service worker Gymplan — cache shell supaya tetap terbuka saat offline */
-const V = 'gymplan-v3';
+const V = 'gymplan-v4';
 const SHELL = ['./', './index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', e => {
@@ -12,6 +12,7 @@ self.addEventListener('fetch', e => {
   const r = e.request;
   if (r.method !== 'GET') return;
   const url = new URL(r.url);
+  // thumbnail YouTube dan font: pakai cache dulu, isi ulang di belakang
   if (url.hostname === 'i.ytimg.com' || url.hostname.endsWith('gstatic.com') || url.hostname.endsWith('googleapis.com')) {
     e.respondWith(caches.open(V + '-media').then(async c => {
       const hit = await c.match(r);
@@ -21,6 +22,7 @@ self.addEventListener('fetch', e => {
     return;
   }
   if (url.origin !== location.origin) return;
+  // halaman sendiri: jaringan dulu supaya update langsung terlihat, cache sebagai cadangan
   e.respondWith(fetch(r).then(res => {
     const copy = res.clone();
     caches.open(V).then(c => c.put(r, copy));

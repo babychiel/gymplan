@@ -161,7 +161,7 @@ a{color:var(--acc)}
 .exlist{display:grid;gap:.9rem}
 .excard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm)}
 .excard.done{border-color:rgba(18,169,123,.5)}
-.vwrap{position:relative;aspect-ratio:16/9;background:#0e1626}
+.vwrap{position:relative;aspect-ratio:16/9;background:#0e1626;overflow:hidden;min-height:0}
 .vwrap img{width:100%;height:100%;object-fit:cover}
 .vwrap iframe{width:100%;height:100%;border:0}
 .vplay{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,rgba(8,14,28,.1),rgba(8,14,28,.45))}
@@ -202,6 +202,22 @@ a{color:var(--acc)}
 .hiitcta h4{font-size:1.05rem}
 .hiitcta p{margin:.2rem 0 0;font-size:.82rem;color:#8c3a24}
 .hiitcta .btn{width:auto;background:linear-gradient(145deg,#f58a70,#e2563a);box-shadow:0 10px 24px -12px rgba(226,86,58,.9)}
+
+/* animasi stick figure */
+.figbox{display:grid;place-items:center;padding:.3rem;
+  background:radial-gradient(circle at 50% 42%,rgba(47,111,246,.16),transparent 70%),#0e1626}
+.figbox .fig{width:100%;height:100%;display:block}
+.tthumb .figbox{border-radius:14px}
+.fig .j{transform-origin:0 0}
+.fig .lb{stroke:#9ec5ff;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.fig .head{fill:none;stroke:#9ec5ff;stroke-width:6}
+.fig .foot{stroke:#9ec5ff;stroke-width:6;stroke-linecap:round;fill:none}
+.fig .far .lb,.fig .far .foot{stroke:#44618f}
+.fig .eq{stroke:#f2785c;stroke-width:5;stroke-linecap:round;fill:none}
+.fig .eq rect,.fig .eq .fill{fill:#f2785c;stroke:none}
+.fig .far .eq{opacity:.4}
+.fig .prop{stroke:#33456b;stroke-width:4;fill:none;stroke-linecap:round}
+.fig .ground{stroke:#33456b;stroke-width:3}
 
 /* ---------- menu makan ---------- */
 .meals{display:grid;gap:.7rem}
@@ -391,16 +407,429 @@ a{color:var(--acc)}
 
 <div class="toast" id="toast"></div>
 <script>
+/* =====================================================================
+   figure.js — Animated stick-figure engine
+   Membangun SVG figur manusia berartikulasi + CSS keyframes per gerakan.
+   Semua sudut dalam derajat. Figur menghadap KANAN (+x).
+   Konvensi: sudut positif = ayunan ke arah depan (kanan layar).
+   ===================================================================== */
+(function (global) {
+  'use strict';
+
+  var L = { torso: 50, upper: 24, fore: 24, thigh: 30, shin: 30, head: 9 };
+
+  /* ---- Pose default: berdiri tegak ---- */
+  function pose(o) {
+    return Object.assign({
+      t: 0,                     // torso (positif = membungkuk ke depan)
+      aL: 0, fL: 0,             // lengan dekat  (upper, fore)
+      aR: 0, fR: 0,             // lengan jauh
+      hL: 0, kL: 0,             // kaki dekat (hip/thigh, knee/shin)
+      hR: 0, kR: 0,             // kaki jauh
+      dx: 0, dy: 0,             // geser seluruh badan
+      rot: 0,                   // rotasi seluruh badan
+      sc: 1
+    }, o || {});
+  }
+
+  /* ---- Peralatan yang digambar di tangan ---- */
+  var EQUIP = {
+    barbellBig:'<g class="eq"><line x1="-42" y1="0" x2="42" y2="0"/>' +
+             '<circle cx="-31" cy="0" r="15"/><circle cx="31" cy="0" r="15"/></g>',
+    barbell: '<g class="eq"><line x1="-34" y1="0" x2="34" y2="0"/>' +
+             '<rect x="-34" y="-7" width="7" height="14" rx="2"/>' +
+             '<rect x="27" y="-7" width="7" height="14" rx="2"/></g>',
+    bar:     '<g class="eq"><line x1="-30" y1="0" x2="30" y2="0"/></g>',
+    dumbbell:'<g class="eq"><line x1="-9" y1="0" x2="9" y2="0"/>' +
+             '<rect x="-13" y="-5" width="5" height="10" rx="1.5"/>' +
+             '<rect x="8" y="-5" width="5" height="10" rx="1.5"/></g>',
+    kettle:  '<g class="eq"><path d="M-5 2 a5 5 0 0 1 10 0" fill="none"/>' +
+             '<path d="M-7 3 h14 a8 9 0 0 1 -14 0 z" class="fill"/></g>',
+    plate:   '<g class="eq"><circle cx="0" cy="0" r="8" fill="none"/></g>',
+    cablehi: '<g class="eq"><line x1="-22" y1="0" x2="22" y2="0"/></g>',
+    ball:    '<g class="eq"><circle cx="0" cy="0" r="7" class="fill"/></g>',
+    none:    ''
+  };
+
+  /* ---- Bangun markup SVG ---- */
+  function limbFar(side) {
+    return '' +
+      '<g class="j j-a' + side + '">' +
+        '<line class="lb" x1="0" y1="0" x2="0" y2="' + L.upper + '"/>' +
+        '<g transform="translate(0,' + L.upper + ')">' +
+          '<g class="j j-f' + side + '">' +
+            '<line class="lb" x1="0" y1="0" x2="0" y2="' + L.fore + '"/>' +
+            '<g class="hand" transform="translate(0,' + L.fore + ')">' +
+              '<g class="j j-eq' + side + '">{{EQ' + side + '}}</g>' +
+            '</g>' +
+          '</g>' +
+        '</g>' +
+      '</g>';
+  }
+
+  function legMarkup(side) {
+    return '' +
+      '<g class="j j-h' + side + '">' +
+        '<line class="lb" x1="0" y1="0" x2="0" y2="' + L.thigh + '"/>' +
+        '<g transform="translate(0,' + L.thigh + ')">' +
+          '<g class="j j-k' + side + '">' +
+            '<line class="lb" x1="0" y1="0" x2="0" y2="' + L.shin + '"/>' +
+            '<path class="foot" d="M0 ' + L.shin + ' h9"/>' +
+          '</g>' +
+        '</g>' +
+      '</g>';
+  }
+
+  function buildSvg(ex) {
+    var eqR = EQUIP[ex.equip || 'none'] || '';
+    var eqL = ex.oneHand ? '' : eqR;
+    if (ex.equipL) eqL = EQUIP[ex.equipL] || '';
+
+    var far = '<g class="far">' + limbFar('R') .replace('{{EQR}}', eqR) + '</g>';
+    var near = '<g class="near">' + limbFar('L').replace('{{EQL}}', eqL) + '</g>';
+
+    var legFar = '<g class="far">' + legMarkup('R') + '</g>';
+    var legNear = '<g class="near">' + legMarkup('L') + '</g>';
+
+    return '' +
+    '<svg class="fig ' + ex.cls + '" viewBox="0 0 200 200" role="img" aria-label="Animasi gerakan ' + ex.name + '">' +
+      (ex.ground === false ? '' : '<line class="ground" x1="14" y1="182" x2="186" y2="182"/>') +
+      (ex.prop || '') +
+      '<g transform="translate(100,120)"><g class="j j-root">' +
+        legFar + legNear +
+        '<g class="j j-torso">' +
+          '<line class="lb torso" x1="0" y1="0" x2="0" y2="' + (-L.torso) + '"/>' +
+          '<circle class="head" cx="0" cy="' + (-L.torso - L.head - 3) + '" r="' + L.head + '"/>' +
+          (ex.torsoProp || '') +
+          '<g transform="translate(0,' + (-L.torso + 4) + ')">' + far + near + '</g>' +
+        '</g>' +
+      '</g></g>' +
+    '</svg>';
+  }
+
+  /* ---- Keyframes ---- */
+  // rotasi yang benar-benar diterapkan pada tiap sendi (SVG: positif = searah jarum jam)
+  function applied(p) {
+    return {
+      'j-root':  p.rot,
+      'j-torso': p.t,
+      'j-aL': -p.aL, 'j-fL': -p.fL,
+      'j-aR': -p.aR, 'j-fR': -p.fR,
+      'j-hL': -p.hL, 'j-kL': -p.kL,
+      'j-hR': -p.hR, 'j-kR': -p.kR,
+      // peralatan dijaga tetap datar: lawan seluruh rotasi induknya
+      'j-eqL': -(p.rot + p.t - p.aL - p.fL),
+      'j-eqR': -(p.rot + p.t - p.aR - p.fR)
+    };
+  }
+
+  function css(ex) {
+    var a = applied(ex.a), b = applied(ex.b);
+    var out = [];
+    var dur = ex.dur || 2.2;
+    Object.keys(a).forEach(function (k) {
+      var v1 = a[k], v2 = b[k];
+      var nameA = ex.cls + '-' + k;
+      var extraA = '', extraB = '';
+      if (k === 'j-root') {
+        extraA = 'translate(' + (ex.a.dx || 0) + 'px,' + (ex.a.dy || 0) + 'px) scale(' + (ex.a.sc || 1) + ') ';
+        extraB = 'translate(' + (ex.b.dx || 0) + 'px,' + (ex.b.dy || 0) + 'px) scale(' + (ex.b.sc || 1) + ') ';
+      }
+      out.push('@keyframes ' + nameA + '{0%,100%{transform:' + extraA + 'rotate(' + v1 + 'deg)' +
+               '}50%{transform:' + extraB + 'rotate(' + v2 + 'deg)}}');
+      out.push('.' + ex.cls + ' .' + k + '{animation:' + nameA + ' ' + dur + 's ease-in-out infinite;}');
+    });
+    return out.join('\n');
+  }
+
+  global.Figure = {
+    pose: pose,
+    applied: applied,
+    build: function (ex) { return buildSvg(ex); },
+    css: css,
+    L: L
+  };
+})(window);
+/* =====================================================================
+   exercises.js — Katalog animasi tiap gerakan (stick figure)
+   Setiap entri: dua pose (a & b) yang di-loop bolak-balik.
+   ===================================================================== */
+(function (global) {
+  'use strict';
+
+  var P = {
+    bench:   '<g class="prop"><rect x="28" y="148" width="118" height="9" rx="3"/>' +
+             '<line x1="44" y1="157" x2="44" y2="182"/><line x1="130" y1="157" x2="130" y2="182"/></g>',
+    incline: '<g class="prop"><path d="M123 139 L61 95"/><path d="M123 139 L160 147"/>' +
+             '<line x1="152" y1="147" x2="152" y2="182"/><line x1="119" y1="140" x2="119" y2="182"/></g>',
+    box:     '<g class="prop"><rect x="126" y="140" width="56" height="42" rx="4"/></g>',
+    bar:     '<g class="prop"><line x1="34" y1="26" x2="166" y2="26"/>' +
+             '<line x1="42" y1="26" x2="42" y2="182"/><line x1="158" y1="26" x2="158" y2="182"/></g>',
+    tower:   '<g class="prop"><line x1="170" y1="20" x2="170" y2="182"/>' +
+             '<line x1="150" y1="20" x2="178" y2="20"/><rect x="156" y="120" width="24" height="10" rx="3"/></g>',
+    towerLo: '<g class="prop"><line x1="176" y1="96" x2="176" y2="182"/>' +
+             '<rect x="150" y="150" width="34" height="9" rx="3"/></g>',
+    seat:    '<g class="prop"><rect x="70" y="148" width="76" height="8" rx="3"/>' +
+             '<line x1="86" y1="156" x2="86" y2="182"/><line x1="132" y1="156" x2="132" y2="182"/></g>',
+    slope:   '<g class="prop"><path d="M18 182 L182 128" /></g>',
+    mat:     '<g class="prop"><rect x="20" y="176" width="160" height="7" rx="3"/></g>',
+    rope:    '<g class="prop"><line x1="170" y1="26" x2="170" y2="182"/><line x1="152" y1="26" x2="184" y2="26"/></g>'
+  };
+
+  function p(o) { return global.Figure.pose(o); }
+
+  /* pose bantu */
+  var HANG = { hL: -28, kL: 66, hR: -24, kR: 62 };
+  var LIE  = { rot: -90, dx: -15, dy: 52 };
+  var PLANK= { rot: -80, dx: -6, dy: 46 };
+
+  var EX = {
+
+    /* ---------- SENIN · UPPER BODY ---------- */
+    'bench-press': {
+      name: 'Bench press', equip: 'barbell', dur: 2.4, prop: P.bench,
+      a: p({ rot: -90, dy: 30, dx: 4, aL: -60, fL: 150, aR: -66, fR: 156, hL: -4, kL: -86, hR: 2, kR: -92 }),
+      b: p({ rot: -90, dy: 30, dx: 4, aL: 90, fL: 0, aR: 87, fR: 3, hL: -4, kL: -86, hR: 2, kR: -92 })
+    },
+    'bent-over-row': {
+      name: 'Bent-over row', equip: 'barbell', dur: 2.2,
+      a: p({ t: 62, dx: -22, dy: 6, hL: -14, kL: 22, hR: -10, kR: 18, aL: 62, fL: 4, aR: 62, fR: 4 }),
+      b: p({ t: 62, dx: -22, dy: 6, hL: -14, kL: 22, hR: -10, kR: 18, aL: 46, fL: 104, aR: 46, fR: 104 })
+    },
+    'overhead-press': {
+      name: 'Overhead press', equip: 'barbell', dur: 2.2,
+      a: p({ t: -4, aL: 30, fL: 135, aR: 26, fR: 139 }),
+      b: p({ t: 0, aL: 176, fL: 2, aR: 173, fR: 5 })
+    },
+    'lat-pulldown': {
+      name: 'Lat pulldown', equip: 'cablehi', dur: 2.3, prop: P.tower + P.seat,
+      a: p({ t: -6, dy: 22, hL: 88, kL: -88, hR: 84, kR: -84, aL: 166, fL: 0, aR: 162, fR: 4 }),
+      b: p({ t: -12, dy: 22, hL: 88, kL: -88, hR: 84, kR: -84, aL: 74, fL: 76, aR: 71, fR: 79 })
+    },
+    'incline-db-press': {
+      name: 'Incline dumbbell press', equip: 'dumbbell', dur: 2.3, prop: P.incline,
+      a: p({ rot: -52, dx: 22, dy: 6, aL: 56, fL: 56, aR: 52, fR: 60, hL: -40, kL: 18, hR: -35, kR: 13 }),
+      b: p({ rot: -52, dx: 22, dy: 6, aL: 126, fL: 0, aR: 123, fR: 3, hL: -40, kL: 18, hR: -35, kR: 13 })
+    },
+    'face-pull': {
+      name: 'Face pull', equip: 'bar', dur: 2.1, prop: P.tower,
+      a: p({ t: -4, hL: 6, kL: -6, hR: 4, kR: -4, aL: 148, fL: 0, aR: 144, fR: 4 }),
+      b: p({ t: -6, hL: 6, kL: -6, hR: 4, kR: -4, aL: 150, fL: 96, aR: 146, fR: 100 })
+    },
+    'cable-crunch': {
+      name: 'Cable crunch', equip: 'none', dur: 2.2, prop: P.rope,
+      a: p({ t: 14, dy: 30, hL: 0, kL: -88, hR: 4, kR: -92, aL: 168, fL: 104, aR: 164, fR: 108 }),
+      b: p({ t: 68, dy: 30, hL: 0, kL: -88, hR: 4, kR: -92, aL: 168, fL: 104, aR: 164, fR: 108 })
+    },
+    'bicycle-crunch': {
+      name: 'Bicycle crunch', equip: 'none', dur: 1.8, prop: P.mat,
+      a: p(Object.assign({}, LIE, { t: 22, aL: 96, fL: 92, aR: 92, fR: 96, hL: 88, kL: -78, hR: 14, kR: -8 })),
+      b: p(Object.assign({}, LIE, { t: 22, aL: 96, fL: 92, aR: 92, fR: 96, hL: 14, kL: -8, hR: 88, kR: -78 }))
+    },
+
+    /* ---------- SELASA · LOWER BODY ---------- */
+    'squat': {
+      name: 'Squat', equip: 'none', dur: 2.5,
+      torsoProp: '<g class="eq"><line x1="-32" y1="-44" x2="32" y2="-44"/>' +
+                 '<rect x="-34" y="-51" width="7" height="14" rx="2"/><rect x="27" y="-51" width="7" height="14" rx="2"/></g>',
+      a: p({ t: 10, hL: 5, kL: -5, hR: 3, kR: -3, aL: -26, fL: -108, aR: -30, fR: -104 }),
+      b: p({ t: 36, dy: 30, hL: 60, kL: -120, hR: 57, kR: -117, aL: -26, fL: -108, aR: -30, fR: -104 })
+    },
+    'romanian-deadlift': {
+      name: 'Romanian deadlift', equip: 'barbell', dur: 2.5,
+      a: p({ t: 4, dx: -6, hL: 2, kL: 0, hR: 0, kR: 2, aL: 4, fL: 0, aR: 4, fR: 0 }),
+      b: p({ t: 74, dx: -6, dy: 6, hL: -10, kL: 14, hR: -8, kR: 12, aL: 74, fL: 0, aR: 74, fR: 0 })
+    },
+    'walking-lunge': {
+      name: 'Walking lunge', equip: 'dumbbell', dur: 2.4,
+      a: p({ t: 8, hL: 32, kL: -22, hR: -28, kR: 70, dy: 8, aL: 8, fL: 0, aR: 8, fR: 0 }),
+      b: p({ t: 10, hL: 46, kL: -74, hR: -42, kR: 112, dy: 28, aL: 10, fL: 0, aR: 10, fR: 0 })
+    },
+    'leg-curl': {
+      name: 'Leg curl', equip: 'none', dur: 2.0, prop: P.mat,
+      a: p({ t: 6, hL: -4, kL: 4, hR: -2, kR: 2, aL: 6, fL: 0, aR: 6, fR: 0 }),
+      b: p({ t: 6, hL: -8, kL: 112, hR: -2, kR: 2, aL: 6, fL: 0, aR: 6, fR: 0 })
+    },
+    'calf-raise': {
+      name: 'Calf raise', equip: 'dumbbell', dur: 1.9,
+      a: p({ t: 2, hL: 0, kL: 0, hR: 0, kR: 0, aL: 2, fL: 0, aR: 2, fR: 0 }),
+      b: p({ t: 2, dy: -10, hL: 0, kL: 0, hR: 0, kR: 0, aL: 2, fL: 0, aR: 2, fR: 0 })
+    },
+    'hanging-leg-raise': {
+      name: 'Hanging leg raise', equip: 'none', dur: 2.6, prop: P.bar,
+      a: p({ t: -2, dy: 6, aL: 178, fL: 0, aR: 175, fR: 3, hL: 2, kL: 0, hR: -2, kR: 2 }),
+      b: p({ t: -8, dy: 6, aL: 178, fL: 0, aR: 175, fR: 3, hL: 92, kL: -4, hR: 88, kR: 0 })
+    },
+    'dead-bug': {
+      name: 'Dead bug', equip: 'none', dur: 2.4, prop: P.mat,
+      a: p(Object.assign({}, LIE, { aL: 90, fL: 0, aR: 178, fR: 0, hL: 88, kL: -84, hR: 6, kR: 0 })),
+      b: p(Object.assign({}, LIE, { aL: 178, fL: 0, aR: 90, fR: 0, hL: 6, kL: 0, hR: 88, kR: -84 }))
+    },
+
+    /* ---------- RABU · HIIT ---------- */
+    'kettlebell-swing': {
+      name: 'Kettlebell swing', equip: 'kettle', dur: 1.7,
+      a: p({ t: 68, dx: -14, dy: 6, hL: -14, kL: 22, hR: -10, kR: 18, aL: 76, fL: 0, aR: 76, fR: 0 }),
+      b: p({ t: 0, dx: -14, hL: 0, kL: 0, hR: 0, kR: 0, aL: 92, fL: 0, aR: 92, fR: 0 })
+    },
+    'box-jump': {
+      name: 'Box jump', equip: 'none', dur: 1.8, prop: P.box,
+      a: p({ t: 34, dx: -28, dy: 30, hL: 58, kL: -116, hR: 55, kR: -113, aL: -46, fL: 0, aR: -50, fR: 0 }),
+      b: p({ t: 12, dx: 22, dy: -34, hL: 34, kL: -34, hR: 31, kR: -31, aL: 150, fL: 0, aR: 146, fR: 0 })
+    },
+    'jumping-jack': {
+      name: 'Jumping jack', equip: 'none', dur: 1.1,
+      a: p({ t: 0, aL: 4, fL: 0, aR: -4, fR: 0, hL: 3, kL: 0, hR: -3, kR: 0 }),
+      b: p({ t: 0, dy: -8, aL: 172, fL: 0, aR: 168, fR: 0, hL: 22, kL: 0, hR: -22, kR: 0 })
+    },
+    'mountain-climber': {
+      name: 'Mountain climber', equip: 'none', dur: 1.2, prop: P.mat,
+      a: p(Object.assign({}, PLANK, { aL: -80, fL: 88, aR: -84, fR: 92, hL: -140, kL: 84, hR: 4, kR: 0 })),
+      b: p(Object.assign({}, PLANK, { aL: -80, fL: 88, aR: -84, fR: 92, hL: 4, kL: 0, hR: -140, kR: 84 }))
+    },
+    'plank-shoulder-tap': {
+      name: 'Plank shoulder tap', equip: 'none', dur: 2.0, prop: P.mat,
+      a: p(Object.assign({}, PLANK, { aL: -80, fL: 0, aR: -84, fR: 4, hL: 2, kL: 0, hR: -2, kR: 2 })),
+      b: p(Object.assign({}, PLANK, { aL: -142, fL: 118, aR: -84, fR: 4, hL: 2, kL: 0, hR: -2, kR: 2 }))
+    },
+    'high-knees': {
+      name: 'High knees', equip: 'none', dur: 0.9,
+      a: p({ t: 6, dy: -4, hL: 94, kL: -88, hR: -12, kR: 6, aL: -42, fL: 72, aR: 42, fR: 72 }),
+      b: p({ t: 6, dy: -4, hL: -12, kL: 6, hR: 94, kR: -88, aL: 42, fL: 72, aR: -42, fR: 72 })
+    },
+
+    /* ---------- KAMIS · FULL BODY ---------- */
+    'deadlift': {
+      name: 'Deadlift', equip: 'barbellBig', dur: 2.6,
+      a: p({ t: 58, dx: -24, dy: 26, hL: 70, kL: -112, hR: 67, kR: -109, aL: 58, fL: 0, aR: 58, fR: 0 }),
+      b: p({ t: 4, dx: -24, hL: 2, kL: 0, hR: 0, kR: 2, aL: 4, fL: 0, aR: 4, fR: 0 })
+    },
+    'push-press': {
+      name: 'Push press', equip: 'barbell', dur: 1.9,
+      a: p({ t: 2, dy: 12, hL: 20, kL: -40, hR: 18, kR: -38, aL: 30, fL: 135, aR: 26, fR: 139 }),
+      b: p({ t: 0, dy: -4, hL: 2, kL: 0, hR: 0, kR: 2, aL: 176, fL: 2, aR: 173, fR: 5 })
+    },
+    'pull-up': {
+      name: 'Pull-up', equip: 'none', dur: 2.4, prop: P.bar,
+      a: p(Object.assign({ t: -3, dy: 6, aL: 178, fL: 0, aR: 175, fR: 3 }, HANG)),
+      b: p(Object.assign({ t: -8, dy: -25, aL: -150, fL: -140, aR: -153, fR: -137 }, HANG))
+    },
+    'db-chest-press': {
+      name: 'Dumbbell chest press', equip: 'dumbbell', dur: 2.3, prop: P.bench,
+      a: p({ rot: -90, dy: 30, dx: 4, aL: -58, fL: 148, aR: -64, fR: 154, hL: -4, kL: -86, hR: 2, kR: -92 }),
+      b: p({ rot: -90, dy: 30, dx: 4, aL: 90, fL: 0, aR: 87, fR: 3, hL: -4, kL: -86, hR: 2, kR: -92 })
+    },
+    'goblet-squat': {
+      name: 'Goblet squat', equip: 'kettle', dur: 2.4,
+      a: p({ t: 10, hL: 5, kL: -5, hR: 3, kR: -3, aL: 16, fL: 138, aR: 12, fR: 142 }),
+      b: p({ t: 34, dy: 30, hL: 60, kL: -120, hR: 57, kR: -117, aL: 16, fL: 138, aR: 12, fR: 142 })
+    },
+    'cable-row': {
+      name: 'Cable row', equip: 'bar', dur: 2.3, prop: P.towerLo + P.seat,
+      a: p({ t: 16, dy: 22, hL: 88, kL: -88, hR: 84, kR: -84, aL: 80, fL: -14, aR: 76, fR: -10 }),
+      b: p({ t: -6, dy: 22, hL: 88, kL: -88, hR: 84, kR: -84, aL: 68, fL: 96, aR: 64, fR: 100 })
+    },
+    'plank': {
+      name: 'Plank', equip: 'none', dur: 3.2, prop: P.mat,
+      a: p(Object.assign({}, PLANK, { aL: -80, fL: 88, aR: -84, fR: 92, hL: 2, kL: 0, hR: -2, kR: 2 })),
+      b: p(Object.assign({}, PLANK, { rot: -77, dy: 44, aL: -83, fL: 91, aR: -87, fR: 95, hL: 2, kL: 0, hR: -2, kR: 2 }))
+    },
+    'russian-twist': {
+      name: 'Russian twist', equip: 'ball', dur: 1.6, prop: P.mat, oneHand: false,
+      a: p({ t: -28, dy: 30, hL: 58, kL: -68, hR: 55, kR: -65, aL: 52, fL: 66, aR: 48, fR: 70 }),
+      b: p({ t: -28, dy: 30, hL: 58, kL: -68, hR: 55, kR: -65, aL: 108, fL: 14, aR: 104, fR: 18 })
+    },
+    'leg-raise': {
+      name: 'Leg raise', equip: 'none', dur: 2.4, prop: P.mat,
+      a: p(Object.assign({}, LIE, { aL: 4, fL: 0, aR: 0, fR: 0, hL: 2, kL: 0, hR: -2, kR: 2 })),
+      b: p(Object.assign({}, LIE, { aL: 4, fL: 0, aR: 0, fR: 0, hL: 90, kL: 0, hR: 86, kR: 4 }))
+    },
+
+    /* ---------- JUMAT · CARDIO & MOBILITY ---------- */
+    'cardio-zone2': {
+      name: 'Cardio zona 2', equip: 'none', dur: 1.4, prop: P.slope,
+      a: p({ t: 14, dy: -26, dx: 0, hL: 34, kL: -20, hR: -28, kR: 24, aL: -30, fL: 22, aR: 30, fR: 22 }),
+      b: p({ t: 14, dy: -26, dx: 0, hL: -28, kL: 24, hR: 34, kR: -20, aL: 30, fL: 22, aR: -30, fR: 22 })
+    },
+    'mobility': {
+      name: 'Mobility & stretching', equip: 'none', dur: 3.0,
+      a: p({ t: 16, hL: 2, kL: 0, hR: 0, kR: 2, aL: 16, fL: 0, aR: 16, fR: 0 }),
+      b: p({ t: 84, dy: 4, hL: -6, kL: 8, hR: -4, kR: 6, aL: 84, fL: 0, aR: 84, fR: 0 })
+    },
+    'side-plank': {
+      name: 'Side plank', equip: 'none', dur: 3.2, prop: P.mat,
+      a: p(Object.assign({}, PLANK, { aL: -80, fL: 88, aR: 100, fR: 0, hL: 2, kL: 0, hR: -2, kR: 2 })),
+      b: p(Object.assign({}, PLANK, { rot: -77, dy: 44, aL: -83, fL: 91, aR: 104, fR: 0, hL: 2, kL: 0, hR: -2, kR: 2 }))
+    },
+    'reverse-crunch': {
+      name: 'Reverse crunch', equip: 'none', dur: 2.2, prop: P.mat,
+      a: p(Object.assign({}, LIE, { aL: 4, fL: 0, aR: 0, fR: 0, hL: 58, kL: -78, hR: 54, kR: -74 })),
+      b: p(Object.assign({}, LIE, { dy: 46, aL: 4, fL: 0, aR: 0, fR: 0, hL: 116, kL: -104, hR: 112, kR: -100 }))
+    },
+
+    /* ---------- WARM-UP & RECOVERY ---------- */
+    'arm-circle': {
+      name: 'Arm circle', equip: 'none', dur: 1.6,
+      a: p({ aL: -158, fL: 0, aR: 22, fR: 0 }),
+      b: p({ aL: 22, fL: 0, aR: -158, fR: 0 })
+    },
+    'push-up': {
+      name: 'Push-up', equip: 'none', dur: 1.8, prop: P.mat,
+      a: p(Object.assign({}, PLANK, { dy: 54, aL: -74, fL: 76, aR: -78, fR: 80, hL: 2, kL: 0, hR: -2, kR: 2 })),
+      b: p(Object.assign({}, PLANK, { aL: -80, fL: 0, aR: -84, fR: 4, hL: 2, kL: 0, hR: -2, kR: 2 }))
+    },
+    'band-pull-apart': {
+      name: 'Band pull-apart', equip: 'none', dur: 1.8,
+      a: p({ aL: 88, fL: 4, aR: 84, fR: 8 }),
+      b: p({ aL: 96, fL: 60, aR: 92, fR: 64 })
+    },
+    'glute-bridge': {
+      name: 'Glute bridge', equip: 'none', dur: 2.4, prop: P.mat,
+      a: p({ rot: -90, dx: -5, dy: 48, aL: 4, fL: 0, aR: 0, fR: 0, hL: 25, kL: -70, hR: 22, kR: -67 }),
+      b: p({ rot: -104, dx: -5, dy: 34, aL: 6, fL: 0, aR: 2, fR: 0, hL: 12, kL: -58, hR: 9, kR: -55 })
+    },
+    'bodyweight-squat': {
+      name: 'Bodyweight squat', equip: 'none', dur: 2.2,
+      a: p({ t: 10, hL: 5, kL: -5, hR: 3, kR: -3, aL: 8, fL: 0, aR: 8, fR: 0 }),
+      b: p({ t: 34, dy: 30, hL: 60, kL: -120, hR: 57, kR: -117, aL: 86, fL: 0, aR: 86, fR: 0 })
+    },
+    'leg-swing': {
+      name: 'Leg swing', equip: 'none', dur: 1.6,
+      a: p({ t: 4, hL: -34, kL: 10, hR: 2, kR: 0, aL: 60, fL: 0, aR: -60, fR: 0 }),
+      b: p({ t: 4, hL: 44, kL: -6, hR: 2, kR: 0, aL: 60, fL: 0, aR: -60, fR: 0 })
+    },
+    'easy-walk': {
+      name: 'Jalan santai', equip: 'none', dur: 1.7,
+      a: p({ t: 4, hL: 24, kL: -12, hR: -20, kR: 16, aL: -20, fL: 12, aR: 20, fR: 12 }),
+      b: p({ t: 4, hL: -20, kL: 16, hR: 24, kR: -12, aL: 20, fL: 12, aR: -20, fR: 12 })
+    },
+    'yoga-stretch': {
+      name: 'Yoga ringan', equip: 'none', dur: 3.4, prop: P.mat,
+      a: p({ t: 66, dy: 30, hL: 0, kL: -88, hR: 4, kR: -92, aL: 4, fL: 0, aR: 8, fR: 0 }),
+      b: p({ t: 88, dy: 32, hL: 0, kL: -88, hR: 4, kR: -92, aL: 24, fL: 0, aR: 28, fR: 0 })
+    },
+    'rest-sleep': {
+      name: 'Istirahat', equip: 'none', dur: 4.0, prop: P.mat,
+      a: p(Object.assign({}, LIE, { dy: 50, aL: 20, fL: 30, aR: 16, fR: 34, hL: -14, kL: -26, hR: -10, kR: -30 })),
+      b: p(Object.assign({}, LIE, { dy: 53, aL: 22, fL: 32, aR: 18, fR: 36, hL: -14, kL: -26, hR: -10, kR: -30 }))
+    }
+  };
+
+  Object.keys(EX).forEach(function (k) { EX[k].id = k; EX[k].cls = 'ex-' + k; });
+
+  global.EXERCISES = EX;
+})(window);
 /* data.js — Program Muscle Lab Batam & menu makan.
-   Nama alat, video, tag otot, dan deskripsi berasal dari repo PangFive/gym. */
+   Alat, video, tag otot, dan deskripsi dari repo PangFive/gym.
+   Gerakan tanpa alat memakai animasi stick figure sendiri. */
 window.PROGRAM = {
  "meta": {
   "title": "Jadwal Gym Mingguan",
   "gym": "Muscle Lab Batam",
   "goal": "Fat loss + glute & punggung",
   "days": 5,
-  "kcal": "±2015 kkal",
-  "protein": "±160 g",
+  "kcal": "±1880 kkal",
+  "protein": "±163 g",
   "water": "2,5-3 L/hari"
  },
  "days": [
@@ -521,8 +950,8 @@ window.PROGRAM = {
     }
    ],
    "finisher": {
-    "label": "Core & kardio",
-    "duration": "12 menit",
+    "label": "Core · menekuk & anti-ekstensi",
+    "duration": "10 menit",
     "items": [
      {
       "no": "",
@@ -542,19 +971,20 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Kardio zona 2",
+      "name": "Dead bug",
       "y": null,
-      "desc": "",
+      "fig": "dead-bug",
+      "desc": "Berbaring, turunkan lengan dan kaki berlawanan sambil punggung bawah tetap menempel lantai.",
       "primary": [
-       "Jantung"
+       "Perut"
       ],
       "secondary": [
-       "Endurance"
+       "Punggung bawah"
       ],
-      "prescription": "10 menit",
-      "rest": 0,
-      "sets": 1,
-      "note": "Treadmill incline atau sepeda, detak jantung 60-70% maks"
+      "prescription": "3 × 12 / sisi",
+      "rest": 45,
+      "sets": 3,
+      "note": "Kalau punggung terangkat, perkecil jangkauannya"
      }
     ]
    }
@@ -565,7 +995,7 @@ window.PROGRAM = {
    "n": 2,
    "tag": "HARI 2",
    "title": "Glute & Hamstring",
-   "focus": "Dorongan pinggul dan tekukan lutut · prioritas glute",
+   "focus": "Dorongan pinggul, hinge, dan tekukan lutut",
    "minutes": "55-60",
    "kcal": "330-430",
    "count": "6+1",
@@ -591,6 +1021,23 @@ window.PROGRAM = {
     },
     {
      "no": "02",
+     "name": "Hyperextension bench - TBH",
+     "y": "5-Lw-5hn4pA",
+     "desc": "",
+     "primary": [
+      "Punggung bawah"
+     ],
+     "secondary": [
+      "Glute",
+      "Hamstring"
+     ],
+     "prescription": "4 × 12",
+     "rest": 75,
+     "sets": 4,
+     "note": "Pengganti Romanian deadlift. Peluk beban di dada, turun sampai terasa tarikan hamstring lalu kembali sejajar badan"
+    },
+    {
+     "no": "03",
      "name": "3D Smith Hip Thrust",
      "y": "q7PkctCiztw",
      "desc": "Membentuk otot glutes gerakan dorong pinggul ke atas pada jalur smith machine.",
@@ -603,10 +1050,10 @@ window.PROGRAM = {
      "prescription": "3 × 10",
      "rest": 90,
      "sets": 3,
-     "note": "Variasi kedua, jalur smith bikin tumpuan lebih stabil"
+     "note": "Jalur smith bikin tumpuan lebih stabil"
     },
     {
-     "no": "03",
+     "no": "04",
      "name": "Lying Leg Curl",
      "y": "LsAWJKoinps",
      "desc": "Membentuk otot paha belakang dengan gerakan tekuk kaki dari posisi berbaring.",
@@ -620,22 +1067,6 @@ window.PROGRAM = {
      "rest": 60,
      "sets": 4,
      "note": "Turun pelan 3 detik, pinggul jangan terangkat"
-    },
-    {
-     "no": "04",
-     "name": "Standing Hip Thrust",
-     "y": "JQYf173p95g",
-     "desc": "Membentuk otot glutes dengan gerakan dorong pinggul dari posisi duduk-berdiri.",
-     "primary": [
-      "Glute"
-     ],
-     "secondary": [
-      "Hamstring"
-     ],
-     "prescription": "3 × 12 / sisi",
-     "rest": 60,
-     "sets": 3,
-     "note": "Satu kaki bergantian, pinggul jangan miring"
     },
     {
      "no": "05",
@@ -668,25 +1099,26 @@ window.PROGRAM = {
     }
    ],
    "finisher": {
-    "label": "Core",
+    "label": "Core · anti-rotasi",
     "duration": "8 menit",
     "items": [
      {
       "no": "",
-      "name": "Multi Back Extension",
-      "y": "9frfHier_iA",
-      "desc": "Membentuk otot punggung bawah dengan gerakan menekuk lalu dorong tubuh ke belakang.",
+      "name": "Side plank",
+      "y": null,
+      "fig": "side-plank",
+      "desc": "Tumpu pada satu siku, badan lurus dari bahu sampai mata kaki, pinggul tidak turun.",
       "primary": [
-       "Punggung bawah"
+       "Obliques"
       ],
       "secondary": [
-       "Glute",
-       "Hamstring"
+       "Perut",
+       "Bahu"
       ],
-      "prescription": "3 × 12",
+      "prescription": "3 × 30 detik / sisi",
       "rest": 45,
       "sets": 3,
-      "note": "Berhenti sejajar badan, jangan melengkung berlebihan"
+      "note": "Kalau berat, tekuk lutut bawah sebagai tumpuan"
      }
     ]
    }
@@ -729,14 +1161,50 @@ window.PROGRAM = {
     }
    ],
    "finisher": {
-    "label": "Core circuit",
+    "label": "Core circuit · tiga pola",
     "duration": "3 putaran",
     "items": [
      {
       "no": "",
-      "name": "Abs Crunches Machine",
-      "y": "xtSmy9vbbUo",
-      "desc": "Membentuk otot perut dengan gerakan menekuk tubuh ke depan.",
+      "name": "Plank",
+      "y": null,
+      "fig": "plank",
+      "desc": "Tumpu siku, badan lurus, kencangkan perut dan glute supaya pinggul tidak turun.",
+      "primary": [
+       "Perut"
+      ],
+      "secondary": [
+       "Bahu",
+       "Punggung bawah"
+      ],
+      "prescription": "3 × 40 detik",
+      "rest": 30,
+      "sets": 3,
+      "note": "Anti-ekstensi"
+     },
+     {
+      "no": "",
+      "name": "Russian twist",
+      "y": null,
+      "fig": "russian-twist",
+      "desc": "Duduk condong ke belakang, putar badan kiri kanan dengan kontrol.",
+      "primary": [
+       "Obliques"
+      ],
+      "secondary": [
+       "Perut"
+      ],
+      "prescription": "3 × 20",
+      "rest": 30,
+      "sets": 3,
+      "note": "Anti-rotasi, putar dari badan bukan dari lengan"
+     },
+     {
+      "no": "",
+      "name": "Reverse crunch",
+      "y": null,
+      "fig": "reverse-crunch",
+      "desc": "Berbaring, gulung pinggul ke atas membawa lutut ke dada.",
       "primary": [
        "Perut"
       ],
@@ -744,43 +1212,9 @@ window.PROGRAM = {
        "Obliques"
       ],
       "prescription": "3 × 15",
-      "rest": 30,
-      "sets": 3,
-      "note": ""
-     },
-     {
-      "no": "",
-      "name": "Hyperextension bench - TBH",
-      "y": "5-Lw-5hn4pA",
-      "desc": "",
-      "primary": [
-       "Punggung bawah"
-      ],
-      "secondary": [
-       "Glute",
-       "Hamstring"
-      ],
-      "prescription": "3 × 12",
-      "rest": 30,
-      "sets": 3,
-      "note": "Berhenti sejajar badan"
-     },
-     {
-      "no": "",
-      "name": "Multi Back Extension",
-      "y": "9frfHier_iA",
-      "desc": "Membentuk otot punggung bawah dengan gerakan menekuk lalu dorong tubuh ke belakang.",
-      "primary": [
-       "Punggung bawah"
-      ],
-      "secondary": [
-       "Glute",
-       "Hamstring"
-      ],
-      "prescription": "3 × 15",
       "rest": 45,
       "sets": 3,
-      "note": ""
+      "note": "Menekuk, jangan pakai ayunan kaki"
      }
     ]
    },
@@ -900,8 +1334,8 @@ window.PROGRAM = {
     }
    ],
    "finisher": {
-    "label": "Core & kardio",
-    "duration": "12 menit",
+    "label": "Core · menekuk & anti-ekstensi",
+    "duration": "10 menit",
     "items": [
      {
       "no": "",
@@ -921,19 +1355,20 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Kardio zona 2",
+      "name": "Leg raise",
       "y": null,
-      "desc": "",
+      "fig": "leg-raise",
+      "desc": "Berbaring, angkat kedua kaki lurus sampai tegak lalu turunkan pelan.",
       "primary": [
-       "Jantung"
+       "Perut"
       ],
       "secondary": [
-       "Endurance"
+       "Hip flexor"
       ],
-      "prescription": "10 menit",
-      "rest": 0,
-      "sets": 1,
-      "note": "Treadmill incline atau sepeda, detak jantung 60-70% maks"
+      "prescription": "3 × 15",
+      "rest": 45,
+      "sets": 3,
+      "note": "Punggung bawah harus tetap menempel lantai, kalau terangkat tekuk sedikit lutut"
      }
     ]
    }
@@ -943,11 +1378,11 @@ window.PROGRAM = {
    "day": "Jumat",
    "n": 5,
    "tag": "HARI 5",
-   "title": "Quad, Betis & Zona 2",
-   "focus": "Kaki depan lalu kardio panjang",
-   "minutes": "55-60",
+   "title": "Quad, Zona 2 & Mobility",
+   "focus": "Kaki depan, kardio panjang, lalu mobilitas",
+   "minutes": "55-65",
    "kcal": "380-480",
-   "count": "4+2",
+   "count": "3+3",
    "type": "cardio",
    "accent": "cyan",
    "warmup": "Warm-up 8 menit, sepeda ringan 5 menit lalu squat badan sendiri 2×15",
@@ -987,21 +1422,6 @@ window.PROGRAM = {
     },
     {
      "no": "03",
-     "name": "Leg Extension / Leg Curl Machine",
-     "y": "KHx9oncpBKs",
-     "desc": "Membentuk otot paha depan atas belakang dengan gerakan terpisah.",
-     "primary": [
-      "Quad",
-      "Hamstring"
-     ],
-     "secondary": [],
-     "prescription": "3 × 12",
-     "rest": 60,
-     "sets": 3,
-     "note": "Pakai dua fungsi, extension lalu curl"
-    },
-    {
-     "no": "04",
      "name": "Standing Calves Machine",
      "y": "pugB9CtYSJU",
      "desc": "Melatih otot betis saat berdiri dengan sandaran bantalan.",
@@ -1016,8 +1436,8 @@ window.PROGRAM = {
     }
    ],
    "finisher": {
-    "label": "Kardio & core",
-    "duration": "35 menit",
+    "label": "Kardio, core & mobility",
+    "duration": "40 menit",
     "items": [
      {
       "no": "",
@@ -1030,26 +1450,44 @@ window.PROGRAM = {
       "secondary": [
        "Endurance"
       ],
-      "prescription": "25-30 menit",
+      "prescription": "25 menit",
       "rest": 0,
       "sets": 1,
       "note": "Jalan cepat incline, sepeda, atau rowing. Detak jantung 60-70% maks, masih sanggup bicara"
      },
      {
       "no": "",
-      "name": "Abs Crunches Machine",
-      "y": "xtSmy9vbbUo",
-      "desc": "Membentuk otot perut dengan gerakan menekuk tubuh ke depan.",
+      "name": "Bicycle crunch",
+      "y": null,
+      "fig": "bicycle-crunch",
+      "desc": "Berbaring, siku bertemu lutut berlawanan bergantian dengan kontrol.",
       "primary": [
-       "Perut"
-      ],
-      "secondary": [
        "Obliques"
       ],
-      "prescription": "3 × 15",
-      "rest": 45,
+      "secondary": [
+       "Perut"
+      ],
+      "prescription": "3 × 20",
+      "rest": 30,
       "sets": 3,
-      "note": ""
+      "note": "Pelan saja, bukan adu cepat"
+     },
+     {
+      "no": "",
+      "name": "Mobility & stretching",
+      "y": null,
+      "fig": "mobility",
+      "desc": "Hip flexor, hamstring, thoracic spine, dan bahu.",
+      "primary": [
+       "Fleksibilitas"
+      ],
+      "secondary": [
+       "Mobilitas"
+      ],
+      "prescription": "10 menit",
+      "rest": 0,
+      "sets": 1,
+      "note": "Tahan tiap posisi 30-45 detik"
      }
     ]
    }
@@ -1060,7 +1498,7 @@ window.PROGRAM = {
    "n": 6,
    "tag": "RECOVERY",
    "title": "Active Recovery",
-   "focus": "Jalan santai 20-30 menit atau mobility ringan",
+   "focus": "Jalan santai 20-30 menit atau yoga ringan",
    "minutes": "20-30",
    "kcal": "80-150",
    "count": "2",
@@ -1071,33 +1509,33 @@ window.PROGRAM = {
      "no": "01",
      "name": "Jalan santai",
      "y": null,
-     "desc": "",
+     "fig": "easy-walk",
+     "desc": "Santai saja, tujuannya melancarkan pemulihan.",
      "primary": [
-      "Jantung"
+      "Recovery"
      ],
-     "secondary": [
-      "Endurance"
-     ],
+     "secondary": [],
      "prescription": "20-30 menit",
      "rest": 0,
      "sets": 1,
-     "note": "Santai saja, tujuannya melancarkan pemulihan"
+     "note": ""
     },
     {
      "no": "02",
-     "name": "Mobility & stretching",
+     "name": "Yoga ringan",
      "y": null,
-     "desc": "",
+     "fig": "yoga-stretch",
+     "desc": "Alur pelan, fokus pada napas.",
      "primary": [
-      "Jantung"
+      "Fleksibilitas"
      ],
      "secondary": [
-      "Endurance"
+      "Relaksasi"
      ],
-     "prescription": "15 menit",
+     "prescription": "15-20 menit",
      "rest": 0,
      "sets": 1,
-     "note": "Hip flexor, hamstring, thoracic spine, dan bahu"
+     "note": ""
     }
    ]
   },
@@ -1118,59 +1556,44 @@ window.PROGRAM = {
      "no": "01",
      "name": "Full rest · tidur 7-8 jam",
      "y": null,
-     "desc": "",
+     "fig": "rest-sleep",
+     "desc": "Tidur cukup menentukan hasil minggu depan.",
      "primary": [
-      "Jantung"
+      "Recovery"
      ],
-     "secondary": [
-      "Endurance"
-     ],
+     "secondary": [],
      "prescription": "Recovery otot",
      "rest": 0,
      "sets": 1,
-     "note": "Tidur cukup menentukan hasil minggu depan"
+     "note": ""
     }
    ]
   }
  ],
  "meals": {
-  "total": "±2015 kkal",
-  "note": "Protein ±160 g · air 2,5-3 L/hari · tanpa ikan, tanpa whey, kacang hanya edamame",
+  "total": "±1880 kkal",
+  "note": "Protein ±163 g · 3 kali makan tanpa snack · tanpa ikan, tanpa whey, kacang hanya edamame",
   "items": [
    {
     "slot": "Sarapan",
     "time": "07.00",
-    "desc": "3 telur orak-arik + roti gandum 2 lembar + ½ alpukat",
-    "kcal": 490,
-    "p": 27
-   },
-   {
-    "slot": "Snack pagi",
-    "time": "10.30",
-    "desc": "Greek yogurt plain 200 g + segenggam buah beri",
-    "kcal": 180,
-    "p": 18
+    "desc": "3 telur orak-arik + roti gandum 2 lembar + ½ alpukat + Greek yogurt plain 150 g",
+    "kcal": 590,
+    "p": 41
    },
    {
     "slot": "Makan siang",
     "time": "12.30",
-    "desc": "Nasi putih 150 g + dada ayam panggang 130 g + tumis sayur + tempe 50 g",
-    "kcal": 590,
-    "p": 56
-   },
-   {
-    "slot": "Snack sore",
-    "time": "16.30",
-    "desc": "Edamame kukus 120 g + pisang",
-    "kcal": 235,
-    "p": 14
+    "desc": "Nasi putih 180 g + dada ayam panggang 150 g + tumis sayur + tempe 60 g",
+    "kcal": 685,
+    "p": 65
    },
    {
     "slot": "Makan malam",
     "time": "19.00",
-    "desc": "Nasi merah 130 g + daging sapi has dalam 120 g + sayur rebus + tahu 100 g",
-    "kcal": 520,
-    "p": 46
+    "desc": "Nasi merah 130 g + daging sapi has dalam 120 g + sayur rebus + tahu 100 g + edamame 100 g",
+    "kcal": 605,
+    "p": 57
    }
   ]
  }
@@ -1247,12 +1670,36 @@ window.PROGRAM = {
     window.scrollTo({ top: 0, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
   }
 
+  /* ---------------- animasi gerakan tanpa alat ---------------- */
+  (function injectFigCss() {
+    if (!window.Figure || !window.EXERCISES) return;
+    var used = {};
+    P.days.forEach(function (d) {
+      (d.main || []).concat(d.finisher ? d.finisher.items : []).forEach(function (it) {
+        if (it.fig && window.EXERCISES[it.fig]) used[it.fig] = 1;
+      });
+    });
+    var css = Object.keys(used).map(function (k) { return window.Figure.css(window.EXERCISES[k]); }).join('\n');
+    if (!css) return;
+    var st = document.createElement('style'); st.id = 'fig-anim'; st.textContent = css;
+    document.head.appendChild(st);
+  })();
+
+  function figSvg(id) {
+    var e = window.EXERCISES && window.EXERCISES[id];
+    return e && window.Figure ? window.Figure.build(e) : '';
+  }
+
   /* ---------------- video ---------------- */
   function videoBox(it) {
+    if (!it.y && it.fig) {
+      var svg = figSvg(it.fig);
+      if (svg) return '<div class="vwrap figbox">' + svg + '</div>';
+    }
     if (!it.y) {
       return '<div class="vwrap"><div class="vnone">' +
         '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8fb4ff" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>' +
-        '<b>' + esc(it.name) + '</b><small>Sesi kardio, tidak pakai mesin</small></div></div>';
+        '<b>' + esc(it.name) + '</b><small>Tanpa mesin</small></div></div>';
     }
     return '<div class="vwrap" data-y="' + esc(it.y) + '">' +
       '<img src="https://i.ytimg.com/vi/' + esc(it.y) + '/mqdefault.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">' +
@@ -1310,10 +1757,11 @@ window.PROGRAM = {
 
   function renderToday() {
     var d = byKey(todayKey()), first = d._items.filter(function (x) { return x.y; })[0] || d._items[0];
-    $('#todayCard').innerHTML =
-      '<div class="tthumb">' + (first && first.y
-        ? '<img src="https://i.ytimg.com/vi/' + esc(first.y) + '/mqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">'
-        : '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#95a0b6" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>') + '</div>' +
+    var thumb;
+    if (first && first.y) thumb = '<img src="https://i.ytimg.com/vi/' + esc(first.y) + '/mqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">';
+    else if (first && first.fig && figSvg(first.fig)) thumb = '<div class="figbox">' + figSvg(first.fig) + '</div>';
+    else thumb = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#95a0b6" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>';
+    $('#todayCard').innerHTML = '<div class="tthumb">' + thumb + '</div>' +
       '<div><small>Hari ini · ' + esc(d.day) + '</small><h3>' + esc(d.title) + '</h3>' +
       '<small>' + esc(d.minutes) + ' menit · ' + esc(d.kcal) + ' kkal · ' + esc(d.count) + ' gerakan</small></div>';
   }
