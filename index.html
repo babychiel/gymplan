@@ -30,20 +30,36 @@
   --warm:#f2785c; --warm-soft:rgba(242,120,92,.12);
   --good:#12a97b; --good-soft:rgba(18,169,123,.12);
   --r:22px; --r-sm:14px;
-  --sh:0 14px 34px -18px rgba(40,60,110,.34);
-  --sh-sm:0 6px 18px -10px rgba(40,60,110,.30);
+  --sh:0 18px 40px -20px rgba(32,52,105,.40),0 2px 6px -2px rgba(32,52,105,.10);
+  --sh-sm:0 10px 24px -14px rgba(32,52,105,.34),0 1px 3px -1px rgba(32,52,105,.08);
   --ease:cubic-bezier(.22,.61,.36,1);
   --tab:72px;
 }
 
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:var(--bg)}
+
+/* latar berlapis: beberapa cahaya lembut plus butiran halus, dipasang tetap
+   di belakang isi halaman supaya tidak ikut bergulir dan tidak terasa datar */
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"),
+    radial-gradient(760px 900px at 50% 44%,rgba(255,255,255,.62),transparent 72%),
+    radial-gradient(820px 520px at 50% -10%,rgba(255,255,255,.92),transparent 66%),
+    radial-gradient(540px 440px at 4% 3%,rgba(94,146,255,.22),transparent 64%),
+    radial-gradient(500px 400px at 97% 5%,rgba(242,120,92,.15),transparent 62%),
+    radial-gradient(620px 520px at 94% 60%,rgba(52,168,186,.12),transparent 64%),
+    radial-gradient(580px 480px at 1% 86%,rgba(112,110,218,.12),transparent 64%),
+    radial-gradient(900px 700px at 50% 110%,rgba(47,111,246,.13),transparent 68%),
+    linear-gradient(170deg,#eff4fd 0%,#e7edfa 50%,#eaeff9 100%);
+  background-blend-mode:soft-light,normal,normal,normal,normal,normal,normal,normal,normal;
+}
 body{
-  margin:0;background:var(--bg);color:var(--ink);min-height:100dvh;
+  margin:0;background:transparent;color:var(--ink);min-height:100dvh;
   font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   font-size:15px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased;
   padding-bottom:calc(var(--tab) + env(safe-area-inset-bottom));
-  background-image:radial-gradient(900px 500px at 50% -12%,#ffffff 0%,transparent 70%);
 }
 img,svg,iframe{max-width:100%;display:block}
 h1,h2,h3,h4{margin:0;line-height:1.2;font-weight:800;letter-spacing:-.01em}
@@ -77,6 +93,8 @@ a{color:var(--acc)}
 
 /* ---------- kartu ---------- */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm)}
+.card,.daycard,.excard,.meal,.pcard,.wchart,.metric{
+  background-image:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.2) 70%,rgba(255,255,255,0))}
 .pad{padding:1.1rem}
 
 /* hero beranda */
