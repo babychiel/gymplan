@@ -137,6 +137,96 @@ a{color:var(--acc)}
 .today h3{font-size:1.05rem}
 .today small{color:var(--muted);font-size:.8rem;display:block;margin-top:.15rem}
 
+/* ---------- beranda: dashboard ---------- */
+#v-beranda .blocklab{margin:1.5rem 0 .7rem}
+
+/* empat ubin ringkasan */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
+.stile{display:flex;align-items:center;gap:.7rem;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-sm);box-shadow:var(--sh-sm);padding:.8rem .85rem;height:100%;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.2) 70%,rgba(255,255,255,0))}
+.stile .si{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex:none}
+.stile .si svg{width:18px;height:18px}
+.stile .sv{min-width:0}
+.stile b{display:block;font-size:1.18rem;font-weight:800;line-height:1.1;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.stile span span,.stile .sv>span{display:block;font-size:.7rem;color:var(--muted);font-weight:600;margin-top:.12rem}
+.stile.blue .si{background:var(--acc-soft);color:var(--acc)}
+.stile.blue b{color:var(--acc)}
+.stile.violet .si{background:rgba(112,110,218,.13);color:#5d5bc9}
+.stile.violet b{color:#5d5bc9}
+.stile.warm .si{background:var(--warm-soft);color:var(--warm)}
+.stile.warm b{color:#d4573a}
+.stile.green .si{background:var(--good-soft);color:var(--good)}
+.stile.green b{color:var(--good)}
+
+/* fokus program */
+.focus{background:linear-gradient(145deg,#243a67,#141d33);border-radius:var(--r);padding:1.05rem 1.1rem;
+  box-shadow:var(--sh);color:#eaf0ff;position:relative;overflow:hidden}
+.focus::after{content:'';position:absolute;right:-50px;top:-60px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(107,160,255,.38),transparent 70%)}
+.fkick{position:relative;z-index:1;display:block;font-size:.64rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#8ea9dd;font-weight:700}
+.fhead{position:relative;z-index:1;margin-top:.3rem}
+.fhead b{font-size:1.14rem;font-weight:800;letter-spacing:-.015em;line-height:1.25}
+.fchips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.75rem;position:relative;z-index:1}
+.fchip{font-size:.72rem;font-weight:600;padding:.26rem .6rem;border-radius:99px;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);color:#dce7ff}
+
+/* tiga hari berikutnya */
+.nextdays{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}
+.nday{display:block;text-align:left;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-sm);box-shadow:var(--sh-sm);padding:.75rem .7rem;height:100%;
+  border-top:3px solid var(--acc);
+  background-image:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.2) 70%,rgba(255,255,255,0));
+  transition:transform .2s var(--ease),border-color .2s var(--ease)}
+.nday:active{transform:scale(.98)}
+.nday.hiit{border-top-color:var(--warm)}
+.nday.rest{border-top-color:var(--line2)}
+.nday .nd{display:block;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.nday b{display:block;font-size:.84rem;font-weight:700;line-height:1.25;margin-top:.3rem;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nday small{display:block;color:var(--muted);font-size:.7rem;margin-top:.35rem}
+
+/* makan berikutnya */
+.mnext{display:flex;gap:.9rem;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh-sm);overflow:hidden;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.2) 70%,rgba(255,255,255,0))}
+.mnext .mbar{width:5px;flex:none;background:linear-gradient(180deg,#f9a88f,var(--warm))}
+.mbody{padding:.95rem 1rem .95rem 0;min-width:0;flex:1}
+.mtop{display:flex;align-items:baseline;gap:.6rem}
+.mtop b{font-size:1rem;font-weight:800}
+.mtime{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--warm);background:var(--warm-soft);
+  border-radius:99px;padding:.18rem .6rem;white-space:nowrap}
+.mbody p{margin:.4rem 0 0;font-size:.86rem;color:var(--muted);line-height:1.5}
+.mkc{display:flex;gap:.4rem;margin-top:.6rem;flex-wrap:wrap}
+.mkc span{font-size:.7rem;font-weight:700;padding:.2rem .55rem;border-radius:99px;
+  background:var(--bg2);color:var(--muted)}
+
+/* target harian dan air minum */
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);
+  padding:1rem;background-image:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.2) 70%,rgba(255,255,255,0))}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem}
+.titem{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:.6rem .4rem;text-align:center}
+.titem b{display:block;font-size:.92rem;font-weight:800;letter-spacing:-.02em;color:var(--acc);white-space:nowrap}
+.titem span{font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.wlab{display:flex;align-items:baseline;margin-top:1rem;font-size:.82rem;font-weight:700}
+.wlab i{margin-left:auto;font-style:normal;font-size:.76rem;color:var(--muted);font-weight:600;
+  font-variant-numeric:tabular-nums}
+.wdots{display:grid;grid-template-columns:repeat(8,1fr);gap:.3rem;margin-top:.5rem}
+.wd{aspect-ratio:1;border-radius:11px;border:1px solid var(--line2);background:var(--bg);
+  display:grid;place-items:center;transition:all .18s var(--ease)}
+.wd svg{width:16px;height:16px;fill:var(--line2)}
+.wd.on{background:var(--acc-soft);border-color:var(--acc)}
+.wd.on svg{fill:var(--acc)}
+.wd:active{transform:scale(.9)}
+.wnote{margin:.7rem 0 0;font-size:.74rem;color:var(--faint);line-height:1.5}
+
+@media (min-width:560px){
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .stile{flex-direction:column;align-items:flex-start;gap:.55rem}
+}
+
 /* ---------- kartu hari ---------- */
 .days{display:grid;gap:.7rem}
 .daycard{display:flex;align-items:center;gap:.9rem;width:100%;text-align:left;
@@ -469,6 +559,21 @@ a{color:var(--acc)}
         Mulai latihan hari ini
       </button>
     </div>
+
+    <div class="blocklab">Minggu ini</div>
+    <div class="stats anim" id="statRow"></div>
+
+    <div class="blocklab">Fokus program</div>
+    <div id="focusCard"></div>
+
+    <div class="blocklab">Tiga hari berikutnya</div>
+    <div class="nextdays anim" id="nextDays"></div>
+
+    <div class="blocklab">Makan berikutnya</div>
+    <div id="nextMeal"></div>
+
+    <div class="blocklab">Target harian</div>
+    <div id="targets"></div>
   </section>
 
   <!-- JADWAL -->
@@ -2322,6 +2427,134 @@ window.PROGRAM = {
       '<small>' + esc(d.minutes) + ' menit · ' + esc(d.kcal) + ' kkal · ' + esc(d.count) + ' gerakan</small></div>';
   }
 
+
+  /* ---------------- beranda: dashboard ---------------- */
+
+  /* "55-60" jadi 57,5 · "320-420" jadi 370 · "—" jadi 0 */
+  function mid(v) {
+    var m = String(v == null ? '' : v).match(/(\d+)\s*(?:-\s*(\d+))?/);
+    if (!m) return 0;
+    return m[2] ? (+m[1] + +m[2]) / 2 : +m[1];
+  }
+  function minToHm(n) {
+    n = Math.round(n);
+    return n < 60 ? n + ' mnt' : Math.floor(n / 60) + ' j ' + (n % 60) + ' m';
+  }
+
+  var SICON = {
+    set: '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
+    jam: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    api: '<path d="M12 3c3 4 5 6 5 9a5 5 0 0 1-10 0c0-1.4.6-2.6 1.6-3.8C9.8 9.5 11 7 12 3Z"/>',
+    cek: '<path d="M20 6 9 17l-5-5"/>'
+  };
+  function stile(kind, tone, value, label) {
+    return '<div class="stile ' + tone + '"><span class="si">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      SICON[kind] + '</svg></span><span class="sv"><b>' + esc(value) + '</b><span>' + esc(label) + '</span></span></div>';
+  }
+
+  function renderStats() {
+    var train = P.days.filter(function (d) { return d.type !== 'rest'; });
+    var tot = 0, got = 0, full = 0, mins = 0, kcal = 0;
+    train.forEach(function (d) {
+      var p = dayProgress(d);
+      tot += p.total; got += p.got; if (p.pct === 100) full++;
+      mins += mid(d.minutes) * p.pct / 100;
+      kcal += mid(d.kcal) * p.pct / 100;
+    });
+    $('#statRow').innerHTML =
+      '<div style="--i:0">' + stile('set', 'blue', got + '/' + tot, 'set beres') + '</div>' +
+      '<div style="--i:1">' + stile('jam', 'violet', minToHm(mins), 'waktu latihan') + '</div>' +
+      '<div style="--i:2">' + stile('api', 'warm', Math.round(kcal) || 0, 'kkal terbakar') + '</div>' +
+      '<div style="--i:3">' + stile('cek', 'green', full + '/' + train.length, 'hari tuntas') + '</div>';
+  }
+
+  function renderFocus() {
+    var train = P.days.filter(function (d) { return d.type !== 'rest'; }).length;
+    $('#focusCard').innerHTML =
+      '<div class="focus"><span class="fkick">' + esc(P.meta.gym) + '</span>' +
+      '<div class="fhead"><b>' + esc(P.meta.goal) + '</b></div>' +
+      '<div class="fchips">' +
+        '<span class="fchip">' + train + ' hari latihan</span>' +
+        '<span class="fchip">' + (7 - train) + ' hari pulih</span>' +
+        '<span class="fchip">' + esc(P.meta.kcal) + '</span>' +
+        '<span class="fchip">protein ' + esc(P.meta.protein) + '</span>' +
+      '</div></div>';
+  }
+
+  function renderNextDays() {
+    var i0 = P.days.map(function (d) { return d.key; }).indexOf(todayKey());
+    var h = '';
+    for (var k = 1; k <= 3; k++) {
+      var d = P.days[(i0 + k) % P.days.length], p = dayProgress(d);
+      h += '<button class="nday ' + d.type + '" type="button" data-day="' + d.key + '" style="--i:' + (k - 1) + '">' +
+        '<span class="nd">' + (k === 1 ? 'Besok' : esc(d.day)) + '</span>' +
+        '<b>' + esc(d.title) + '</b>' +
+        '<small>' + (d.type === 'rest' ? 'pemulihan' : esc(d.minutes) + ' menit · ' + p.total + ' set') + '</small></button>';
+    }
+    $('#nextDays').innerHTML = h;
+    $$('#nextDays .nday').forEach(function (b) {
+      b.addEventListener('click', function () { pickDay(b.dataset.day); });
+    });
+  }
+
+  function renderNextMeal() {
+    var now = new Date(), mn = now.getHours() * 60 + now.getMinutes();
+    var items = P.meals.items, pick = null, besok = false;
+    for (var i = 0; i < items.length; i++) {
+      var t = String(items[i].time).split('.');
+      if ((+t[0]) * 60 + (+(t[1] || 0)) > mn) { pick = items[i]; break; }
+    }
+    if (!pick) { pick = items[0]; besok = true; }
+    $('#nextMeal').innerHTML =
+      '<div class="mnext"><span class="mbar"></span>' +
+      '<div class="mbody"><div class="mtop"><b>' + esc(pick.slot) + '</b>' +
+      '<span class="mtime">' + (besok ? 'besok ' : '') + esc(pick.time) + '</span></div>' +
+      '<p>' + esc(pick.desc) + '</p>' +
+      '<div class="mkc"><span>' + pick.kcal + ' kkal</span><span>' + pick.p + ' g protein</span></div>' +
+      '</div></div>';
+  }
+
+  /* air minum, disimpan per tanggal */
+  var WG = 8;
+  function dayKeyStr() {
+    var t = new Date();
+    return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+  }
+  function waterGot() { return (state.water && state.water[dayKeyStr()]) || 0; }
+  function waterSet(n) {
+    if (!state.water) state.water = {};
+    if (n <= 0) delete state.water[dayKeyStr()]; else state.water[dayKeyStr()] = Math.min(n, WG);
+    save();
+  }
+
+  function renderTargets() {
+    var w = waterGot(), dots = '';
+    for (var i = 1; i <= WG; i++) {
+      dots += '<button class="wd' + (i <= w ? ' on' : '') + '" type="button" data-w="' + i +
+        '" aria-label="Gelas ke-' + i + '"><svg viewBox="0 0 24 24"><path d="M6 4h12l-1.2 15.2A2 2 0 0 1 14.8 21H9.2a2 2 0 0 1-2-1.8L6 4Z"/></svg></button>';
+    }
+    $('#targets').innerHTML =
+      '<div class="tcard"><div class="tgrid">' +
+        '<div class="titem"><b>' + esc(P.meta.kcal) + '</b><span>kalori</span></div>' +
+        '<div class="titem"><b>' + esc(P.meta.protein) + '</b><span>protein</span></div>' +
+        '<div class="titem"><b>' + esc(String(P.meta.water).replace('/hari', '')) + '</b><span>air</span></div>' +
+      '</div>' +
+      '<div class="wlab">Air hari ini<i>' + w + ' / ' + WG + ' gelas</i></div>' +
+      '<div class="wdots">' + dots + '</div>' +
+      '<p class="wnote">Satu gelas kira-kira 300 ml. Ketuk untuk menandai, hitungannya mulai lagi tiap hari.</p></div>';
+    $$('#targets .wd').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var n = +b.dataset.w;
+        waterSet(waterGot() === n ? n - 1 : n);
+        renderTargets();
+        if (waterGot() === WG) { toast('Target air hari ini beres'); celebrate(); }
+      });
+    });
+  }
+
+  function renderHome() { renderStats(); renderFocus(); renderNextDays(); renderNextMeal(); renderTargets(); }
+
   /* ---------------- jadwal ---------------- */
   var RC = 2 * Math.PI * 16;
   function ring(pct) {
@@ -2558,6 +2791,7 @@ why_note(d) + '<div class="exlist anim">';
     weekWas = got;
 
     $('#footNote').textContent = 'Minggu mulai ' + state.week + ' · alat dan video dari katalog Muscle Lab';
+    if ($('#statRow')) renderStats();
   }
 
   /* ---------------- bunyi & getar ---------------- */
@@ -2655,12 +2889,12 @@ why_note(d) + '<div class="exlist anim">';
   $('#startBtn').addEventListener('click', function () { pickDay(todayKey()); });
   $('#resetBtn').addEventListener('click', function () {
     if (!confirm('Reset semua centang minggu ini?')) return;
-    state = { week: weekKey(), done: {} }; save();
-    weekWas = -1; renderDays(); renderDetail(); renderProgress(); toast('Minggu ini direset');
+    state = { week: weekKey(), done: {}, water: state.water || {} }; save();
+    weekWas = -1; renderDays(); renderDetail(); renderProgress(); renderHome(); toast('Minggu ini direset');
   });
 
   renderTabs(); paintMotto(); armMotto();
-  renderToday(); renderDays(); renderDetail(); renderMeals(); renderProgress();
+  renderToday(); renderDays(); renderDetail(); renderMeals(); renderProgress(); renderHome();
 
   var start = (location.hash || '').replace('#', '');
   go(TABS.some(function (t) { return t[0] === start; }) ? start : 'beranda');
