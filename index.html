@@ -2,1338 +2,1439 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GYMPLAN — Jadwal Gym Mingguan</title>
-<meta name="description" content="Program latihan 5 hari (fat loss + core) dengan animasi tiap gerakan, timer istirahat, timer HIIT 40/20, checklist set, dan menu makan harian ±2050 kkal.">
-<meta name="theme-color" content="#080a0d">
-<meta property="og:title" content="GYMPLAN — Jadwal Gym Mingguan">
-<meta property="og:description" content="5 hari latihan · fat loss + core · animasi tiap gerakan, timer, dan menu makan.">
-<meta property="og:type" content="website">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gymplan — Muscle Lab Batam</title>
+<meta name="description" content="Program latihan 5 hari di Muscle Lab Batam. Fat loss, glute, dan punggung. Video tiap alat, checklist set, timer istirahat, timer HIIT, dan menu makan harian.">
+<meta name="theme-color" content="#eef2fa">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Gymplan">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23080a0d'/><g stroke='%23d3ff4e' stroke-width='9' stroke-linecap='round'><path d='M24 38v24M76 38v24M34 50h32'/></g></svg>">
+<link rel="preconnect" href="https://i.ytimg.com">
 <style>
 /* =====================================================================
-   GYMPLAN — dark athletic / neon
-   Palet & tipografi diturunkan dari UI UX Pro Max (sports/fitness system)
+   Gymplan — aplikasi latihan Muscle Lab Batam
+   Tampilan terang, kartu kaca, mobile-first
    ===================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root{
-  --bg:#080a0d; --bg2:#0e1218; --card:#131922; --card2:#19212c;
-  --line:#222c3a; --line2:#2d3a4c;
-  --fg:#eef4f9; --fg2:#b9c6d4; --muted:#8b9aac;
-  --lime:#d3ff4e; --lime-dim:#9dc41f; --orange:#ff6b35; --cyan:#3ddcff;
-  --green:#33d17a; --danger:#ff5470;
-  --r:16px; --r-sm:10px;
-  --shadow:0 18px 40px -18px rgba(0,0,0,.85);
-  --hd:'Barlow Condensed',ui-sans-serif,system-ui,sans-serif;
-  --bd:'Barlow',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --bg:#eef2fa; --bg2:#e3e9f6; --card:#ffffff; --glass:rgba(255,255,255,.74);
+  --line:#e2e8f4; --line2:#cfd8ea;
+  --ink:#141d33; --muted:#66718a; --faint:#95a0b6;
+  --acc:#2f6ff6; --acc2:#1b4fd6; --acc-soft:rgba(47,111,246,.10);
+  --warm:#f2785c; --warm-soft:rgba(242,120,92,.12);
+  --good:#12a97b; --good-soft:rgba(18,169,123,.12);
+  --r:22px; --r-sm:14px;
+  --sh:0 14px 34px -18px rgba(40,60,110,.34);
+  --sh-sm:0 6px 18px -10px rgba(40,60,110,.30);
   --ease:cubic-bezier(.22,.61,.36,1);
+  --tab:72px;
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:88px;-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;background:var(--bg)}
 body{
-  margin:0;background:var(--bg);color:var(--fg);font-family:var(--bd);
-  font-size:16px;line-height:1.6;overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
+  margin:0;background:var(--bg);color:var(--ink);min-height:100dvh;
+  font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  font-size:15px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(var(--tab) + env(safe-area-inset-bottom));
+  background-image:radial-gradient(900px 500px at 50% -12%,#ffffff 0%,transparent 70%);
 }
-img,svg{max-width:100%}
-h1,h2,h3,h4{font-family:var(--hd);font-weight:700;line-height:1;margin:0;letter-spacing:.01em}
-a{color:inherit}
-button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
-:focus-visible{outline:3px solid var(--lime);outline-offset:3px;border-radius:6px}
-.wrap{width:min(1180px,100% - 2.5rem);margin-inline:auto}
-.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+img,svg,iframe{max-width:100%;display:block}
+h1,h2,h3,h4{margin:0;line-height:1.2;font-weight:800;letter-spacing:-.01em}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:var(--acc)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px;border-radius:10px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* ---------------- header ---------------- */
-.hdr{
-  position:sticky;top:0;z-index:60;
-  background:color-mix(in srgb,var(--bg) 82%,transparent);
-  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
-}
-.hdr-in{display:flex;align-items:center;gap:1.25rem;height:64px}
-.brand{display:flex;align-items:center;gap:.6rem;font-family:var(--hd);font-size:1.4rem;
-  font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
-.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--lime);
-  box-shadow:0 0 0 4px rgba(211,255,78,.16);animation:pulse 2.4s var(--ease) infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(211,255,78,.16)}50%{box-shadow:0 0 0 9px rgba(211,255,78,.04)}}
-.nav{margin-left:auto;display:flex;gap:.25rem;align-items:center}
-.nav a{
-  text-decoration:none;color:var(--fg2);font-size:.9rem;font-weight:500;
-  padding:.5rem .8rem;border-radius:99px;transition:color .2s var(--ease),background .2s var(--ease)
-}
-.nav a:hover{color:var(--fg);background:var(--card)}
-.nav a.on{color:var(--bg);background:var(--lime);font-weight:600}
-.nav-tog{display:none;padding:.5rem;border-radius:10px;border:1px solid var(--line)}
+.wrap{width:min(680px,100% - 1.6rem);margin-inline:auto}
 
-/* ---------------- hero ---------------- */
-.hero{position:relative;padding:clamp(3.5rem,9vw,6.5rem) 0 clamp(2.5rem,5vw,4rem);overflow:hidden}
-.hero::before,.hero::after{content:'';position:absolute;inset:auto;pointer-events:none;filter:blur(90px);opacity:.5}
-.hero::before{width:520px;height:520px;left:-140px;top:-180px;background:radial-gradient(circle,rgba(211,255,78,.30),transparent 65%)}
-.hero::after{width:520px;height:520px;right:-160px;top:-60px;background:radial-gradient(circle,rgba(255,107,53,.24),transparent 65%)}
-.hero-grid{
-  position:absolute;inset:0;pointer-events:none;opacity:.5;
-  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
-  background-size:56px 56px;
-  mask-image:radial-gradient(ellipse 80% 60% at 50% 0,#000 20%,transparent 75%);
+/* ---------- app bar ---------- */
+.appbar{
+  position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 84%,transparent);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top);
 }
-.hero-in{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
-.eyebrow{display:inline-flex;align-items:center;gap:.55rem;padding:.4rem .85rem;border:1px solid var(--line2);
-  border-radius:99px;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);font-weight:600;background:rgba(211,255,78,.05)}
-@media (prefers-reduced-motion:reduce){.motto .m-a,.motto .m-b{transition:none}}
-.hero h1{font-size:clamp(2.5rem,7.2vw,4.9rem);text-transform:uppercase;letter-spacing:-.015em;margin:1.1rem 0 .8rem}
-.hero h1 em{font-style:normal;color:var(--lime);text-shadow:0 0 44px rgba(211,255,78,.35)}
-.hero p.lead{color:var(--fg2);font-size:clamp(1rem,1.6vw,1.15rem);max-width:46ch;margin:1.1rem 0 1.8rem}
+.appbar-in{display:flex;align-items:center;gap:.75rem;height:58px}
+.brand{display:flex;align-items:center;gap:.55rem;font-weight:800;letter-spacing:-.02em;font-size:1.12rem}
+.brand span.mark{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#4b8cfb,var(--acc2));color:#fff;font-size:.8rem;font-weight:800}
+.appbar .gymname{margin-left:auto;font-size:.76rem;color:var(--muted);font-weight:600;
+  background:var(--card);border:1px solid var(--line);padding:.3rem .7rem;border-radius:99px;white-space:nowrap}
 
-/* motto berganti-ganti */
-.motto{min-height:2.9em;text-wrap:balance}
+/* ---------- view ---------- */
+.view{display:none;padding:1.1rem 0 1.6rem}
+.view.on{display:block}
+.vhead{margin-bottom:1rem}
+.vhead h2{font-size:1.5rem}
+.vhead p{margin:.3rem 0 0;color:var(--muted);font-size:.9rem}
+.kick{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:700}
+
+/* ---------- kartu ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm)}
+.pad{padding:1.1rem}
+
+/* hero beranda */
+.hero{background:linear-gradient(150deg,#ffffff,#eef3ff);border:1px solid var(--line);
+  border-radius:26px;padding:1.3rem;box-shadow:var(--sh);margin-bottom:1rem;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-60px;top:-70px;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(47,111,246,.14),transparent 70%)}
+.greet{font-size:.84rem;color:var(--muted);font-weight:600}
+.motto{margin:.5rem 0 .2rem;font-size:1.58rem;line-height:1.14;min-height:2.3em;position:relative;z-index:1}
+.motto em{font-style:normal;color:var(--acc)}
 .motto .m-a,.motto .m-b{display:inline-block;transition:opacity .45s var(--ease),transform .45s var(--ease)}
 .motto .m-b{transition-delay:.06s}
-.motto.out .m-a,.motto.out .m-b{opacity:0;transform:translateY(14px)}
-.shuffle{display:inline-flex;align-items:center;gap:.4rem;padding:.34rem .75rem;border-radius:99px;
-  border:1px solid var(--line);color:var(--muted);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;
-  transition:color .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}
-.shuffle:hover{color:var(--lime);border-color:var(--lime);transform:translateY(-1px)}
-.shuffle svg{transition:transform .5s var(--ease)}
-.shuffle:hover svg{transform:rotate(180deg)}
-/* status minggu berjalan di hero */
-.hero-status{max-width:430px;margin:1.3rem 0 1.9rem}
-.hero-status .hs-bar{height:6px;border-radius:99px;background:var(--card);border:1px solid var(--line);overflow:hidden}
-.hero-status .hs-bar i{display:block;height:100%;border-radius:99px;
-  background:linear-gradient(90deg,var(--lime),var(--orange));transition:width .8s var(--ease)}
-.hero-status .hs-txt{margin:.7rem 0 0;color:var(--fg2);font-size:.98rem;line-height:1.5}
-.hero-status .hs-txt b{font-family:var(--hd);font-size:1.28rem;color:var(--lime);letter-spacing:.02em;
-  font-variant-numeric:tabular-nums}
-.hero-status.done .hs-txt b{color:var(--green)}
-.hero-status.done .hs-bar i{background:var(--green)}
+.motto.out .m-a,.motto.out .m-b{opacity:0;transform:translateY(12px)}
+.shuffle{display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);border-radius:99px;padding:.3rem .7rem;
+  transition:color .2s var(--ease),border-color .2s var(--ease)}
+.shuffle:hover{color:var(--acc);border-color:var(--acc)}
 
-.cta-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2.2rem}
-.btn{
-  display:inline-flex;align-items:center;gap:.55rem;padding:.85rem 1.4rem;border-radius:99px;
-  font-family:var(--hd);font-size:1.02rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
-  text-decoration:none;transition:transform .22s var(--ease),box-shadow .22s var(--ease),background .22s var(--ease)
-}
-.btn-primary{background:var(--lime);color:#0a0c0f;box-shadow:0 10px 30px -12px rgba(211,255,78,.7)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 36px -12px rgba(211,255,78,.85)}
-.btn-ghost{border:1px solid var(--line2);color:var(--fg)}
-.btn-ghost:hover{transform:translateY(-2px);background:var(--card)}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;max-width:560px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:.85rem .9rem}
-.stat b{display:block;font-family:var(--hd);font-size:1.65rem;line-height:1.05;color:var(--lime);white-space:nowrap}
-.stat span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+/* progres di hero */
+.hstat{margin-top:1.1rem;position:relative;z-index:1}
+.hbar{height:8px;border-radius:99px;background:var(--bg2);overflow:hidden}
+.hbar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--acc),#6aa5ff);
+  transition:width .8s var(--ease)}
+.hstat.done .hbar i{background:var(--good)}
+.hstat p{margin:.6rem 0 0;font-size:.88rem;color:var(--muted)}
+.hstat b{color:var(--ink);font-size:1.05rem;font-weight:800;font-variant-numeric:tabular-nums}
+.hstat.done b{color:var(--good)}
 
-/* kartu "hari ini" di hero */
-.today-card{
-  background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line2);
-  border-radius:var(--r);padding:1.4rem;box-shadow:var(--shadow);position:relative;overflow:hidden
-}
-.today-card .fig-box{background:rgba(0,0,0,.28);border-radius:12px;margin:.9rem 0;display:grid;place-items:center;padding:.4rem}
-.today-card .fig-box svg{height:210px;width:auto;max-width:100%}
-.today-card h3{font-size:1.9rem;text-transform:uppercase;margin:.35rem 0 .2rem}
-.today-flag{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);font-weight:700}
-.today-meta{display:flex;gap:1.2rem;color:var(--muted);font-size:.86rem;flex-wrap:wrap}
-.today-meta b{color:var(--fg);font-family:var(--hd);font-size:1.15rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1.2rem;
+  border-radius:16px;font-weight:700;font-size:.95rem;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.btn-primary{background:linear-gradient(145deg,#4b8cfb,var(--acc2));color:#fff;box-shadow:0 10px 24px -12px rgba(47,111,246,.9);width:100%}
+.btn-primary:active{transform:scale(.985)}
+.btn-ghost{border:1px solid var(--line2);color:var(--ink);background:var(--card)}
 
-/* ---------------- section ---------------- */
-section{padding:clamp(3rem,6vw,4.75rem) 0;position:relative}
-.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;margin-bottom:1.9rem;flex-wrap:wrap}
-.sec-head h2{font-size:clamp(1.9rem,4vw,2.9rem);text-transform:uppercase}
-.sec-head p{color:var(--muted);margin:.45rem 0 0;max-width:52ch}
-.kicker{font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);font-weight:700}
+/* kartu hari ini */
+.today{display:flex;gap:.9rem;align-items:center;margin-top:1rem;position:relative;z-index:1}
+.today .tthumb{width:96px;height:66px;border-radius:14px;overflow:hidden;flex:none;background:var(--bg2);
+  display:grid;place-items:center}
+.today .tthumb img{width:100%;height:100%;object-fit:cover}
+.today h3{font-size:1.05rem}
+.today small{color:var(--muted);font-size:.8rem;display:block;margin-top:.15rem}
 
-/* ---------------- kartu hari ---------------- */
-.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:1rem}
-.day-card{
-  position:relative;text-align:left;width:100%;background:var(--card);border:1px solid var(--line);
-  border-radius:var(--r);padding:1.15rem;transition:transform .25s var(--ease),border-color .25s var(--ease),background .25s var(--ease);
-  overflow:hidden
-}
-.day-card::after{content:'';position:absolute;inset:0;border-radius:var(--r);pointer-events:none;
-  background:linear-gradient(180deg,transparent 55%,rgba(211,255,78,.07));opacity:0;transition:opacity .25s var(--ease)}
-.day-card:hover{transform:translateY(-4px);border-color:var(--line2);background:var(--card2)}
-.day-card:hover::after{opacity:1}
-.day-card.on{border-color:var(--lime);background:var(--card2)}
-.day-card.today{box-shadow:0 0 0 1px rgba(211,255,78,.35),0 14px 34px -20px rgba(211,255,78,.6)}
-.day-top{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.7rem}
-.day-name{font-family:var(--hd);font-size:1.25rem;letter-spacing:.05em;text-transform:uppercase}
-.badge{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
-  padding:.24rem .5rem;border-radius:99px;border:1px solid currentColor}
-.b-lime{color:var(--lime)} .b-orange{color:var(--orange)} .b-cyan{color:var(--cyan)} .b-slate{color:var(--muted)}
-.day-card h3{font-size:1.35rem;text-transform:uppercase;margin-bottom:.35rem}
-.day-card p{color:var(--muted);font-size:.83rem;margin:0 0 .95rem;min-height:2.6em}
-.day-foot{display:flex;align-items:center;justify-content:space-between;gap:.6rem;
-  border-top:1px solid var(--line);padding-top:.8rem}
-.day-foot span{font-size:.78rem;color:var(--muted)}
-.ring{width:42px;height:42px;flex:none}
+/* ---------- kartu hari ---------- */
+.days{display:grid;gap:.7rem}
+.daycard{display:flex;align-items:center;gap:.9rem;width:100%;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:.95rem 1rem;
+  box-shadow:var(--sh-sm);transition:transform .2s var(--ease),border-color .2s var(--ease)}
+.daycard:active{transform:scale(.99)}
+.daycard.on{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft),var(--sh-sm)}
+.daycard.today{background:linear-gradient(140deg,#ffffff,#eef3ff)}
+.dnum{width:42px;height:42px;border-radius:13px;flex:none;display:grid;place-items:center;font-weight:800;
+  background:var(--acc-soft);color:var(--acc);font-size:.95rem}
+.daycard.hiit .dnum{background:var(--warm-soft);color:var(--warm)}
+.daycard.rest .dnum{background:var(--bg2);color:var(--faint)}
+.dbody{flex:1;min-width:0}
+.dbody b{display:block;font-size:1rem;font-weight:700}
+.dbody small{display:block;color:var(--muted);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ring{width:40px;height:40px;flex:none}
 .ring circle{fill:none;stroke-width:5;stroke-linecap:round}
-.ring .bgc{stroke:var(--line2)}
-.ring .fgc{stroke:var(--lime);transition:stroke-dashoffset .6s var(--ease)}
-.ring text{font-family:var(--hd);font-size:13px;fill:var(--fg);text-anchor:middle;dominant-baseline:central}
+.ring .bgc{stroke:var(--bg2)} .ring .fgc{stroke:var(--acc);transition:stroke-dashoffset .6s var(--ease)}
+.ring text{font-size:12px;font-weight:800;fill:var(--ink);text-anchor:middle;dominant-baseline:central}
 
-/* ---------------- detail hari ---------------- */
-.detail{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.detail-head{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:flex-end;justify-content:space-between;margin-bottom:1.6rem}
-.detail-head h2{font-size:clamp(2rem,5vw,3.2rem);text-transform:uppercase}
-.metrics{display:flex;gap:.6rem;flex-wrap:wrap}
-.metric{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:.6rem .9rem;min-width:96px}
-.metric b{display:block;font-family:var(--hd);font-size:1.45rem;line-height:1.1}
-.metric span{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+/* ---------- detail latihan ---------- */
+.dhead{background:linear-gradient(150deg,#ffffff,#eef3ff);border:1px solid var(--line);border-radius:26px;
+  padding:1.2rem;box-shadow:var(--sh);margin-bottom:1rem}
+.dhead h2{font-size:1.45rem;margin-top:.25rem}
+.dhead p{margin:.35rem 0 0;color:var(--muted);font-size:.88rem}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:1rem}
+.metric{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:.55rem .5rem;text-align:center}
+.metric b{display:block;font-size:.92rem;font-weight:800;letter-spacing:-.02em}
+.metric span{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600}
 
-.note-strip{display:flex;gap:.8rem;align-items:flex-start;background:var(--card);border:1px dashed var(--line2);
-  border-radius:var(--r-sm);padding:.9rem 1.1rem;color:var(--fg2);font-size:.9rem;margin-bottom:1.4rem}
-.note-strip svg{flex:none;margin-top:.15rem}
+.note{display:flex;gap:.65rem;align-items:flex-start;background:var(--acc-soft);border-radius:var(--r-sm);
+  padding:.8rem .9rem;font-size:.85rem;color:#294a86;margin-bottom:1rem}
+.note.warm{background:var(--warm-soft);color:#8c3a24}
+.note svg{flex:none;margin-top:.1rem}
 
-.block-label{display:flex;align-items:center;gap:.8rem;margin:1.9rem 0 1rem;
-  font-family:var(--hd);font-size:1.05rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.block-label::after{content:'';flex:1;height:1px;background:var(--line)}
+.blocklab{display:flex;align-items:center;gap:.7rem;margin:1.4rem 0 .8rem;
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.blocklab::after{content:'';flex:1;height:1px;background:var(--line)}
 
-.ex-list{display:grid;gap:.9rem}
-.ex-card{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
-  display:grid;grid-template-columns:172px 1fr;gap:0;transition:border-color .25s var(--ease)
-}
-.ex-card:hover{border-color:var(--line2)}
-.ex-card.done{border-color:rgba(51,209,122,.5)}
-.ex-anim{background:radial-gradient(circle at 50% 40%,rgba(211,255,78,.07),transparent 70%),rgba(0,0,0,.28);
-  border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:.15rem;padding:.5rem}
-.ex-anim svg{width:auto;height:170px;max-width:100%}
-.ex-anim.multi svg{height:100px}
-.ex-body{padding:1.05rem 1.15rem}
-.ex-top{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
-.ex-count{margin-left:auto;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:.18rem .6rem;white-space:nowrap}
-.ex-card.done .ex-count{color:var(--green);border-color:rgba(51,209,122,.45)}
-.ex-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0 .1rem}
-.ex-tags span{font-size:.72rem;letter-spacing:.04em;color:var(--fg2);background:var(--card2);
-  border:1px solid var(--line);border-radius:99px;padding:.2rem .6rem}
-.ex-no{font-family:var(--hd);font-size:1.05rem;color:var(--lime);letter-spacing:.1em}
-.ex-name{font-family:var(--hd);font-size:1.28rem;text-transform:uppercase;letter-spacing:.02em}
-.ex-pres{margin:.35rem 0 .1rem;color:var(--fg2);font-weight:500}
-.ex-pres b{color:var(--lime);font-family:var(--hd);font-size:1.1rem;letter-spacing:.03em}
-.ex-note{color:var(--muted);font-size:.85rem;margin:.15rem 0 0}
-.ex-actions{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin-top:.85rem}
+.exlist{display:grid;gap:.9rem}
+.excard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm)}
+.excard.done{border-color:rgba(18,169,123,.5)}
+.vwrap{position:relative;aspect-ratio:16/9;background:#0e1626}
+.vwrap img{width:100%;height:100%;object-fit:cover}
+.vwrap iframe{width:100%;height:100%;border:0}
+.vplay{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,rgba(8,14,28,.1),rgba(8,14,28,.45))}
+.vplay span{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;
+  box-shadow:0 8px 22px -8px rgba(0,0,0,.6);transition:transform .2s var(--ease)}
+.vplay:hover span{transform:scale(1.07)}
+.vplay svg{margin-left:3px}
+.vnone{position:absolute;inset:0;display:grid;place-items:center;gap:.4rem;
+  background:linear-gradient(145deg,#1d2a45,#0e1626);color:#cfdaf0;text-align:center;padding:1rem}
+.vnone b{display:block;font-size:.95rem}
+.vnone small{color:#93a3c2;font-size:.78rem}
 
-/* set checkbox */
-.sets{display:flex;gap:.4rem;flex-wrap:wrap}
-.set-btn{
-  width:36px;height:36px;border-radius:10px;border:1px solid var(--line2);color:var(--muted);
-  font-family:var(--hd);font-size:1rem;display:grid;place-items:center;
-  transition:all .18s var(--ease)
-}
-.set-btn:hover{border-color:var(--lime);color:var(--lime)}
-.set-btn[aria-pressed="true"]{background:var(--lime);border-color:var(--lime);color:#0a0c0f;font-weight:700}
-.rest-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem .8rem;border-radius:99px;
-  border:1px solid var(--line2);font-size:.82rem;color:var(--fg2);transition:all .18s var(--ease)}
-.rest-btn:hover{border-color:var(--orange);color:var(--orange)}
+.exbody{padding:1rem 1.05rem 1.1rem}
+.extop{display:flex;align-items:baseline;gap:.55rem;flex-wrap:wrap}
+.exno{font-size:.78rem;font-weight:800;color:var(--acc);letter-spacing:.06em}
+.exname{font-size:1.06rem;font-weight:700;letter-spacing:-.01em}
+.excount{margin-left:auto;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
+  border:1px solid var(--line);border-radius:99px;padding:.16rem .55rem;white-space:nowrap;font-weight:700}
+.excard.done .excount{color:var(--good);border-color:rgba(18,169,123,.45)}
+.expres{margin:.45rem 0 0;font-weight:700;color:var(--acc)}
+.exdesc{margin:.35rem 0 0;font-size:.85rem;color:var(--muted)}
+.exnote{margin:.4rem 0 0;font-size:.83rem;color:var(--ink);background:var(--bg);border-radius:10px;padding:.45rem .6rem}
+.tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.6rem}
+.tags span{font-size:.7rem;font-weight:600;padding:.2rem .55rem;border-radius:99px;background:var(--acc-soft);color:var(--acc2)}
+.tags span.sec{background:var(--bg2);color:var(--muted)}
+.exact{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.85rem}
+.sets{display:flex;gap:.35rem;flex-wrap:wrap}
+.setbtn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line2);color:var(--muted);
+  font-weight:700;display:grid;place-items:center;transition:all .16s var(--ease)}
+.setbtn:active{transform:scale(.94)}
+.setbtn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.restbtn{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .75rem;border-radius:99px;
+  border:1px solid var(--line2);font-size:.8rem;font-weight:600;color:var(--muted)}
+.restbtn:hover{border-color:var(--warm);color:var(--warm)}
 
-/* ---------------- menu makan ---------------- */
-.meals{display:grid;gap:.75rem}
-.meal{
-  display:grid;grid-template-columns:120px 1fr auto;gap:1rem;align-items:center;
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.15rem;
-  transition:border-color .25s var(--ease),transform .25s var(--ease)
-}
-.meal:hover{border-color:var(--line2);transform:translateX(3px)}
-.meal-slot{font-family:var(--hd);font-size:1.05rem;text-transform:uppercase;letter-spacing:.06em}
-.meal-slot small{display:block;color:var(--muted);font-family:var(--bd);font-size:.75rem;letter-spacing:.06em}
-.meal p{margin:0;color:var(--fg2);font-size:.92rem}
-.kcal{font-family:var(--hd);font-size:1.5rem;color:var(--lime);white-space:nowrap}
-.kcal small{font-size:.7rem;color:var(--muted);display:block;text-align:right;letter-spacing:.1em}
-.meal-total{display:flex;justify-content:space-between;align-items:center;gap:1rem;
-  border:1px solid var(--lime);border-radius:var(--r);padding:1.05rem 1.2rem;background:rgba(211,255,78,.06);margin-top:.4rem}
-.meal-total b{font-family:var(--hd);font-size:1.05rem;letter-spacing:.14em;text-transform:uppercase}
-.meal-total .kcal{font-size:1.9rem}
+.hiitcta{display:flex;gap:.9rem;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  background:var(--warm-soft);border:1px solid rgba(242,120,92,.35);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:1rem}
+.hiitcta h4{font-size:1.05rem}
+.hiitcta p{margin:.2rem 0 0;font-size:.82rem;color:#8c3a24}
+.hiitcta .btn{width:auto;background:linear-gradient(145deg,#f58a70,#e2563a);box-shadow:0 10px 24px -12px rgba(226,86,58,.9)}
 
-/* ---------------- progres ---------------- */
-.prog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-bottom:1.4rem}
-.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.2rem}
-.pcard b{display:block;font-family:var(--hd);font-size:2.6rem;line-height:1;color:var(--lime)}
-.pcard span{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.bar{height:10px;border-radius:99px;background:var(--card2);border:1px solid var(--line);overflow:hidden}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--lime),var(--orange));
-  border-radius:99px;transition:width .7s var(--ease)}
-.week-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:.5rem;margin-top:1.2rem}
-.wcell{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:.7rem .4rem;text-align:center}
-.wcell b{display:block;font-family:var(--hd);font-size:.95rem;letter-spacing:.08em;text-transform:uppercase}
-.wcell i{display:block;width:100%;height:5px;border-radius:99px;background:var(--line2);margin-top:.5rem}
-.wcell.full i{background:var(--lime)}
-.wcell.part i{background:linear-gradient(90deg,var(--lime) 50%,var(--line2) 50%)}
-.wcell.rest{opacity:.55}
+/* ---------- menu makan ---------- */
+.meals{display:grid;gap:.7rem}
+.meal{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:.95rem 1rem;box-shadow:var(--sh-sm)}
+.meal .mt{flex:none;width:66px}
+.meal .mt b{display:block;font-size:.82rem;font-weight:800}
+.meal .mt small{color:var(--faint);font-size:.72rem}
+.meal p{margin:0;font-size:.88rem;color:var(--ink)}
+.meal .kc{margin-left:auto;text-align:right;flex:none}
+.meal .kc b{display:block;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums}
+.meal .kc small{display:block;font-size:.65rem;color:var(--faint);letter-spacing:.05em;line-height:1.5}
+.mtotal{display:flex;justify-content:space-between;align-items:center;gap:1rem;background:linear-gradient(145deg,#4b8cfb,var(--acc2));
+  color:#fff;border-radius:var(--r);padding:1rem 1.15rem;box-shadow:var(--sh)}
+.mtotal b{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;opacity:.92}
+.mtotal span{font-size:1.5rem;font-weight:800}
 
-/* ---------------- timer dock ---------------- */
-.dock{
-  position:fixed;left:50%;bottom:1.1rem;transform:translate(-50%,140%);z-index:80;
-  width:min(430px,calc(100% - 1.6rem));background:var(--card2);border:1px solid var(--line2);
-  border-radius:20px;box-shadow:var(--shadow);padding:1rem 1.15rem;
-  transition:transform .38s var(--ease)
-}
+/* ---------- progres ---------- */
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin-bottom:1rem}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1rem;box-shadow:var(--sh-sm)}
+.pcard b{display:block;font-size:1.9rem;font-weight:800;color:var(--acc);line-height:1;font-variant-numeric:tabular-nums}
+.pcard span{font-size:.72rem;color:var(--muted);font-weight:600}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:.35rem;margin-top:1rem}
+.wc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.55rem .2rem;text-align:center}
+.wc b{display:block;font-size:.72rem;font-weight:700}
+.wc small{font-size:.62rem;color:var(--faint)}
+.wc i{display:block;height:4px;border-radius:99px;background:var(--bg2);margin-top:.4rem}
+.wc.full i{background:var(--good)} .wc.part i{background:linear-gradient(90deg,var(--acc) 50%,var(--bg2) 50%)}
+.wc.rest{opacity:.55}
+
+/* ---------- timer ---------- */
+.dock{position:fixed;left:50%;bottom:calc(var(--tab) + env(safe-area-inset-bottom) + .6rem);
+  transform:translate(-50%,180%);z-index:60;width:min(640px,calc(100% - 1.6rem));
+  background:var(--card);border:1px solid var(--line2);border-radius:22px;box-shadow:var(--sh);
+  padding:.95rem 1.05rem;transition:transform .35s var(--ease);pointer-events:none}
 .dock.show{transform:translate(-50%,0);pointer-events:auto}
-.dock{pointer-events:none}
-.dock-top{display:flex;align-items:center;justify-content:space-between;gap:.8rem}
-.dock-lbl{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.dock-ex{font-family:var(--hd);font-size:1.35rem;text-transform:uppercase;letter-spacing:.03em}
-.dock-time{font-family:var(--hd);font-size:3.1rem;line-height:1;letter-spacing:.02em;font-variant-numeric:tabular-nums}
-.dock.work .dock-time{color:var(--lime)} .dock.rest .dock-time{color:var(--orange)}
-.dock-bar{height:6px;border-radius:99px;background:var(--card);overflow:hidden;margin:.6rem 0 .8rem}
-.dock-bar i{display:block;height:100%;background:var(--lime);width:100%}
-.dock.rest .dock-bar i{background:var(--orange)}
-.dock-btns{display:flex;gap:.5rem}
-.dock-btns button{flex:1;padding:.55rem;border-radius:10px;border:1px solid var(--line2);font-size:.85rem;
-  transition:all .18s var(--ease)}
-.dock-btns button:hover{border-color:var(--lime);color:var(--lime)}
-.dock-btns .close:hover{border-color:var(--danger);color:var(--danger)}
+.docktop{display:flex;align-items:center;justify-content:space-between;gap:.8rem}
+.docklab{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.dockex{font-size:1rem;font-weight:700;line-height:1.25}
+.docktime{font-size:2.4rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;color:var(--acc)}
+.dock.rest .docktime{color:var(--warm)}
+.dockbar{height:5px;border-radius:99px;background:var(--bg2);overflow:hidden;margin:.6rem 0 .7rem}
+.dockbar i{display:block;height:100%;background:var(--acc)}
+.dock.rest .dockbar i{background:var(--warm)}
+.dockbtns{display:flex;gap:.45rem}
+.dockbtns button{flex:1;padding:.5rem;border-radius:12px;border:1px solid var(--line2);font-size:.82rem;font-weight:600;color:var(--muted)}
+.dockbtns button:hover{border-color:var(--acc);color:var(--acc)}
+.dockbtns .cl:hover{border-color:var(--warm);color:var(--warm)}
 
-/* HIIT panel */
-.hiit-cta{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;
-  background:linear-gradient(135deg,rgba(255,107,53,.14),rgba(211,255,78,.06));
-  border:1px solid var(--orange);border-radius:var(--r);padding:1.2rem 1.35rem;margin-bottom:1.4rem}
-.hiit-cta h4{font-family:var(--hd);font-size:1.5rem;text-transform:uppercase;margin:0 0 .2rem}
-.hiit-cta p{margin:0;color:var(--fg2);font-size:.88rem}
+/* ---------- tab bar ---------- */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:70;
+  background:color-mix(in srgb,var(--card) 90%,transparent);backdrop-filter:blur(16px);
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabbar-in{display:grid;grid-template-columns:repeat(5,1fr);max-width:680px;margin-inline:auto;height:var(--tab)}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.22rem;
+  font-size:.66rem;font-weight:700;color:var(--faint);transition:color .18s var(--ease)}
+.tab svg{width:21px;height:21px}
+.tab.on{color:var(--acc)}
+.tab.on .ti{background:var(--acc-soft)}
+.ti{width:40px;height:26px;border-radius:9px;display:grid;place-items:center;transition:background .18s var(--ease)}
 
-/* ---------------- footer ---------------- */
-footer{border-top:1px solid var(--line);padding:2.4rem 0;color:var(--muted);font-size:.85rem}
-.foot-in{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center}
+/* ---------- toast ---------- */
+.toast{position:fixed;left:50%;bottom:calc(var(--tab) + env(safe-area-inset-bottom) + 1rem);
+  transform:translate(-50%,160%);background:var(--ink);color:#fff;padding:.6rem 1rem;border-radius:99px;
+  font-size:.85rem;font-weight:600;z-index:90;box-shadow:var(--sh);
+  opacity:0;visibility:hidden;transition:transform .3s var(--ease),opacity .3s var(--ease),visibility .3s}
+.toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
 
-/* ---------------- animasi figur ---------------- */
-.fig{display:block;width:100%;height:auto}
-.fig .j{transform-origin:0 0}
-.fig .lb{stroke:var(--lime);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;fill:none}
-.fig .far .lb{stroke:var(--lime-dim);opacity:.42}
-.fig .head{fill:none;stroke:var(--lime);stroke-width:6}
-.fig .foot{stroke:var(--lime);stroke-width:6;stroke-linecap:round;fill:none}
-.fig .far .foot{stroke:var(--lime-dim);opacity:.42}
-.fig .eq{stroke:var(--orange);stroke-width:5;stroke-linecap:round;fill:none}
-.fig .eq rect,.fig .eq .fill{fill:var(--orange);stroke:none}
-.fig .far .eq{opacity:.4}
-.fig .prop{stroke:var(--line2);stroke-width:4;fill:none;stroke-linecap:round}
-.fig .ground{stroke:var(--line2);stroke-width:3}
-
-/* ---------------- reveal ---------------- */
-.rv{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
-.rv.in{opacity:1;transform:none}
-
-/* ---------------- responsive ---------------- */
-@media (max-width:960px){
-  .hero-in{grid-template-columns:1fr}
-  .today-card{order:-1}
-  .stats{grid-template-columns:repeat(2,1fr);max-width:100%}
-}
-@media (max-width:720px){
-  .nav{position:fixed;inset:64px 0 auto;flex-direction:column;align-items:stretch;gap:0;
-    background:var(--bg2);border-bottom:1px solid var(--line);padding:.5rem;
-    transform:translateY(-140%);transition:transform .3s var(--ease)}
-  .nav.open{transform:none}
-  .nav a{padding:.75rem 1rem;border-radius:10px}
-  .nav-tog{display:grid;place-items:center;margin-left:auto}
-  .ex-card{grid-template-columns:1fr}
-  .ex-anim{border-right:0;border-bottom:1px solid var(--line);max-height:220px}
-  .meal{grid-template-columns:1fr;gap:.4rem}
-  .kcal{text-align:left}.kcal small{text-align:left}
-  .week-strip{grid-template-columns:repeat(4,1fr)}
+/* ---------- desktop ---------- */
+@media (min-width:760px){
+  body{padding-bottom:0;padding-top:0}
+  .tabbar{position:sticky;top:58px;bottom:auto;border-top:0;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 86%,transparent)}
+  .tabbar-in{height:58px}
+  .tab{flex-direction:row;gap:.45rem;font-size:.82rem}
+  .ti{width:auto;height:auto;background:none !important;padding:0}
+  .dock{bottom:1rem}
+  .toast{bottom:1.4rem}
+  .days{grid-template-columns:repeat(2,1fr)}
+  .excard{display:grid;grid-template-columns:260px 1fr}
+  .vwrap{aspect-ratio:auto;height:100%;min-height:170px}
 }
 
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
-    transition-duration:.001ms !important;scroll-behavior:auto !important}
-  .rv{opacity:1;transform:none}
-}
-
-@media print{
-  .hdr,.dock,.hero::before,.hero::after,.cta-row,.hiit-cta,.rest-btn{display:none !important}
-  body{background:#fff;color:#000}
-  .ex-card,.day-card,.meal,.pcard{border-color:#bbb;background:#fff;break-inside:avoid}
-  .fig .lb,.fig .head,.fig .foot{stroke:#111}
-  .fig .eq{stroke:#666}
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
 }
 
 </style>
 </head>
 <body>
-<header class="hdr">
-  <div class="wrap hdr-in">
-    <a class="brand" href="#top"><span class="dot"></span>Gymplan</a>
-    <button class="nav-tog" id="navTog" aria-expanded="false" aria-controls="nav" aria-label="Buka menu">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </button>
-    <nav class="nav" id="nav">
-      <a href="#jadwal">Jadwal</a>
-      <a href="#latihan">Latihan</a>
-      <a href="#menu">Menu makan</a>
-      <a href="#progres">Progres</a>
-    </nav>
+
+<header class="appbar">
+  <div class="wrap appbar-in">
+    <div class="brand"><span class="mark">GP</span> Gymplan</div>
+    <span class="gymname" id="gymName">Muscle Lab Batam</span>
   </div>
 </header>
 
-<main id="top">
+<nav class="tabbar" aria-label="Navigasi utama">
+  <div class="tabbar-in" id="tabs"></div>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-grid" aria-hidden="true"></div>
-    <div class="wrap hero-in">
-      <div>
-        <span class="eyebrow"><span class="dot" style="width:7px;height:7px;border-radius:50%;background:currentColor"></span> <span id="greet">Halo, Cheri</span></span>
-        <h1 class="motto" id="motto" aria-live="polite">
-          <span class="m-a" id="mottoA">Nggak ada mood.</span><br>
-          <em class="m-b" id="mottoB">Yang ada cuma jadwal.</em>
-        </h1>
-        <button type="button" class="shuffle" id="shuffleBtn" aria-label="Ganti kalimat motivasi">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-          Ganti
-        </button>
-        <div class="hero-status" id="heroStatus">
-          <div class="hs-bar"><i id="hsBar" style="width:0%"></i></div>
-          <p class="hs-txt" id="hsTxt">Minggu ini belum ada set yang tercatat.</p>
-        </div>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="#latihan" id="startBtn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            Mulai latihan hari ini
-          </a>
-          <a class="btn btn-ghost" href="#menu">Lihat menu makan</a>
-        </div>
-        <div class="stats">
-          <div class="stat"><b>5</b><span>hari latihan</span></div>
-          <div class="stat"><b>±2050</b><span>kkal / hari</span></div>
-          <div class="stat"><b>140-150</b><span>g protein</span></div>
-          <div class="stat"><b>2,5-3</b><span>liter air</span></div>
-        </div>
+<main class="wrap">
+
+  <!-- BERANDA -->
+  <section class="view on" id="v-beranda">
+    <div class="hero">
+      <div class="greet" id="greet">Halo, Cheri</div>
+      <h2 class="motto" id="motto" aria-live="polite">
+        <span class="m-a" id="mottoA">Nggak ada mood.</span><br>
+        <em class="m-b" id="mottoB">Yang ada cuma jadwal.</em>
+      </h2>
+      <button type="button" class="shuffle" id="shuffleBtn" aria-label="Ganti kalimat">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+        Ganti
+      </button>
+
+      <div class="hstat" id="hstat">
+        <div class="hbar"><i id="hsBar" style="width:0%"></i></div>
+        <p id="hsTxt">Minggu ini belum ada set yang tercatat.</p>
       </div>
-      <aside class="today-card" id="todayCard" aria-label="Latihan hari ini"></aside>
+
+      <div class="today" id="todayCard"></div>
+      <button class="btn btn-primary" id="startBtn" type="button" style="margin-top:1.1rem">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Mulai latihan hari ini
+      </button>
     </div>
   </section>
 
   <!-- JADWAL -->
-  <section id="jadwal">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="kicker">Minggu ini</span>
-          <h2>Jadwal 7 hari</h2>
-          <p>Klik salah satu hari untuk membuka detail latihannya beserta animasi tiap gerakan.</p>
-        </div>
-      </div>
-      <div class="days" id="days"></div>
+  <section class="view" id="v-jadwal">
+    <div class="vhead">
+      <span class="kick">Minggu ini</span>
+      <h2>Jadwal 7 hari</h2>
+      <p>Pilih satu hari untuk membuka detail latihannya beserta video tiap alat.</p>
     </div>
+    <div class="days" id="days"></div>
   </section>
 
-  <!-- DETAIL LATIHAN -->
-  <section id="latihan" class="detail">
-    <div class="wrap" id="detail"></div>
+  <!-- LATIHAN -->
+  <section class="view" id="v-latihan">
+    <div id="detail"></div>
   </section>
 
-  <!-- MENU MAKAN -->
-  <section id="menu">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="kicker">Fuel your fat loss</span>
-          <h2>Menu harian</h2>
-          <p id="mealNote"></p>
-        </div>
-      </div>
-      <div class="meals" id="meals"></div>
+  <!-- MENU -->
+  <section class="view" id="v-menu">
+    <div class="vhead">
+      <span class="kick">Fuel</span>
+      <h2>Menu harian</h2>
+      <p id="mealNote"></p>
     </div>
+    <div class="meals" id="meals"></div>
   </section>
 
   <!-- PROGRES -->
-  <section id="progres">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="kicker">Progres</span>
-          <h2>Minggu berjalan</h2>
-          <p>Centang tiap set yang selesai — progres tersimpan di browser ini dan otomatis reset tiap Senin.</p>
-        </div>
-        <button class="btn btn-ghost" id="resetBtn" type="button">Reset minggu ini</button>
-      </div>
-      <div class="prog-grid" id="progGrid"></div>
-      <div class="bar"><i id="progBar" style="width:0%"></i></div>
-      <div class="week-strip" id="weekStrip"></div>
+  <section class="view" id="v-progres">
+    <div class="vhead">
+      <span class="kick">Progres</span>
+      <h2>Minggu berjalan</h2>
+      <p>Centangan tersimpan di perangkat ini dan otomatis reset tiap Senin.</p>
     </div>
+    <div class="pgrid" id="pgrid"></div>
+    <div class="week" id="weekStrip"></div>
+    <button class="btn btn-ghost" id="resetBtn" type="button" style="margin-top:1.2rem;width:100%">Reset minggu ini</button>
+    <p style="color:var(--faint);font-size:.78rem;margin-top:1.4rem" id="footNote"></p>
   </section>
 
 </main>
 
-<footer>
-  <div class="wrap foot-in">
-    <span>Gymplan — jadwal latihan pribadi Cheri.</span>
-    <span id="footWeek"></span>
-  </div>
-</footer>
-
-<!-- TIMER DOCK -->
+<!-- TIMER -->
 <div class="dock" id="dock" role="status" aria-live="polite">
-  <div class="dock-top">
+  <div class="docktop">
     <div>
-      <div class="dock-lbl" id="dockLbl">Istirahat</div>
-      <div class="dock-ex" id="dockEx">—</div>
+      <div class="docklab" id="dockLbl">Istirahat</div>
+      <div class="dockex" id="dockEx">—</div>
     </div>
-    <div class="dock-time" id="dockTime">00:00</div>
+    <div class="docktime" id="dockTime">00:00</div>
   </div>
-  <div class="dock-bar"><i id="dockBar"></i></div>
-  <div class="dock-btns">
+  <div class="dockbar"><i id="dockBar"></i></div>
+  <div class="dockbtns">
     <button type="button" id="dockToggle">Jeda</button>
     <button type="button" id="dockPlus">+15 dtk</button>
-    <button type="button" class="close" id="dockClose">Tutup</button>
+    <button type="button" class="cl" id="dockClose">Tutup</button>
   </div>
 </div>
+
+<div class="toast" id="toast"></div>
 <script>
-/* =====================================================================
-   figure.js — Animated stick-figure engine
-   Membangun SVG figur manusia berartikulasi + CSS keyframes per gerakan.
-   Semua sudut dalam derajat. Figur menghadap KANAN (+x).
-   Konvensi: sudut positif = ayunan ke arah depan (kanan layar).
-   ===================================================================== */
-(function (global) {
-  'use strict';
-
-  var L = { torso: 50, upper: 24, fore: 24, thigh: 30, shin: 30, head: 9 };
-
-  /* ---- Pose default: berdiri tegak ---- */
-  function pose(o) {
-    return Object.assign({
-      t: 0,                     // torso (positif = membungkuk ke depan)
-      aL: 0, fL: 0,             // lengan dekat  (upper, fore)
-      aR: 0, fR: 0,             // lengan jauh
-      hL: 0, kL: 0,             // kaki dekat (hip/thigh, knee/shin)
-      hR: 0, kR: 0,             // kaki jauh
-      dx: 0, dy: 0,             // geser seluruh badan
-      rot: 0,                   // rotasi seluruh badan
-      sc: 1
-    }, o || {});
-  }
-
-  /* ---- Peralatan yang digambar di tangan ---- */
-  var EQUIP = {
-    barbellBig:'<g class="eq"><line x1="-42" y1="0" x2="42" y2="0"/>' +
-             '<circle cx="-31" cy="0" r="15"/><circle cx="31" cy="0" r="15"/></g>',
-    barbell: '<g class="eq"><line x1="-34" y1="0" x2="34" y2="0"/>' +
-             '<rect x="-34" y="-7" width="7" height="14" rx="2"/>' +
-             '<rect x="27" y="-7" width="7" height="14" rx="2"/></g>',
-    bar:     '<g class="eq"><line x1="-30" y1="0" x2="30" y2="0"/></g>',
-    dumbbell:'<g class="eq"><line x1="-9" y1="0" x2="9" y2="0"/>' +
-             '<rect x="-13" y="-5" width="5" height="10" rx="1.5"/>' +
-             '<rect x="8" y="-5" width="5" height="10" rx="1.5"/></g>',
-    kettle:  '<g class="eq"><path d="M-5 2 a5 5 0 0 1 10 0" fill="none"/>' +
-             '<path d="M-7 3 h14 a8 9 0 0 1 -14 0 z" class="fill"/></g>',
-    plate:   '<g class="eq"><circle cx="0" cy="0" r="8" fill="none"/></g>',
-    cablehi: '<g class="eq"><line x1="-22" y1="0" x2="22" y2="0"/></g>',
-    ball:    '<g class="eq"><circle cx="0" cy="0" r="7" class="fill"/></g>',
-    none:    ''
-  };
-
-  /* ---- Bangun markup SVG ---- */
-  function limbFar(side) {
-    return '' +
-      '<g class="j j-a' + side + '">' +
-        '<line class="lb" x1="0" y1="0" x2="0" y2="' + L.upper + '"/>' +
-        '<g transform="translate(0,' + L.upper + ')">' +
-          '<g class="j j-f' + side + '">' +
-            '<line class="lb" x1="0" y1="0" x2="0" y2="' + L.fore + '"/>' +
-            '<g class="hand" transform="translate(0,' + L.fore + ')">' +
-              '<g class="j j-eq' + side + '">{{EQ' + side + '}}</g>' +
-            '</g>' +
-          '</g>' +
-        '</g>' +
-      '</g>';
-  }
-
-  function legMarkup(side) {
-    return '' +
-      '<g class="j j-h' + side + '">' +
-        '<line class="lb" x1="0" y1="0" x2="0" y2="' + L.thigh + '"/>' +
-        '<g transform="translate(0,' + L.thigh + ')">' +
-          '<g class="j j-k' + side + '">' +
-            '<line class="lb" x1="0" y1="0" x2="0" y2="' + L.shin + '"/>' +
-            '<path class="foot" d="M0 ' + L.shin + ' h9"/>' +
-          '</g>' +
-        '</g>' +
-      '</g>';
-  }
-
-  function buildSvg(ex) {
-    var eqR = EQUIP[ex.equip || 'none'] || '';
-    var eqL = ex.oneHand ? '' : eqR;
-    if (ex.equipL) eqL = EQUIP[ex.equipL] || '';
-
-    var far = '<g class="far">' + limbFar('R') .replace('{{EQR}}', eqR) + '</g>';
-    var near = '<g class="near">' + limbFar('L').replace('{{EQL}}', eqL) + '</g>';
-
-    var legFar = '<g class="far">' + legMarkup('R') + '</g>';
-    var legNear = '<g class="near">' + legMarkup('L') + '</g>';
-
-    return '' +
-    '<svg class="fig ' + ex.cls + '" viewBox="0 0 200 200" role="img" aria-label="Animasi gerakan ' + ex.name + '">' +
-      (ex.ground === false ? '' : '<line class="ground" x1="14" y1="182" x2="186" y2="182"/>') +
-      (ex.prop || '') +
-      '<g transform="translate(100,120)"><g class="j j-root">' +
-        legFar + legNear +
-        '<g class="j j-torso">' +
-          '<line class="lb torso" x1="0" y1="0" x2="0" y2="' + (-L.torso) + '"/>' +
-          '<circle class="head" cx="0" cy="' + (-L.torso - L.head - 3) + '" r="' + L.head + '"/>' +
-          (ex.torsoProp || '') +
-          '<g transform="translate(0,' + (-L.torso + 4) + ')">' + far + near + '</g>' +
-        '</g>' +
-      '</g></g>' +
-    '</svg>';
-  }
-
-  /* ---- Keyframes ---- */
-  // rotasi yang benar-benar diterapkan pada tiap sendi (SVG: positif = searah jarum jam)
-  function applied(p) {
-    return {
-      'j-root':  p.rot,
-      'j-torso': p.t,
-      'j-aL': -p.aL, 'j-fL': -p.fL,
-      'j-aR': -p.aR, 'j-fR': -p.fR,
-      'j-hL': -p.hL, 'j-kL': -p.kL,
-      'j-hR': -p.hR, 'j-kR': -p.kR,
-      // peralatan dijaga tetap datar: lawan seluruh rotasi induknya
-      'j-eqL': -(p.rot + p.t - p.aL - p.fL),
-      'j-eqR': -(p.rot + p.t - p.aR - p.fR)
-    };
-  }
-
-  function css(ex) {
-    var a = applied(ex.a), b = applied(ex.b);
-    var out = [];
-    var dur = ex.dur || 2.2;
-    Object.keys(a).forEach(function (k) {
-      var v1 = a[k], v2 = b[k];
-      var nameA = ex.cls + '-' + k;
-      var extraA = '', extraB = '';
-      if (k === 'j-root') {
-        extraA = 'translate(' + (ex.a.dx || 0) + 'px,' + (ex.a.dy || 0) + 'px) scale(' + (ex.a.sc || 1) + ') ';
-        extraB = 'translate(' + (ex.b.dx || 0) + 'px,' + (ex.b.dy || 0) + 'px) scale(' + (ex.b.sc || 1) + ') ';
-      }
-      out.push('@keyframes ' + nameA + '{0%,100%{transform:' + extraA + 'rotate(' + v1 + 'deg)' +
-               '}50%{transform:' + extraB + 'rotate(' + v2 + 'deg)}}');
-      out.push('.' + ex.cls + ' .' + k + '{animation:' + nameA + ' ' + dur + 's ease-in-out infinite;}');
-    });
-    return out.join('\n');
-  }
-
-  global.Figure = {
-    pose: pose,
-    applied: applied,
-    build: function (ex) { return buildSvg(ex); },
-    css: css,
-    L: L
-  };
-})(window);
-
-/* =====================================================================
-   exercises.js — Katalog animasi tiap gerakan (stick figure)
-   Setiap entri: dua pose (a & b) yang di-loop bolak-balik.
-   ===================================================================== */
-(function (global) {
-  'use strict';
-
-  var P = {
-    bench:   '<g class="prop"><rect x="28" y="148" width="118" height="9" rx="3"/>' +
-             '<line x1="44" y1="157" x2="44" y2="182"/><line x1="130" y1="157" x2="130" y2="182"/></g>',
-    incline: '<g class="prop"><path d="M123 139 L61 95"/><path d="M123 139 L160 147"/>' +
-             '<line x1="152" y1="147" x2="152" y2="182"/><line x1="119" y1="140" x2="119" y2="182"/></g>',
-    box:     '<g class="prop"><rect x="126" y="140" width="56" height="42" rx="4"/></g>',
-    bar:     '<g class="prop"><line x1="34" y1="26" x2="166" y2="26"/>' +
-             '<line x1="42" y1="26" x2="42" y2="182"/><line x1="158" y1="26" x2="158" y2="182"/></g>',
-    tower:   '<g class="prop"><line x1="170" y1="20" x2="170" y2="182"/>' +
-             '<line x1="150" y1="20" x2="178" y2="20"/><rect x="156" y="120" width="24" height="10" rx="3"/></g>',
-    towerLo: '<g class="prop"><line x1="176" y1="96" x2="176" y2="182"/>' +
-             '<rect x="150" y="150" width="34" height="9" rx="3"/></g>',
-    seat:    '<g class="prop"><rect x="70" y="148" width="76" height="8" rx="3"/>' +
-             '<line x1="86" y1="156" x2="86" y2="182"/><line x1="132" y1="156" x2="132" y2="182"/></g>',
-    slope:   '<g class="prop"><path d="M18 182 L182 128" /></g>',
-    mat:     '<g class="prop"><rect x="20" y="176" width="160" height="7" rx="3"/></g>',
-    rope:    '<g class="prop"><line x1="170" y1="26" x2="170" y2="182"/><line x1="152" y1="26" x2="184" y2="26"/></g>'
-  };
-
-  function p(o) { return global.Figure.pose(o); }
-
-  /* pose bantu */
-  var HANG = { hL: -28, kL: 66, hR: -24, kR: 62 };
-  var LIE  = { rot: -90, dx: -15, dy: 52 };
-  var PLANK= { rot: -80, dx: -6, dy: 46 };
-
-  var EX = {
-
-    /* ---------- SENIN · UPPER BODY ---------- */
-    'bench-press': {
-      name: 'Bench press', equip: 'barbell', dur: 2.4, prop: P.bench,
-      a: p({ rot: -90, dy: 30, dx: 4, aL: -60, fL: 150, aR: -66, fR: 156, hL: -4, kL: -86, hR: 2, kR: -92 }),
-      b: p({ rot: -90, dy: 30, dx: 4, aL: 90, fL: 0, aR: 87, fR: 3, hL: -4, kL: -86, hR: 2, kR: -92 })
-    },
-    'bent-over-row': {
-      name: 'Bent-over row', equip: 'barbell', dur: 2.2,
-      a: p({ t: 62, dx: -22, dy: 6, hL: -14, kL: 22, hR: -10, kR: 18, aL: 62, fL: 4, aR: 62, fR: 4 }),
-      b: p({ t: 62, dx: -22, dy: 6, hL: -14, kL: 22, hR: -10, kR: 18, aL: 46, fL: 104, aR: 46, fR: 104 })
-    },
-    'overhead-press': {
-      name: 'Overhead press', equip: 'barbell', dur: 2.2,
-      a: p({ t: -4, aL: 30, fL: 135, aR: 26, fR: 139 }),
-      b: p({ t: 0, aL: 176, fL: 2, aR: 173, fR: 5 })
-    },
-    'lat-pulldown': {
-      name: 'Lat pulldown', equip: 'cablehi', dur: 2.3, prop: P.tower + P.seat,
-      a: p({ t: -6, dy: 22, hL: 88, kL: -88, hR: 84, kR: -84, aL: 166, fL: 0, aR: 162, fR: 4 }),
-      b: p({ t: -12, dy: 22, hL: 88, kL: -88, hR: 84, kR: -84, aL: 74, fL: 76, aR: 71, fR: 79 })
-    },
-    'incline-db-press': {
-      name: 'Incline dumbbell press', equip: 'dumbbell', dur: 2.3, prop: P.incline,
-      a: p({ rot: -52, dx: 22, dy: 6, aL: 56, fL: 56, aR: 52, fR: 60, hL: -40, kL: 18, hR: -35, kR: 13 }),
-      b: p({ rot: -52, dx: 22, dy: 6, aL: 126, fL: 0, aR: 123, fR: 3, hL: -40, kL: 18, hR: -35, kR: 13 })
-    },
-    'face-pull': {
-      name: 'Face pull', equip: 'bar', dur: 2.1, prop: P.tower,
-      a: p({ t: -4, hL: 6, kL: -6, hR: 4, kR: -4, aL: 148, fL: 0, aR: 144, fR: 4 }),
-      b: p({ t: -6, hL: 6, kL: -6, hR: 4, kR: -4, aL: 150, fL: 96, aR: 146, fR: 100 })
-    },
-    'cable-crunch': {
-      name: 'Cable crunch', equip: 'none', dur: 2.2, prop: P.rope,
-      a: p({ t: 14, dy: 30, hL: 0, kL: -88, hR: 4, kR: -92, aL: 168, fL: 104, aR: 164, fR: 108 }),
-      b: p({ t: 68, dy: 30, hL: 0, kL: -88, hR: 4, kR: -92, aL: 168, fL: 104, aR: 164, fR: 108 })
-    },
-    'bicycle-crunch': {
-      name: 'Bicycle crunch', equip: 'none', dur: 1.8, prop: P.mat,
-      a: p(Object.assign({}, LIE, { t: 22, aL: 96, fL: 92, aR: 92, fR: 96, hL: 88, kL: -78, hR: 14, kR: -8 })),
-      b: p(Object.assign({}, LIE, { t: 22, aL: 96, fL: 92, aR: 92, fR: 96, hL: 14, kL: -8, hR: 88, kR: -78 }))
-    },
-
-    /* ---------- SELASA · LOWER BODY ---------- */
-    'squat': {
-      name: 'Squat', equip: 'none', dur: 2.5,
-      torsoProp: '<g class="eq"><line x1="-32" y1="-44" x2="32" y2="-44"/>' +
-                 '<rect x="-34" y="-51" width="7" height="14" rx="2"/><rect x="27" y="-51" width="7" height="14" rx="2"/></g>',
-      a: p({ t: 10, hL: 5, kL: -5, hR: 3, kR: -3, aL: -26, fL: -108, aR: -30, fR: -104 }),
-      b: p({ t: 36, dy: 30, hL: 60, kL: -120, hR: 57, kR: -117, aL: -26, fL: -108, aR: -30, fR: -104 })
-    },
-    'romanian-deadlift': {
-      name: 'Romanian deadlift', equip: 'barbell', dur: 2.5,
-      a: p({ t: 4, dx: -6, hL: 2, kL: 0, hR: 0, kR: 2, aL: 4, fL: 0, aR: 4, fR: 0 }),
-      b: p({ t: 74, dx: -6, dy: 6, hL: -10, kL: 14, hR: -8, kR: 12, aL: 74, fL: 0, aR: 74, fR: 0 })
-    },
-    'walking-lunge': {
-      name: 'Walking lunge', equip: 'dumbbell', dur: 2.4,
-      a: p({ t: 8, hL: 32, kL: -22, hR: -28, kR: 70, dy: 8, aL: 8, fL: 0, aR: 8, fR: 0 }),
-      b: p({ t: 10, hL: 46, kL: -74, hR: -42, kR: 112, dy: 28, aL: 10, fL: 0, aR: 10, fR: 0 })
-    },
-    'leg-curl': {
-      name: 'Leg curl', equip: 'none', dur: 2.0, prop: P.mat,
-      a: p({ t: 6, hL: -4, kL: 4, hR: -2, kR: 2, aL: 6, fL: 0, aR: 6, fR: 0 }),
-      b: p({ t: 6, hL: -8, kL: 112, hR: -2, kR: 2, aL: 6, fL: 0, aR: 6, fR: 0 })
-    },
-    'calf-raise': {
-      name: 'Calf raise', equip: 'dumbbell', dur: 1.9,
-      a: p({ t: 2, hL: 0, kL: 0, hR: 0, kR: 0, aL: 2, fL: 0, aR: 2, fR: 0 }),
-      b: p({ t: 2, dy: -10, hL: 0, kL: 0, hR: 0, kR: 0, aL: 2, fL: 0, aR: 2, fR: 0 })
-    },
-    'hanging-leg-raise': {
-      name: 'Hanging leg raise', equip: 'none', dur: 2.6, prop: P.bar,
-      a: p({ t: -2, dy: 6, aL: 178, fL: 0, aR: 175, fR: 3, hL: 2, kL: 0, hR: -2, kR: 2 }),
-      b: p({ t: -8, dy: 6, aL: 178, fL: 0, aR: 175, fR: 3, hL: 92, kL: -4, hR: 88, kR: 0 })
-    },
-    'dead-bug': {
-      name: 'Dead bug', equip: 'none', dur: 2.4, prop: P.mat,
-      a: p(Object.assign({}, LIE, { aL: 90, fL: 0, aR: 178, fR: 0, hL: 88, kL: -84, hR: 6, kR: 0 })),
-      b: p(Object.assign({}, LIE, { aL: 178, fL: 0, aR: 90, fR: 0, hL: 6, kL: 0, hR: 88, kR: -84 }))
-    },
-
-    /* ---------- RABU · HIIT ---------- */
-    'kettlebell-swing': {
-      name: 'Kettlebell swing', equip: 'kettle', dur: 1.7,
-      a: p({ t: 68, dx: -14, dy: 6, hL: -14, kL: 22, hR: -10, kR: 18, aL: 76, fL: 0, aR: 76, fR: 0 }),
-      b: p({ t: 0, dx: -14, hL: 0, kL: 0, hR: 0, kR: 0, aL: 92, fL: 0, aR: 92, fR: 0 })
-    },
-    'box-jump': {
-      name: 'Box jump', equip: 'none', dur: 1.8, prop: P.box,
-      a: p({ t: 34, dx: -28, dy: 30, hL: 58, kL: -116, hR: 55, kR: -113, aL: -46, fL: 0, aR: -50, fR: 0 }),
-      b: p({ t: 12, dx: 22, dy: -34, hL: 34, kL: -34, hR: 31, kR: -31, aL: 150, fL: 0, aR: 146, fR: 0 })
-    },
-    'jumping-jack': {
-      name: 'Jumping jack', equip: 'none', dur: 1.1,
-      a: p({ t: 0, aL: 4, fL: 0, aR: -4, fR: 0, hL: 3, kL: 0, hR: -3, kR: 0 }),
-      b: p({ t: 0, dy: -8, aL: 172, fL: 0, aR: 168, fR: 0, hL: 22, kL: 0, hR: -22, kR: 0 })
-    },
-    'mountain-climber': {
-      name: 'Mountain climber', equip: 'none', dur: 1.2, prop: P.mat,
-      a: p(Object.assign({}, PLANK, { aL: -80, fL: 88, aR: -84, fR: 92, hL: -140, kL: 84, hR: 4, kR: 0 })),
-      b: p(Object.assign({}, PLANK, { aL: -80, fL: 88, aR: -84, fR: 92, hL: 4, kL: 0, hR: -140, kR: 84 }))
-    },
-    'plank-shoulder-tap': {
-      name: 'Plank shoulder tap', equip: 'none', dur: 2.0, prop: P.mat,
-      a: p(Object.assign({}, PLANK, { aL: -80, fL: 0, aR: -84, fR: 4, hL: 2, kL: 0, hR: -2, kR: 2 })),
-      b: p(Object.assign({}, PLANK, { aL: -142, fL: 118, aR: -84, fR: 4, hL: 2, kL: 0, hR: -2, kR: 2 }))
-    },
-    'high-knees': {
-      name: 'High knees', equip: 'none', dur: 0.9,
-      a: p({ t: 6, dy: -4, hL: 94, kL: -88, hR: -12, kR: 6, aL: -42, fL: 72, aR: 42, fR: 72 }),
-      b: p({ t: 6, dy: -4, hL: -12, kL: 6, hR: 94, kR: -88, aL: 42, fL: 72, aR: -42, fR: 72 })
-    },
-
-    /* ---------- KAMIS · FULL BODY ---------- */
-    'deadlift': {
-      name: 'Deadlift', equip: 'barbellBig', dur: 2.6,
-      a: p({ t: 58, dx: -24, dy: 26, hL: 70, kL: -112, hR: 67, kR: -109, aL: 58, fL: 0, aR: 58, fR: 0 }),
-      b: p({ t: 4, dx: -24, hL: 2, kL: 0, hR: 0, kR: 2, aL: 4, fL: 0, aR: 4, fR: 0 })
-    },
-    'push-press': {
-      name: 'Push press', equip: 'barbell', dur: 1.9,
-      a: p({ t: 2, dy: 12, hL: 20, kL: -40, hR: 18, kR: -38, aL: 30, fL: 135, aR: 26, fR: 139 }),
-      b: p({ t: 0, dy: -4, hL: 2, kL: 0, hR: 0, kR: 2, aL: 176, fL: 2, aR: 173, fR: 5 })
-    },
-    'pull-up': {
-      name: 'Pull-up', equip: 'none', dur: 2.4, prop: P.bar,
-      a: p(Object.assign({ t: -3, dy: 6, aL: 178, fL: 0, aR: 175, fR: 3 }, HANG)),
-      b: p(Object.assign({ t: -8, dy: -25, aL: -150, fL: -140, aR: -153, fR: -137 }, HANG))
-    },
-    'db-chest-press': {
-      name: 'Dumbbell chest press', equip: 'dumbbell', dur: 2.3, prop: P.bench,
-      a: p({ rot: -90, dy: 30, dx: 4, aL: -58, fL: 148, aR: -64, fR: 154, hL: -4, kL: -86, hR: 2, kR: -92 }),
-      b: p({ rot: -90, dy: 30, dx: 4, aL: 90, fL: 0, aR: 87, fR: 3, hL: -4, kL: -86, hR: 2, kR: -92 })
-    },
-    'goblet-squat': {
-      name: 'Goblet squat', equip: 'kettle', dur: 2.4,
-      a: p({ t: 10, hL: 5, kL: -5, hR: 3, kR: -3, aL: 16, fL: 138, aR: 12, fR: 142 }),
-      b: p({ t: 34, dy: 30, hL: 60, kL: -120, hR: 57, kR: -117, aL: 16, fL: 138, aR: 12, fR: 142 })
-    },
-    'cable-row': {
-      name: 'Cable row', equip: 'bar', dur: 2.3, prop: P.towerLo + P.seat,
-      a: p({ t: 16, dy: 22, hL: 88, kL: -88, hR: 84, kR: -84, aL: 80, fL: -14, aR: 76, fR: -10 }),
-      b: p({ t: -6, dy: 22, hL: 88, kL: -88, hR: 84, kR: -84, aL: 68, fL: 96, aR: 64, fR: 100 })
-    },
-    'plank': {
-      name: 'Plank', equip: 'none', dur: 3.2, prop: P.mat,
-      a: p(Object.assign({}, PLANK, { aL: -80, fL: 88, aR: -84, fR: 92, hL: 2, kL: 0, hR: -2, kR: 2 })),
-      b: p(Object.assign({}, PLANK, { rot: -77, dy: 44, aL: -83, fL: 91, aR: -87, fR: 95, hL: 2, kL: 0, hR: -2, kR: 2 }))
-    },
-    'russian-twist': {
-      name: 'Russian twist', equip: 'ball', dur: 1.6, prop: P.mat, oneHand: false,
-      a: p({ t: -28, dy: 30, hL: 58, kL: -68, hR: 55, kR: -65, aL: 52, fL: 66, aR: 48, fR: 70 }),
-      b: p({ t: -28, dy: 30, hL: 58, kL: -68, hR: 55, kR: -65, aL: 108, fL: 14, aR: 104, fR: 18 })
-    },
-    'leg-raise': {
-      name: 'Leg raise', equip: 'none', dur: 2.4, prop: P.mat,
-      a: p(Object.assign({}, LIE, { aL: 4, fL: 0, aR: 0, fR: 0, hL: 2, kL: 0, hR: -2, kR: 2 })),
-      b: p(Object.assign({}, LIE, { aL: 4, fL: 0, aR: 0, fR: 0, hL: 90, kL: 0, hR: 86, kR: 4 }))
-    },
-
-    /* ---------- JUMAT · CARDIO & MOBILITY ---------- */
-    'cardio-zone2': {
-      name: 'Cardio zona 2', equip: 'none', dur: 1.4, prop: P.slope,
-      a: p({ t: 14, dy: -26, dx: 0, hL: 34, kL: -20, hR: -28, kR: 24, aL: -30, fL: 22, aR: 30, fR: 22 }),
-      b: p({ t: 14, dy: -26, dx: 0, hL: -28, kL: 24, hR: 34, kR: -20, aL: 30, fL: 22, aR: -30, fR: 22 })
-    },
-    'mobility': {
-      name: 'Mobility & stretching', equip: 'none', dur: 3.0,
-      a: p({ t: 16, hL: 2, kL: 0, hR: 0, kR: 2, aL: 16, fL: 0, aR: 16, fR: 0 }),
-      b: p({ t: 84, dy: 4, hL: -6, kL: 8, hR: -4, kR: 6, aL: 84, fL: 0, aR: 84, fR: 0 })
-    },
-    'side-plank': {
-      name: 'Side plank', equip: 'none', dur: 3.2, prop: P.mat,
-      a: p(Object.assign({}, PLANK, { aL: -80, fL: 88, aR: 100, fR: 0, hL: 2, kL: 0, hR: -2, kR: 2 })),
-      b: p(Object.assign({}, PLANK, { rot: -77, dy: 44, aL: -83, fL: 91, aR: 104, fR: 0, hL: 2, kL: 0, hR: -2, kR: 2 }))
-    },
-    'reverse-crunch': {
-      name: 'Reverse crunch', equip: 'none', dur: 2.2, prop: P.mat,
-      a: p(Object.assign({}, LIE, { aL: 4, fL: 0, aR: 0, fR: 0, hL: 58, kL: -78, hR: 54, kR: -74 })),
-      b: p(Object.assign({}, LIE, { dy: 46, aL: 4, fL: 0, aR: 0, fR: 0, hL: 116, kL: -104, hR: 112, kR: -100 }))
-    },
-
-    /* ---------- WARM-UP & RECOVERY ---------- */
-    'arm-circle': {
-      name: 'Arm circle', equip: 'none', dur: 1.6,
-      a: p({ aL: -158, fL: 0, aR: 22, fR: 0 }),
-      b: p({ aL: 22, fL: 0, aR: -158, fR: 0 })
-    },
-    'push-up': {
-      name: 'Push-up', equip: 'none', dur: 1.8, prop: P.mat,
-      a: p(Object.assign({}, PLANK, { dy: 54, aL: -74, fL: 76, aR: -78, fR: 80, hL: 2, kL: 0, hR: -2, kR: 2 })),
-      b: p(Object.assign({}, PLANK, { aL: -80, fL: 0, aR: -84, fR: 4, hL: 2, kL: 0, hR: -2, kR: 2 }))
-    },
-    'band-pull-apart': {
-      name: 'Band pull-apart', equip: 'none', dur: 1.8,
-      a: p({ aL: 88, fL: 4, aR: 84, fR: 8 }),
-      b: p({ aL: 96, fL: 60, aR: 92, fR: 64 })
-    },
-    'glute-bridge': {
-      name: 'Glute bridge', equip: 'none', dur: 2.4, prop: P.mat,
-      a: p({ rot: -90, dx: -5, dy: 48, aL: 4, fL: 0, aR: 0, fR: 0, hL: 25, kL: -70, hR: 22, kR: -67 }),
-      b: p({ rot: -104, dx: -5, dy: 34, aL: 6, fL: 0, aR: 2, fR: 0, hL: 12, kL: -58, hR: 9, kR: -55 })
-    },
-    'bodyweight-squat': {
-      name: 'Bodyweight squat', equip: 'none', dur: 2.2,
-      a: p({ t: 10, hL: 5, kL: -5, hR: 3, kR: -3, aL: 8, fL: 0, aR: 8, fR: 0 }),
-      b: p({ t: 34, dy: 30, hL: 60, kL: -120, hR: 57, kR: -117, aL: 86, fL: 0, aR: 86, fR: 0 })
-    },
-    'leg-swing': {
-      name: 'Leg swing', equip: 'none', dur: 1.6,
-      a: p({ t: 4, hL: -34, kL: 10, hR: 2, kR: 0, aL: 60, fL: 0, aR: -60, fR: 0 }),
-      b: p({ t: 4, hL: 44, kL: -6, hR: 2, kR: 0, aL: 60, fL: 0, aR: -60, fR: 0 })
-    },
-    'easy-walk': {
-      name: 'Jalan santai', equip: 'none', dur: 1.7,
-      a: p({ t: 4, hL: 24, kL: -12, hR: -20, kR: 16, aL: -20, fL: 12, aR: 20, fR: 12 }),
-      b: p({ t: 4, hL: -20, kL: 16, hR: 24, kR: -12, aL: 20, fL: 12, aR: -20, fR: 12 })
-    },
-    'yoga-stretch': {
-      name: 'Yoga ringan', equip: 'none', dur: 3.4, prop: P.mat,
-      a: p({ t: 66, dy: 30, hL: 0, kL: -88, hR: 4, kR: -92, aL: 4, fL: 0, aR: 8, fR: 0 }),
-      b: p({ t: 88, dy: 32, hL: 0, kL: -88, hR: 4, kR: -92, aL: 24, fL: 0, aR: 28, fR: 0 })
-    },
-    'rest-sleep': {
-      name: 'Istirahat', equip: 'none', dur: 4.0, prop: P.mat,
-      a: p(Object.assign({}, LIE, { dy: 50, aL: 20, fL: 30, aR: 16, fR: 34, hL: -14, kL: -26, hR: -10, kR: -30 })),
-      b: p(Object.assign({}, LIE, { dy: 53, aL: 22, fL: 32, aR: 18, fR: 36, hL: -14, kL: -26, hR: -10, kR: -30 }))
-    }
-  };
-
-  Object.keys(EX).forEach(function (k) { EX[k].id = k; EX[k].cls = 'ex-' + k; });
-
-  global.EXERCISES = EX;
-})(window);
-
-/* =====================================================================
-   data.js — Program latihan mingguan & menu makan
-   ===================================================================== */
+/* data.js — Program Muscle Lab Batam & menu makan.
+   Nama alat, video, tag otot, dan deskripsi berasal dari repo PangFive/gym. */
 window.PROGRAM = {
-  meta: {
-    title: 'Jadwal Gym Mingguan',
-    goal: 'Fat loss + core',
-    days: 5,
-    kcal: '±2050 kkal/hari',
-    protein: '140-150 g',
-    water: '2,5-3 L/hari'
-  },
-
-  days: [
+ "meta": {
+  "title": "Jadwal Gym Mingguan",
+  "gym": "Muscle Lab Batam",
+  "goal": "Fat loss + glute & punggung",
+  "days": 5,
+  "kcal": "±2015 kkal",
+  "protein": "±160 g",
+  "water": "2,5-3 L/hari"
+ },
+ "days": [
+  {
+   "key": "senin",
+   "day": "Senin",
+   "n": 1,
+   "tag": "HARI 1",
+   "title": "Punggung & Postur",
+   "focus": "Tarikan vertikal dan horizontal · prioritas punggung",
+   "minutes": "55-60",
+   "kcal": "320-420",
+   "count": "6+2",
+   "type": "strength",
+   "accent": "lime",
+   "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu band pull-apart dan rotasi bahu 2×15",
+   "main": [
     {
-      key: 'senin', day: 'Senin', n: 1, tag: 'HARI 1',
-      title: 'Upper Body Strength',
-      focus: 'Fokus dada, punggung, bahu · fat loss + core',
-      minutes: '55-60', kcal: '330-430', count: '6+2',
-      type: 'strength', accent: 'lime',
-      warmup: {
-        text: 'Warm-up 5 menit: arm circles, band pull-apart, push-up ringan 2×10',
-        items: ['arm-circle', 'band-pull-apart', 'push-up']
-      },
-      blocks: [{
-        label: 'Latihan utama',
-        items: [
-          { ex: 'bench-press', no: '01', target: 'Dada · Trisep · Bahu depan', name: 'Bench press (barbell/dumbbell)',
-            prescription: '4 × 8-10', rest: 90, note: 'Kontrol turun 2-3 detik', sets: 4 },
-          { ex: 'bent-over-row', no: '02', target: 'Punggung · Bahu · Trisep', name: 'Bent-over row + Overhead press',
-            prescription: '4 × 8-10', rest: 90, note: 'Superset', sets: 4,
-            superset: ['bent-over-row', 'overhead-press'] },
-          { ex: 'lat-pulldown', no: '03', target: 'Lats · Dada atas · Bisep', name: 'Lat pulldown + Incline dumbbell press',
-            prescription: '3 × 10-12', rest: 75, note: 'Superset', sets: 3,
-            superset: ['lat-pulldown', 'incline-db-press'] },
-          { ex: 'face-pull', no: '04', target: 'Bahu belakang · Rotator', name: 'Face pull',
-            prescription: '3 × 15', rest: 45, note: 'Fokus kontraksi bahu belakang', sets: 3 }
-        ]
-      }],
-      finisher: {
-        label: 'Core finisher', duration: '8 menit',
-        items: [
-          { ex: 'cable-crunch', target: 'Rektus abdominis', name: 'Cable crunch / kneeling crunch', prescription: '3 × 15', rest: 45, sets: 3 },
-          { ex: 'bicycle-crunch', target: 'Obliques · Core', name: 'Bicycle crunch', prescription: '3 × 20', rest: 45, sets: 3 }
-        ]
-      }
+     "no": "01",
+     "name": "Assisted Pull Ups",
+     "y": "ZazTACvgXaI",
+     "desc": "Membentuk otot punggung dan lengan dengan gerakan tarik tubuh pada mesin assisted pull up",
+     "primary": [
+      "Punggung atas"
+     ],
+     "secondary": [
+      "Bisep",
+      "Lengan bawah"
+     ],
+     "prescription": "4 × 8-10",
+     "rest": 90,
+     "sets": 4,
+     "note": "Pakai bantuan secukupnya, target berat di rep 9-10"
     },
-
     {
-      key: 'selasa', day: 'Selasa', n: 2, tag: 'HARI 2',
-      title: 'Lower Body Strength',
-      focus: 'Fokus quad, hamstring, glute · fat loss + core',
-      minutes: '55-60', kcal: '330-430', count: '5+2',
-      type: 'strength', accent: 'lime',
-      warmup: {
-        text: 'Warm-up 5 menit: bodyweight squat 2×15, leg swing, hip circles',
-        items: ['bodyweight-squat', 'leg-swing']
-      },
-      blocks: [{
-        label: 'Latihan utama',
-        items: [
-          { ex: 'squat', no: '01', target: 'Quad · Glute · Core', name: 'Squat (barbell/goblet)',
-            prescription: '4 × 8-10', rest: 120, note: 'Compound utama, prioritaskan form', sets: 4 },
-          { ex: 'romanian-deadlift', no: '02', target: 'Hamstring · Glute · Punggung bawah', name: 'Romanian deadlift',
-            prescription: '4 × 8-10', rest: 90, note: 'Jaga punggung netral', sets: 4 },
-          { ex: 'walking-lunge', no: '03', target: 'Quad · Glute · Hamstring', name: 'Walking lunges + Leg curl',
-            prescription: '3 × 12', rest: 75, note: 'Superset', sets: 3,
-            superset: ['walking-lunge', 'leg-curl'] },
-          { ex: 'calf-raise', no: '04', target: 'Betis', name: 'Calf raise',
-            prescription: '3 × 15', rest: 45, note: 'Tempo lambat, tahan di puncak', sets: 3 }
-        ]
-      }],
-      finisher: {
-        label: 'Core finisher', duration: '8 menit',
-        items: [
-          { ex: 'hanging-leg-raise', target: 'Lower abs · Hip flexor', name: 'Hanging leg raise', prescription: '3 × 12', rest: 45, sets: 3 },
-          { ex: 'dead-bug', target: 'Core stability', name: 'Dead bug', prescription: '3 × 12/sisi', rest: 45, sets: 3 }
-        ]
-      }
+     "no": "02",
+     "name": "Chest Supported Bar Row",
+     "y": "mSn5evH_N1U",
+     "desc": "Membentuk otot punggung dan lengan dengan gerakan menarik beban ke arah tubuh pada mesin chest support bar row, sambil menjaga dada tetap menempel pada bantalan agar gerakan lebih stabil dan fokus ke otot punggung.",
+     "primary": [
+      "Punggung atas"
+     ],
+     "secondary": [
+      "Bisep",
+      "Trapezius",
+      "Bahu"
+     ],
+     "prescription": "4 × 10",
+     "rest": 90,
+     "sets": 4,
+     "note": "Dada tetap menempel bantalan, tarik siku ke belakang"
     },
-
     {
-      key: 'rabu', day: 'Rabu', n: 3, tag: 'HARI 3',
-      title: 'HIIT / Conditioning',
-      focus: 'Sesi fat-burn utama minggu ini + core built-in',
-      minutes: '35', kcal: '350-500', count: '5×4',
-      type: 'hiit', accent: 'orange',
-      warmup: {
-        text: 'Warm-up 5 menit: jogging ringan di tempat, dynamic stretching',
-        items: ['high-knees', 'leg-swing']
-      },
-      hiit: { work: 40, rest: 20, rounds: 4, roundRest: 90 },
-      blocks: [{
-        label: 'Circuit — 40 detik kerja / 20 detik istirahat',
-        items: [
-          { ex: 'kettlebell-swing', no: '01', target: 'Glute · Hamstring · Core', name: 'Kettlebell swing', prescription: '40 dtk kerja · 20 dtk istirahat', rest: 20, sets: 4 },
-          { ex: 'box-jump', no: '02', target: 'Quad · Glute · Power', name: 'Box jump / step-up', prescription: '40 dtk kerja · 20 dtk istirahat', rest: 20, sets: 4 },
-          { ex: 'jumping-jack', no: '03', target: 'Full body · Kardio', name: 'Jumping jack / high knees', prescription: '40 dtk kerja · 20 dtk istirahat', rest: 20, sets: 4 },
-          { ex: 'mountain-climber', no: '04', target: 'Core · Bahu · Kardio', name: 'Mountain climber', prescription: '40 dtk kerja · 20 dtk istirahat', rest: 20, sets: 4 },
-          { ex: 'plank-shoulder-tap', no: '05', target: 'Core · Bahu · Anti-rotasi', name: 'Plank shoulder tap (core)', prescription: '40 dtk kerja · 20 dtk istirahat', rest: 90, note: 'Ulangi 4 putaran, istirahat 90 detik antar putaran', sets: 4 }
-        ]
-      }],
-      cooldown: 'Cool down 5 menit: stretching menyeluruh, fokus napas'
+     "no": "03",
+     "name": "Vertical Pulldown Machine",
+     "y": "A7r3NAwFZFI",
+     "desc": "Membentuk otot punggung dengan gerakan tarik dari atas ke bawah.",
+     "primary": [
+      "Punggung atas"
+     ],
+     "secondary": [
+      "Bisep"
+     ],
+     "prescription": "3 × 12",
+     "rest": 75,
+     "sets": 3,
+     "note": "Tarik sampai dada atas, jangan ayun badan"
     },
-
     {
-      key: 'kamis', day: 'Kamis', n: 4, tag: 'HARI 4',
-      title: 'Full Body Push-Pull',
-      focus: 'Compound terberat minggu ini + core circuit',
-      minutes: '55-65', kcal: '330-430', count: '5+3',
-      type: 'strength', accent: 'lime',
-      warmup: {
-        text: 'Warm-up 5 menit: dynamic stretch full body, glute bridge 2×10',
-        items: ['mobility', 'glute-bridge']
-      },
-      blocks: [{
-        label: 'Latihan utama',
-        items: [
-          { ex: 'deadlift', no: '01', target: 'Posterior chain · Grip', name: 'Deadlift', prescription: '4 × 6-8', rest: 120, note: 'Compound terberat, prioritas form', sets: 4 },
-          { ex: 'push-press', no: '02', target: 'Bahu · Trisep · Kaki', name: 'Push press', prescription: '4 × 8', rest: 90, sets: 4 },
-          { ex: 'pull-up', no: '03', target: 'Lats · Bisep · Dada', name: 'Pull-up (assisted jika perlu) + Dumbbell chest press',
-            prescription: '3 × 8-10', rest: 90, note: 'Superset', sets: 3, superset: ['pull-up', 'db-chest-press'] },
-          { ex: 'goblet-squat', no: '04', target: 'Quad · Glute · Punggung', name: 'Goblet squat + Cable row',
-            prescription: '3 × 12', rest: 75, note: 'Superset', sets: 3, superset: ['goblet-squat', 'cable-row'] }
-        ]
-      }],
-      finisher: {
-        label: 'Core circuit', duration: '3 putaran',
-        items: [
-          { ex: 'plank', target: 'Core · Anti-ekstensi', name: 'Plank', prescription: '30 detik', rest: 30, sets: 3 },
-          { ex: 'russian-twist', target: 'Obliques', name: 'Russian twist', prescription: '20×', rest: 30, sets: 3 },
-          { ex: 'leg-raise', target: 'Lower abs', name: 'Leg raise', prescription: '15×', rest: 45, sets: 3 }
-        ]
-      }
+     "no": "04",
+     "name": "Low Row Machine",
+     "y": "rqIsqcufVH4",
+     "desc": "Membentuk otot punggung dengan gerakan tarik ke arah tubuh.",
+     "primary": [
+      "Punggung atas"
+     ],
+     "secondary": [
+      "Bisep",
+      "Trapezius"
+     ],
+     "prescription": "3 × 12",
+     "rest": 75,
+     "sets": 3,
+     "note": "Jaga dada terbuka, tahan 1 detik saat tertarik"
     },
-
     {
-      key: 'jumat', day: 'Jumat', n: 5, tag: 'HARI 5',
-      title: 'Steady-State Cardio',
-      focus: 'Zona 2 fat-burn + core + mobility',
-      minutes: '50-60', kcal: '300-400', count: '3',
-      type: 'cardio', accent: 'cyan',
-      warmup: { text: 'Warm-up 5 menit: jalan santai, dynamic stretching', items: ['easy-walk'] },
-      blocks: [{
-        label: 'Sesi',
-        items: [
-          { ex: 'cardio-zone2', no: '01', target: 'Jantung · Endurance', name: 'Cardio zona 2',
-            prescription: '30-40 menit', rest: 0, note: 'Jalan cepat incline / sepeda / rowing · heart rate 60-70% max', sets: 1 },
-          { ex: 'mobility', no: '02', target: 'Fleksibilitas · Mobilitas', name: 'Mobility & stretching',
-            prescription: '15 menit', rest: 0, note: 'Hip flexor, hamstring, thoracic spine, bahu', sets: 1 }
-        ]
-      }],
-      finisher: {
-        label: 'Core finisher', duration: '8 menit',
-        items: [
-          { ex: 'side-plank', target: 'Obliques · Lateral core', name: 'Side plank', prescription: '30 detik/sisi × 2', rest: 30, sets: 2 },
-          { ex: 'reverse-crunch', target: 'Lower abs', name: 'Reverse crunch', prescription: '3 × 15', rest: 45, sets: 3 }
-        ]
-      }
+     "no": "05",
+     "name": "Mid Back / Rear Delt Row",
+     "y": "OpALf1C_3JY",
+     "desc": "Membentuk otot bahu dan punggung dengan gerakan membuka lengan pada mesin rear delt / mid back fly",
+     "primary": [
+      "Punggung atas",
+      "Bahu"
+     ],
+     "secondary": [
+      "Trapezius"
+     ],
+     "prescription": "3 × 15",
+     "rest": 60,
+     "sets": 3,
+     "note": "Beban ringan, ini untuk postur bukan untuk berat"
     },
-
     {
-      key: 'sabtu', day: 'Sabtu', n: 6, tag: 'RECOVERY',
-      title: 'Active Recovery',
-      focus: 'Jalan santai 20-30 menit atau yoga ringan (opsional)',
-      minutes: '20-30', kcal: '80-150', count: '1',
-      type: 'rest', accent: 'slate',
-      blocks: [{
-        label: 'Opsional',
-        items: [
-          { ex: 'easy-walk', no: '01', target: 'Recovery aktif', name: 'Jalan santai', prescription: '20-30 menit', rest: 0, sets: 1 },
-          { ex: 'yoga-stretch', no: '02', target: 'Relaksasi · Fleksibilitas', name: 'Yoga ringan', prescription: '15-20 menit', rest: 0, sets: 1 }
-        ]
-      }]
-    },
-
-    {
-      key: 'minggu', day: 'Minggu', n: 7, tag: 'RECOVERY',
-      title: 'Full Rest',
-      focus: 'Otot tumbuh saat istirahat, bukan saat latihan',
-      minutes: '—', kcal: '—', count: '0',
-      type: 'rest', accent: 'slate',
-      blocks: [{
-        label: 'Recovery',
-        items: [
-          { ex: 'rest-sleep', no: '01', target: 'Recovery total', name: 'Full rest · tidur 7-8 jam', prescription: 'Recovery otot', rest: 0, sets: 1 }
-        ]
-      }]
+     "no": "06",
+     "name": "Preacher Curl Machine",
+     "y": "pq_piY5hUcI",
+     "desc": "Membentuk otot bicep dengan gerakan angkat beban pada mesin preacher curl posisi duduk.",
+     "primary": [
+      "Bisep"
+     ],
+     "secondary": [
+      "Lengan bawah"
+     ],
+     "prescription": "3 × 12",
+     "rest": 45,
+     "sets": 3,
+     "note": "Turunkan pelan 3 detik"
     }
-  ],
-
-  meals: {
-    total: '±2050 kkal',
-    note: 'Protein 140-150 g · air 2,5-3 L/hari',
-    items: [
-      { slot: 'Sarapan', time: '07.00', desc: '2 telur rebus/orak-arik + roti gandum 2 lembar + ½ alpukat', kcal: 450 },
-      { slot: 'Snack siang', time: '10.30', desc: 'Greek yogurt/susu rendah lemak + segenggam almond', kcal: 150 },
-      { slot: 'Makan siang', time: '12.30', desc: 'Nasi 150 g + dada ayam panggang 150 g + tumis sayur + tempe/tahu', kcal: 600 },
-      { slot: 'Snack sore', time: '16.30', desc: 'Buah (pisang/apel) + protein shake (habis gym)', kcal: 150 },
-      { slot: 'Makan malam', time: '19.00', desc: 'Ikan panggang 150 g + nasi merah/kentang porsi kecil + sayur rebus', kcal: 550 }
+   ],
+   "finisher": {
+    "label": "Core & kardio",
+    "duration": "12 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Abs Crunches Machine",
+      "y": "xtSmy9vbbUo",
+      "desc": "Membentuk otot perut dengan gerakan menekuk tubuh ke depan.",
+      "primary": [
+       "Perut"
+      ],
+      "secondary": [
+       "Obliques"
+      ],
+      "prescription": "3 × 15",
+      "rest": 45,
+      "sets": 3,
+      "note": "Embuskan napas saat menekuk"
+     },
+     {
+      "no": "",
+      "name": "Kardio zona 2",
+      "y": null,
+      "desc": "",
+      "primary": [
+       "Jantung"
+      ],
+      "secondary": [
+       "Endurance"
+      ],
+      "prescription": "10 menit",
+      "rest": 0,
+      "sets": 1,
+      "note": "Treadmill incline atau sepeda, detak jantung 60-70% maks"
+     }
     ]
+   }
+  },
+  {
+   "key": "selasa",
+   "day": "Selasa",
+   "n": 2,
+   "tag": "HARI 2",
+   "title": "Glute & Hamstring",
+   "focus": "Dorongan pinggul dan tekukan lutut · prioritas glute",
+   "minutes": "55-60",
+   "kcal": "330-430",
+   "count": "6+1",
+   "type": "strength",
+   "accent": "lime",
+   "warmup": "Warm-up 8 menit, sepeda ringan 5 menit lalu glute bridge badan sendiri 2×15",
+   "main": [
+    {
+     "no": "01",
+     "name": "Selectorized Hip Thruster",
+     "y": "qiT8JA6QNZk",
+     "desc": "Membentuk otot glutes dengan gerakan dorong pinggul ke atas.",
+     "primary": [
+      "Glute"
+     ],
+     "secondary": [
+      "Hamstring"
+     ],
+     "prescription": "4 × 10",
+     "rest": 90,
+     "sets": 4,
+     "note": "Tahan 2 detik di puncak, dagu tetap menunduk"
+    },
+    {
+     "no": "02",
+     "name": "3D Smith Hip Thrust",
+     "y": "q7PkctCiztw",
+     "desc": "Membentuk otot glutes gerakan dorong pinggul ke atas pada jalur smith machine.",
+     "primary": [
+      "Glute"
+     ],
+     "secondary": [
+      "Hamstring"
+     ],
+     "prescription": "3 × 10",
+     "rest": 90,
+     "sets": 3,
+     "note": "Variasi kedua, jalur smith bikin tumpuan lebih stabil"
+    },
+    {
+     "no": "03",
+     "name": "Lying Leg Curl",
+     "y": "LsAWJKoinps",
+     "desc": "Membentuk otot paha belakang dengan gerakan tekuk kaki dari posisi berbaring.",
+     "primary": [
+      "Hamstring"
+     ],
+     "secondary": [
+      "Betis"
+     ],
+     "prescription": "4 × 12",
+     "rest": 60,
+     "sets": 4,
+     "note": "Turun pelan 3 detik, pinggul jangan terangkat"
+    },
+    {
+     "no": "04",
+     "name": "Standing Hip Thrust",
+     "y": "JQYf173p95g",
+     "desc": "Membentuk otot glutes dengan gerakan dorong pinggul dari posisi duduk-berdiri.",
+     "primary": [
+      "Glute"
+     ],
+     "secondary": [
+      "Hamstring"
+     ],
+     "prescription": "3 × 12 / sisi",
+     "rest": 60,
+     "sets": 3,
+     "note": "Satu kaki bergantian, pinggul jangan miring"
+    },
+    {
+     "no": "05",
+     "name": "Selectorized Abduction/Adduction Machine",
+     "y": "Ye2nepVGeGs",
+     "desc": "Membentuk otot paha dalam dan luar dengan gerakan buka-tutup kaki.",
+     "primary": [
+      "Adduktor",
+      "Glute"
+     ],
+     "secondary": [],
+     "prescription": "3 × 15",
+     "rest": 45,
+     "sets": 3,
+     "note": "Pakai dua arah, buka lalu tutup"
+    },
+    {
+     "no": "06",
+     "name": "Standing Abduction",
+     "y": "Z3SNVwU-udQ",
+     "desc": "Membentuk otot bokong luar dengan gerakan membuka kaki ke samping.",
+     "primary": [
+      "Glute"
+     ],
+     "secondary": [],
+     "prescription": "3 × 15 / sisi",
+     "rest": 45,
+     "sets": 3,
+     "note": "Badan tegak, jangan dibantu ayunan"
+    }
+   ],
+   "finisher": {
+    "label": "Core",
+    "duration": "8 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Multi Back Extension",
+      "y": "9frfHier_iA",
+      "desc": "Membentuk otot punggung bawah dengan gerakan menekuk lalu dorong tubuh ke belakang.",
+      "primary": [
+       "Punggung bawah"
+      ],
+      "secondary": [
+       "Glute",
+       "Hamstring"
+      ],
+      "prescription": "3 × 12",
+      "rest": 45,
+      "sets": 3,
+      "note": "Berhenti sejajar badan, jangan melengkung berlebihan"
+     }
+    ]
+   }
+  },
+  {
+   "key": "rabu",
+   "day": "Rabu",
+   "n": 3,
+   "tag": "HARI 3",
+   "title": "HIIT & Core",
+   "focus": "Sesi pembakaran utama minggu ini",
+   "minutes": "40",
+   "kcal": "350-500",
+   "count": "1+3",
+   "type": "hiit",
+   "accent": "orange",
+   "warmup": "Warm-up 5 menit, jogging ringan di tempat lalu dynamic stretching",
+   "hiit": {
+    "work": 40,
+    "rest": 20,
+    "rounds": 6,
+    "roundRest": 60
+   },
+   "main": [
+    {
+     "no": "01",
+     "name": "HIIT 40 / 20",
+     "y": null,
+     "desc": "",
+     "primary": [
+      "Jantung"
+     ],
+     "secondary": [
+      "Endurance"
+     ],
+     "prescription": "6 putaran × 3 blok",
+     "rest": 0,
+     "sets": 3,
+     "note": "Treadmill, sepeda, atau rowing. 40 detik keras, 20 detik pelan, istirahat 60 detik antar blok"
+    }
+   ],
+   "finisher": {
+    "label": "Core circuit",
+    "duration": "3 putaran",
+    "items": [
+     {
+      "no": "",
+      "name": "Abs Crunches Machine",
+      "y": "xtSmy9vbbUo",
+      "desc": "Membentuk otot perut dengan gerakan menekuk tubuh ke depan.",
+      "primary": [
+       "Perut"
+      ],
+      "secondary": [
+       "Obliques"
+      ],
+      "prescription": "3 × 15",
+      "rest": 30,
+      "sets": 3,
+      "note": ""
+     },
+     {
+      "no": "",
+      "name": "Hyperextension bench - TBH",
+      "y": "5-Lw-5hn4pA",
+      "desc": "",
+      "primary": [
+       "Punggung bawah"
+      ],
+      "secondary": [
+       "Glute",
+       "Hamstring"
+      ],
+      "prescription": "3 × 12",
+      "rest": 30,
+      "sets": 3,
+      "note": "Berhenti sejajar badan"
+     },
+     {
+      "no": "",
+      "name": "Multi Back Extension",
+      "y": "9frfHier_iA",
+      "desc": "Membentuk otot punggung bawah dengan gerakan menekuk lalu dorong tubuh ke belakang.",
+      "primary": [
+       "Punggung bawah"
+      ],
+      "secondary": [
+       "Glute",
+       "Hamstring"
+      ],
+      "prescription": "3 × 15",
+      "rest": 45,
+      "sets": 3,
+      "note": ""
+     }
+    ]
+   },
+   "cooldown": "Cool down 5 menit, stretching menyeluruh dan atur napas"
+  },
+  {
+   "key": "kamis",
+   "day": "Kamis",
+   "n": 4,
+   "tag": "HARI 4",
+   "title": "Dada, Bahu & Lengan",
+   "focus": "Semua pola dorong · penyeimbang hari punggung",
+   "minutes": "55-60",
+   "kcal": "320-420",
+   "count": "6+2",
+   "type": "strength",
+   "accent": "lime",
+   "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu rotasi bahu dan push-up ringan 2×10",
+   "main": [
+    {
+     "no": "01",
+     "name": "Incline Press Machine",
+     "y": "1GT1OEbYgx0",
+     "desc": "Membentuk otot dada atas dengan gerakan mendorong beban pada mesin incline press.",
+     "primary": [
+      "Dada"
+     ],
+     "secondary": [
+      "Bahu",
+      "Trisep"
+     ],
+     "prescription": "4 × 8-10",
+     "rest": 90,
+     "sets": 4,
+     "note": "Turunkan 3 detik, jangan memantul di dada"
+    },
+    {
+     "no": "02",
+     "name": "Selectorized Chest Press",
+     "y": "-zLwVSx2Pfc",
+     "desc": "Membentuk otot dada dengan gerakan dorong menggunakan mesin beban pin.",
+     "primary": [
+      "Dada"
+     ],
+     "secondary": [
+      "Trisep",
+      "Bahu"
+     ],
+     "prescription": "3 × 10-12",
+     "rest": 75,
+     "sets": 3,
+     "note": "Siku sekitar 45 derajat dari badan"
+    },
+    {
+     "no": "03",
+     "name": "Incline Pec Fly",
+     "y": "Var03-DzaDU",
+     "desc": "Membentuk otot dada atas dengan gerakan buka-tutup lengan dari posisi bawah ke atas.",
+     "primary": [
+      "Dada"
+     ],
+     "secondary": [
+      "Bahu"
+     ],
+     "prescription": "3 × 12",
+     "rest": 60,
+     "sets": 3,
+     "note": "Siku sedikit menekuk dan dikunci, rasakan regangan dada"
+    },
+    {
+     "no": "04",
+     "name": "Selectorized Shoulder Press",
+     "y": "2rLOU1EasEg",
+     "desc": "Membentuk otot bahu dengan gerakan mendorong beban ke atas pada mesin shoulder press.",
+     "primary": [
+      "Bahu"
+     ],
+     "secondary": [
+      "Trisep"
+     ],
+     "prescription": "3 × 10",
+     "rest": 75,
+     "sets": 3,
+     "note": "Jangan melengkungkan punggung bawah"
+    },
+    {
+     "no": "05",
+     "name": "Standing Multi Flight",
+     "y": "Rxy-bs9e6aM",
+     "desc": "Membentuk otot bahu samping / dada dengan variasi gerakan berbeda.",
+     "primary": [
+      "Bahu"
+     ],
+     "secondary": [
+      "Dada"
+     ],
+     "prescription": "3 × 15",
+     "rest": 45,
+     "sets": 3,
+     "note": "Beban ringan, angkat sampai sejajar bahu saja"
+    },
+    {
+     "no": "06",
+     "name": "Tricep / Dip Press",
+     "y": "fsA4v2GXM0o",
+     "desc": "Membentuk otot trisep dan dada dengan gerakan menekan beban pada mesin tricep / dip press",
+     "primary": [
+      "Trisep"
+     ],
+     "secondary": [
+      "Dada"
+     ],
+     "prescription": "3 × 12",
+     "rest": 45,
+     "sets": 3,
+     "note": "Siku rapat ke badan"
+    }
+   ],
+   "finisher": {
+    "label": "Core & kardio",
+    "duration": "12 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Abs Crunches Machine",
+      "y": "xtSmy9vbbUo",
+      "desc": "Membentuk otot perut dengan gerakan menekuk tubuh ke depan.",
+      "primary": [
+       "Perut"
+      ],
+      "secondary": [
+       "Obliques"
+      ],
+      "prescription": "3 × 15",
+      "rest": 45,
+      "sets": 3,
+      "note": ""
+     },
+     {
+      "no": "",
+      "name": "Kardio zona 2",
+      "y": null,
+      "desc": "",
+      "primary": [
+       "Jantung"
+      ],
+      "secondary": [
+       "Endurance"
+      ],
+      "prescription": "10 menit",
+      "rest": 0,
+      "sets": 1,
+      "note": "Treadmill incline atau sepeda, detak jantung 60-70% maks"
+     }
+    ]
+   }
+  },
+  {
+   "key": "jumat",
+   "day": "Jumat",
+   "n": 5,
+   "tag": "HARI 5",
+   "title": "Quad, Betis & Zona 2",
+   "focus": "Kaki depan lalu kardio panjang",
+   "minutes": "55-60",
+   "kcal": "380-480",
+   "count": "4+2",
+   "type": "cardio",
+   "accent": "cyan",
+   "warmup": "Warm-up 8 menit, sepeda ringan 5 menit lalu squat badan sendiri 2×15",
+   "main": [
+    {
+     "no": "01",
+     "name": "Hack Squat Machine",
+     "y": "Qtj-dgGsd8A",
+     "desc": "Membentuk otot kaki dengan sandaran pinggang gerakan squat.",
+     "primary": [
+      "Quad"
+     ],
+     "secondary": [
+      "Glute"
+     ],
+     "prescription": "4 × 8-10",
+     "rest": 120,
+     "sets": 4,
+     "note": "Compound terberat hari ini, utamakan kedalaman dan form"
+    },
+    {
+     "no": "02",
+     "name": "GYM80 Leg Press",
+     "y": "xdVuPn-7Mws",
+     "desc": "Membentuk otot kaki dengan gerakan mendorong beban pada mesin leg press.",
+     "primary": [
+      "Quad"
+     ],
+     "secondary": [
+      "Glute",
+      "Hamstring"
+     ],
+     "prescription": "3 × 12",
+     "rest": 90,
+     "sets": 3,
+     "note": "Lutut sejajar jari kaki, jangan dikunci di atas"
+    },
+    {
+     "no": "03",
+     "name": "Leg Extension / Leg Curl Machine",
+     "y": "KHx9oncpBKs",
+     "desc": "Membentuk otot paha depan atas belakang dengan gerakan terpisah.",
+     "primary": [
+      "Quad",
+      "Hamstring"
+     ],
+     "secondary": [],
+     "prescription": "3 × 12",
+     "rest": 60,
+     "sets": 3,
+     "note": "Pakai dua fungsi, extension lalu curl"
+    },
+    {
+     "no": "04",
+     "name": "Standing Calves Machine",
+     "y": "pugB9CtYSJU",
+     "desc": "Melatih otot betis saat berdiri dengan sandaran bantalan.",
+     "primary": [
+      "Betis"
+     ],
+     "secondary": [],
+     "prescription": "3 × 15",
+     "rest": 45,
+     "sets": 3,
+     "note": "Tempo lambat, tahan 2 detik di puncak"
+    }
+   ],
+   "finisher": {
+    "label": "Kardio & core",
+    "duration": "35 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Kardio zona 2",
+      "y": null,
+      "desc": "",
+      "primary": [
+       "Jantung"
+      ],
+      "secondary": [
+       "Endurance"
+      ],
+      "prescription": "25-30 menit",
+      "rest": 0,
+      "sets": 1,
+      "note": "Jalan cepat incline, sepeda, atau rowing. Detak jantung 60-70% maks, masih sanggup bicara"
+     },
+     {
+      "no": "",
+      "name": "Abs Crunches Machine",
+      "y": "xtSmy9vbbUo",
+      "desc": "Membentuk otot perut dengan gerakan menekuk tubuh ke depan.",
+      "primary": [
+       "Perut"
+      ],
+      "secondary": [
+       "Obliques"
+      ],
+      "prescription": "3 × 15",
+      "rest": 45,
+      "sets": 3,
+      "note": ""
+     }
+    ]
+   }
+  },
+  {
+   "key": "sabtu",
+   "day": "Sabtu",
+   "n": 6,
+   "tag": "RECOVERY",
+   "title": "Active Recovery",
+   "focus": "Jalan santai 20-30 menit atau mobility ringan",
+   "minutes": "20-30",
+   "kcal": "80-150",
+   "count": "2",
+   "type": "rest",
+   "accent": "slate",
+   "main": [
+    {
+     "no": "01",
+     "name": "Jalan santai",
+     "y": null,
+     "desc": "",
+     "primary": [
+      "Jantung"
+     ],
+     "secondary": [
+      "Endurance"
+     ],
+     "prescription": "20-30 menit",
+     "rest": 0,
+     "sets": 1,
+     "note": "Santai saja, tujuannya melancarkan pemulihan"
+    },
+    {
+     "no": "02",
+     "name": "Mobility & stretching",
+     "y": null,
+     "desc": "",
+     "primary": [
+      "Jantung"
+     ],
+     "secondary": [
+      "Endurance"
+     ],
+     "prescription": "15 menit",
+     "rest": 0,
+     "sets": 1,
+     "note": "Hip flexor, hamstring, thoracic spine, dan bahu"
+    }
+   ]
+  },
+  {
+   "key": "minggu",
+   "day": "Minggu",
+   "n": 7,
+   "tag": "RECOVERY",
+   "title": "Full Rest",
+   "focus": "Otot tumbuh saat istirahat, bukan saat latihan",
+   "minutes": "—",
+   "kcal": "—",
+   "count": "0",
+   "type": "rest",
+   "accent": "slate",
+   "main": [
+    {
+     "no": "01",
+     "name": "Full rest · tidur 7-8 jam",
+     "y": null,
+     "desc": "",
+     "primary": [
+      "Jantung"
+     ],
+     "secondary": [
+      "Endurance"
+     ],
+     "prescription": "Recovery otot",
+     "rest": 0,
+     "sets": 1,
+     "note": "Tidur cukup menentukan hasil minggu depan"
+    }
+   ]
   }
+ ],
+ "meals": {
+  "total": "±2015 kkal",
+  "note": "Protein ±160 g · air 2,5-3 L/hari · tanpa ikan, tanpa whey, kacang hanya edamame",
+  "items": [
+   {
+    "slot": "Sarapan",
+    "time": "07.00",
+    "desc": "3 telur orak-arik + roti gandum 2 lembar + ½ alpukat",
+    "kcal": 490,
+    "p": 27
+   },
+   {
+    "slot": "Snack pagi",
+    "time": "10.30",
+    "desc": "Greek yogurt plain 200 g + segenggam buah beri",
+    "kcal": 180,
+    "p": 18
+   },
+   {
+    "slot": "Makan siang",
+    "time": "12.30",
+    "desc": "Nasi putih 150 g + dada ayam panggang 130 g + tumis sayur + tempe 50 g",
+    "kcal": 590,
+    "p": 56
+   },
+   {
+    "slot": "Snack sore",
+    "time": "16.30",
+    "desc": "Edamame kukus 120 g + pisang",
+    "kcal": 235,
+    "p": 14
+   },
+   {
+    "slot": "Makan malam",
+    "time": "19.00",
+    "desc": "Nasi merah 130 g + daging sapi has dalam 120 g + sayur rebus + tahu 100 g",
+    "kcal": 520,
+    "p": 46
+   }
+  ]
+ }
 };
 
 /* =====================================================================
-   app.js — logika Gymplan
+   app.js — Gymplan, program Muscle Lab Batam
    ===================================================================== */
 (function () {
   'use strict';
 
-  var P = window.PROGRAM, EX = window.EXERCISES, F = window.Figure;
+  var P = window.PROGRAM;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); };
+  var mmss = function (s) { return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(Math.floor(s % 60)).padStart(2, '0'); };
 
-  /* ---------------- CSS animasi figur ---------------- */
-  (function injectFigureCss() {
-    var css = Object.keys(EX).map(function (k) { return F.css(EX[k]); }).join('\n');
-    var st = document.createElement('style');
-    st.id = 'figure-anim';
-    st.textContent = css;
-    document.head.appendChild(st);
-  })();
-
-  function figure(id) {
-    var e = EX[id];
-    return e ? F.build(e) : '';
-  }
-
-  /* ---------------- daftar item yang bisa dicentang ---------------- */
-  function itemsOf(day) {
-    var out = [];
-    (day.blocks || []).forEach(function (b, bi) {
-      b.items.forEach(function (it, ii) {
-        out.push(Object.assign({}, it, { id: day.key + '-m' + bi + ii, group: 'main', blockLabel: b.label }));
-      });
-    });
-    if (day.finisher) {
-      day.finisher.items.forEach(function (it, ii) {
-        out.push(Object.assign({}, it, { id: day.key + '-f' + ii, group: 'finisher', blockLabel: day.finisher.label }));
-      });
-    }
-    return out;
-  }
-  P.days.forEach(function (d) { d._items = itemsOf(d); d._totalSets = d._items.reduce(function (a, b) { return a + (b.sets || 1); }, 0); });
+  /* ---------------- daftar item per hari ---------------- */
+  P.days.forEach(function (d) {
+    var items = [];
+    (d.main || []).forEach(function (it, i) { items.push(Object.assign({}, it, { id: d.key + '-m' + i, group: 'main' })); });
+    if (d.finisher) d.finisher.items.forEach(function (it, i) { items.push(Object.assign({}, it, { id: d.key + '-f' + i, group: 'fin' })); });
+    d._items = items;
+    d._total = items.reduce(function (a, b) { return a + (b.sets || 1); }, 0);
+  });
 
   /* ---------------- penyimpanan ---------------- */
-  var KEY = 'gymplan.v1';
-  function weekKey(d) {
-    d = d || new Date();
-    var t = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    var dow = (t.getDay() + 6) % 7;              // 0 = Senin
-    t.setDate(t.getDate() - dow);
+  var KEY = 'gymplan.v2';
+  function weekKey(x) {
+    var t = new Date(x || Date.now());
+    t = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+    t.setDate(t.getDate() - ((t.getDay() + 6) % 7));
     return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
   }
   var state = { week: weekKey(), done: {} };
-  try {
-    var raw = localStorage.getItem(KEY);
-    if (raw) { var s = JSON.parse(raw); if (s && s.week === state.week) state = s; }
-  } catch (e) { /* storage tidak tersedia — jalan tanpa simpan */ }
+  try { var raw = localStorage.getItem(KEY); if (raw) { var s = JSON.parse(raw); if (s && s.week === state.week) state = s; } } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
-
-  function doneSets(id) { return state.done[id] || 0; }
+  var doneSets = function (id) { return state.done[id] || 0; };
   function setDone(id, n) { if (n <= 0) delete state.done[id]; else state.done[id] = n; save(); }
-
-  function dayProgress(day) {
-    var total = day._totalSets || 1, got = 0;
-    day._items.forEach(function (it) { got += Math.min(doneSets(it.id), it.sets || 1); });
-    return { got: got, total: total, pct: Math.round(got / total * 100) };
+  function dayProgress(d) {
+    var got = 0;
+    d._items.forEach(function (it) { got += Math.min(doneSets(it.id), it.sets || 1); });
+    return { got: got, total: d._total || 1, pct: Math.round(got / (d._total || 1) * 100) };
   }
 
-  /* ---------------- util ---------------- */
   var DOW = ['minggu', 'senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'];
-  function todayKey() { return DOW[new Date().getDay()]; }
-  function dayByKey(k) { return P.days.filter(function (d) { return d.key === k; })[0] || P.days[0]; }
-  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
-  function mmss(s) { return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(Math.floor(s % 60)).padStart(2, '0'); }
-
-  /* ---------------- kartu hari ini (hero) ---------------- */
-  function renderToday() {
-    var d = dayByKey(todayKey());
-    var first = d._items[0];
-    $('#todayCard').innerHTML =
-      '<div class="today-flag">Hari ini · ' + esc(d.day) + '</div>' +
-      '<h3>' + esc(d.title) + '</h3>' +
-      '<div class="fig-box">' + figure(first ? first.ex : 'easy-walk') + '</div>' +
-      '<div class="today-meta">' +
-        '<span><b>' + esc(d.minutes) + '</b> menit</span>' +
-        '<span><b>' + esc(d.kcal) + '</b> kkal</span>' +
-        '<span><b>' + esc(d.count) + '</b> gerakan</span>' +
-      '</div>';
-  }
-
-  /* ---------------- kartu jadwal ---------------- */
-  function ring(pct) {
-    var r = 17, c = 2 * Math.PI * r;
-    return '<svg class="ring" viewBox="0 0 42 42" aria-hidden="true">' +
-      '<circle class="bgc" cx="21" cy="21" r="' + r + '"/>' +
-      '<circle class="fgc" cx="21" cy="21" r="' + r + '" stroke-dasharray="' + c.toFixed(1) + '" ' +
-      'stroke-dashoffset="' + (c * (1 - pct / 100)).toFixed(1) + '" transform="rotate(-90 21 21)"/>' +
-      '<text x="21" y="22">' + pct + '</text></svg>';
-  }
-
+  var todayKey = function () { return DOW[new Date().getDay()]; };
+  var byKey = function (k) { return P.days.filter(function (d) { return d.key === k; })[0] || P.days[0]; };
   var selected = todayKey();
 
+  /* ---------------- ikon ---------------- */
+  var ICON = {
+    beranda: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
+    jadwal: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/>',
+    latihan: '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
+    menu: '<path d="M4 4v7a3 3 0 0 0 3 3v7M7 4v6M10 4v6"/><path d="M17 4c-1.5 2-2 4-2 7h4c0-3-.5-5-2-7ZM17 11v10"/>',
+    progres: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'
+  };
+  var TABS = [['beranda', 'Beranda'], ['jadwal', 'Jadwal'], ['latihan', 'Latihan'], ['menu', 'Menu'], ['progres', 'Progres']];
+
+  function renderTabs() {
+    $('#tabs').innerHTML = TABS.map(function (t) {
+      return '<button class="tab" type="button" data-v="' + t[0] + '">' +
+        '<span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICON[t[0]] + '</svg></span>' +
+        '<span>' + t[1] + '</span></button>';
+    }).join('');
+    $$('#tabs .tab').forEach(function (b) { b.addEventListener('click', function () { go(b.dataset.v); }); });
+  }
+
+  function go(v) {
+    $$('.view').forEach(function (s) { s.classList.toggle('on', s.id === 'v-' + v); });
+    $$('#tabs .tab').forEach(function (b) { b.classList.toggle('on', b.dataset.v === v); });
+    if (location.hash !== '#' + v) history.replaceState(null, '', '#' + v);
+    window.scrollTo({ top: 0, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
+  }
+
+  /* ---------------- video ---------------- */
+  function videoBox(it) {
+    if (!it.y) {
+      return '<div class="vwrap"><div class="vnone">' +
+        '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8fb4ff" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>' +
+        '<b>' + esc(it.name) + '</b><small>Sesi kardio, tidak pakai mesin</small></div></div>';
+    }
+    return '<div class="vwrap" data-y="' + esc(it.y) + '">' +
+      '<img src="https://i.ytimg.com/vi/' + esc(it.y) + '/mqdefault.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">' +
+      '<button class="vplay" type="button" aria-label="Putar video ' + esc(it.name) + '">' +
+      '<span><svg width="22" height="22" viewBox="0 0 24 24" fill="#141d33"><path d="M8 5v14l11-7z"/></svg></span></button></div>';
+  }
+
+  function bindVideos(root) {
+    $$('.vwrap[data-y] .vplay', root).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var w = b.closest('.vwrap'), y = w.dataset.y;
+        w.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(y) +
+          '?autoplay=1&rel=0&playsinline=1&modestbranding=1" title="Video alat" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+      });
+    });
+  }
+
+  /* ---------------- beranda ---------------- */
+  var MOTTO = [
+    ['Nggak ada mood.', 'Yang ada cuma jadwal.'], ['Alasan atau hasil.', 'Pilih satu.'],
+    ['Yang diskip hari ini', 'nagih bulan depan.'], ['Berhenti nunggu semangat.', 'Mulai aja.'],
+    ['Set terakhir', 'bukan formalitas.'], ['Malasnya sementara.', 'Nyeselnya lama.'],
+    ['Badan berubah setelah', 'kepala berhenti nawar.'], ['Diskon buat diri sendiri', 'itu yang bikin stuck.'],
+    ['Latihan 55 menit.', 'Atau nyesel 5 tahun.'], ['Rencana tanpa keringat', 'cuma angan-angan.'],
+    ['Besok itu', 'nama lain dari nggak pernah.'], ['Yang berat', 'emang bagiannya kamu.'],
+    ['Nggak ada versi gampang', 'dari versi terbaik.'], ['Disiplin dulu.', 'Motivasi nyusul.'],
+    ['Satu rep lagi.', 'Selalu ada satu rep lagi.'], ['Nggak ada yang nolong.', 'Angkat sendiri.'],
+    ['Progres itu pelan.', 'Berhenti itu instan.'], ['Jangan hitung hari.', 'Bikin harinya berhitung.'],
+    ['Badan cuma ngikut', 'apa yang kepala putuskan.'], ['Yang bikin beda', 'bukan hari pas semangat.'],
+    ['Datang aja dulu.', 'Sisanya urusan nanti.'], ['Form dulu.', 'Ego belakangan.'],
+    ['Nggak sempat itu', 'cuma nggak prioritas.'], ['Hari ini berat?', 'Bagus. Berarti kerja.'],
+    ['Konsisten emang nggak keren.', 'Tapi cuma itu yang jalan.'], ['Berhenti nego', 'sama diri sendiri.'],
+    ['Piring juga latihan.', 'Jangan cuma mesin.'], ['Tidur 7 jam', 'bagian dari programnya.'],
+    ['Minggu depan mulai?', 'Minggu lalu juga bilang gitu.'], ['Yang lihat hasilnya', 'cuma yang selesaikan setnya.']
+  ];
+  function greeting() {
+    var h = new Date().getHours();
+    if (h < 4) return 'Belum tidur, Cheri';
+    if (h < 11) return 'Selamat pagi, Cheri';
+    if (h < 15) return 'Selamat siang, Cheri';
+    if (h < 18) return 'Selamat sore, Cheri';
+    return 'Selamat malam, Cheri';
+  }
+  var mIdx = Math.floor(Math.random() * MOTTO.length), mTimer = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function paintMotto() { $('#mottoA').textContent = MOTTO[mIdx][0]; $('#mottoB').textContent = MOTTO[mIdx][1]; }
+  function nextMotto() {
+    var el = $('#motto');
+    mIdx = (mIdx + 1) % MOTTO.length;
+    if (reduce) return paintMotto();
+    el.classList.add('out');
+    setTimeout(function () { paintMotto(); el.classList.remove('out'); }, 450);
+  }
+  function armMotto() { clearInterval(mTimer); mTimer = setInterval(function () { if (!document.hidden) nextMotto(); }, 9000); }
+
+  function renderToday() {
+    var d = byKey(todayKey()), first = d._items.filter(function (x) { return x.y; })[0] || d._items[0];
+    $('#todayCard').innerHTML =
+      '<div class="tthumb">' + (first && first.y
+        ? '<img src="https://i.ytimg.com/vi/' + esc(first.y) + '/mqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">'
+        : '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#95a0b6" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>') + '</div>' +
+      '<div><small>Hari ini · ' + esc(d.day) + '</small><h3>' + esc(d.title) + '</h3>' +
+      '<small>' + esc(d.minutes) + ' menit · ' + esc(d.kcal) + ' kkal · ' + esc(d.count) + ' gerakan</small></div>';
+  }
+
+  /* ---------------- jadwal ---------------- */
+  function ring(pct) {
+    var r = 16, c = 2 * Math.PI * r;
+    return '<svg class="ring" viewBox="0 0 40 40" aria-hidden="true">' +
+      '<circle class="bgc" cx="20" cy="20" r="' + r + '"/>' +
+      '<circle class="fgc" cx="20" cy="20" r="' + r + '" stroke-dasharray="' + c.toFixed(1) +
+      '" stroke-dashoffset="' + (c * (1 - pct / 100)).toFixed(1) + '" transform="rotate(-90 20 20)"/>' +
+      '<text x="20" y="21">' + pct + '</text></svg>';
+  }
   function renderDays() {
     var tk = todayKey();
     $('#days').innerHTML = P.days.map(function (d) {
       var p = dayProgress(d);
-      return '<button class="day-card rv' + (d.key === selected ? ' on' : '') + (d.key === tk ? ' today' : '') +
-        '" data-day="' + d.key + '" type="button" aria-pressed="' + (d.key === selected) + '">' +
-        '<div class="day-top"><span class="day-name">' + esc(d.day) + '</span>' +
-        '<span class="badge b-' + d.accent + '">' + esc(d.tag) + '</span></div>' +
-        '<h3>' + esc(d.title) + '</h3>' +
-        '<p>' + esc(d.focus) + '</p>' +
-        '<div class="day-foot"><span>' + esc(d.minutes) + ' menit · ' + esc(d.kcal) + ' kkal</span>' +
-        (d.type === 'rest' ? '' : ring(p.pct)) + '</div></button>';
+      return '<button class="daycard ' + d.type + (d.key === selected ? ' on' : '') + (d.key === tk ? ' today' : '') +
+        '" type="button" data-day="' + d.key + '">' +
+        '<span class="dnum">' + (d.type === 'rest' ? '·' : d.n) + '</span>' +
+        '<span class="dbody"><b>' + esc(d.day) + ' — ' + esc(d.title) + '</b>' +
+        '<small>' + esc(d.minutes) + ' menit · ' + esc(d.kcal) + ' kkal</small></span>' +
+        (d.type === 'rest' ? '' : ring(p.pct)) + '</button>';
     }).join('');
-    $$('#days .day-card').forEach(function (b) {
-      b.addEventListener('click', function () {
-        selected = b.dataset.day;
-        renderDays(); renderDetail();
-        $('#latihan').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+    $$('#days .daycard').forEach(function (b) {
+      b.addEventListener('click', function () { selected = b.dataset.day; renderDays(); renderDetail(); go('latihan'); });
     });
-    reveal();
   }
 
-  /* ---------------- detail hari ---------------- */
-  function exCard(it, showNo) {
-    var n = it.sets || 1, dn = doneSets(it.id);
-    var sets = '';
+  /* ---------------- detail latihan ---------------- */
+  function exCard(it) {
+    var n = it.sets || 1, dn = doneSets(it.id), sets = '';
     for (var i = 1; i <= n; i++) {
-      sets += '<button class="set-btn" type="button" data-id="' + it.id + '" data-n="' + i + '" ' +
-        'aria-pressed="' + (i <= dn) + '" aria-label="Set ' + i + ' dari ' + n + '">' + i + '</button>';
+      sets += '<button class="setbtn" type="button" data-id="' + it.id + '" data-n="' + i +
+        '" aria-pressed="' + (i <= dn) + '" aria-label="Set ' + i + ' dari ' + n + '">' + i + '</button>';
     }
-    var rest = it.rest ? '<button class="rest-btn" type="button" data-rest="' + it.rest + '" data-name="' + esc(it.name) + '">' +
-      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>' +
-      'Istirahat ' + it.rest + ' dtk</button>' : '';
-    var list = it.superset || [it.ex];
-    var figs = list.map(figure).join('');
-    return '<article class="ex-card rv' + (dn >= n ? ' done' : '') + '" data-card="' + it.id + '">' +
-      '<div class="ex-anim' + (list.length > 1 ? ' multi' : '') + '">' + figs + '</div>' +
-      '<div class="ex-body">' +
-        '<div class="ex-top">' + (showNo && it.no ? '<span class="ex-no">' + it.no + '</span>' : '') +
-          '<span class="ex-name">' + esc(it.name) + '</span>' +
-          '<span class="ex-count" data-count="' + it.id + '">' + dn + '/' + n + ' set</span></div>' +
-        '<p class="ex-pres"><b>' + esc(it.prescription) + '</b></p>' +
-        (it.target ? '<div class="ex-tags">' + it.target.split(' · ').map(function(t){return '<span>'+esc(t)+'</span>';}).join('') + '</div>' : '') +
-        (it.note ? '<p class="ex-note">' + esc(it.note) + '</p>' : '') +
-        '<div class="ex-actions"><div class="sets">' + sets + '</div>' + rest + '</div>' +
+    var tags = (it.primary || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') +
+      (it.secondary || []).map(function (t) { return '<span class="sec">' + esc(t) + '</span>'; }).join('');
+    var rest = it.rest ? '<button class="restbtn" type="button" data-rest="' + it.rest + '" data-name="' + esc(it.name) + '">' +
+      '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> ' +
+      it.rest + ' dtk</button>' : '';
+    return '<article class="excard' + (dn >= n ? ' done' : '') + '" data-card="' + it.id + '">' +
+      videoBox(it) +
+      '<div class="exbody">' +
+        '<div class="extop">' + (it.no ? '<span class="exno">' + esc(it.no) + '</span>' : '') +
+          '<span class="exname">' + esc(it.name) + '</span>' +
+          '<span class="excount">' + dn + '/' + n + ' set</span></div>' +
+        '<p class="expres">' + esc(it.prescription) + '</p>' +
+        (it.desc ? '<p class="exdesc">' + esc(it.desc) + '</p>' : '') +
+        (tags ? '<div class="tags">' + tags + '</div>' : '') +
+        (it.note ? '<p class="exnote">' + esc(it.note) + '</p>' : '') +
+        '<div class="exact"><div class="sets">' + sets + '</div>' + rest + '</div>' +
       '</div></article>';
   }
 
   function renderDetail() {
-    var d = dayByKey(selected), p = dayProgress(d);
-    var h = '';
-    h += '<div class="detail-head"><div><span class="kicker">' + esc(d.tag) + ' · ' + esc(d.day) + '</span>' +
-      '<h2>' + esc(d.title) + '</h2><p style="color:var(--muted);margin:.4rem 0 0">' + esc(d.focus) + '</p></div>' +
+    var d = byKey(selected), p = dayProgress(d), h = '';
+    h += '<div class="dhead"><span class="kick">' + esc(d.tag) + ' · ' + esc(d.day) + '</span>' +
+      '<h2>' + esc(d.title) + '</h2><p>' + esc(d.focus) + '</p>' +
       '<div class="metrics">' +
         '<div class="metric"><b>' + esc(d.minutes) + '</b><span>menit</span></div>' +
-        '<div class="metric"><b>' + esc(d.kcal) + '</b><span>kkal burn</span></div>' +
+        '<div class="metric"><b>' + esc(d.kcal) + '</b><span>kkal</span></div>' +
         '<div class="metric"><b>' + esc(d.count) + '</b><span>gerakan</span></div>' +
-        (d.type === 'rest' ? '' : '<div class="metric"><b>' + p.got + '/' + p.total + '</b><span>set selesai</span></div>') +
+        '<div class="metric"><b>' + (d.type === 'rest' ? '—' : p.got + '/' + p.total) + '</b><span>set</span></div>' +
       '</div></div>';
 
-    if (d.warmup) {
-      h += '<div class="note-strip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.9 2.9M16.2 16.2l2.9 2.9M2 12h4M18 12h4M4.9 19.1l2.9-2.9M16.2 7.8l2.9-2.9"/></svg><span>' + esc(d.warmup.text) + '</span></div>';
-    }
+    if (d.warmup) h += '<div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span>' + esc(d.warmup) + '</span></div>';
 
     if (d.hiit) {
-      h += '<div class="hiit-cta"><div><h4>Timer HIIT 40 / 20</h4>' +
-        '<p>' + d.hiit.rounds + ' putaran × 5 gerakan · 40 dtk kerja, 20 dtk istirahat, ' + d.hiit.roundRest + ' dtk antar putaran.</p></div>' +
+      h += '<div class="hiitcta"><div><h4>Timer HIIT ' + d.hiit.work + ' / ' + d.hiit.rest + '</h4>' +
+        '<p>' + d.hiit.rounds + ' putaran per blok, istirahat ' + d.hiit.roundRest + ' detik antar blok.</p></div>' +
         '<button class="btn btn-primary" type="button" id="hiitBtn">' +
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Jalankan circuit</button></div>';
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Jalankan</button></div>';
     }
 
-    (d.blocks || []).forEach(function (b, bi) {
-      h += '<div class="block-label">' + esc(b.label) + '</div><div class="ex-list">';
-      b.items.forEach(function (it, ii) {
-        h += exCard(Object.assign({}, it, { id: d.key + '-m' + bi + ii }), true);
-      });
-      h += '</div>';
-    });
+    h += '<div class="blocklab">Latihan utama</div><div class="exlist">';
+    (d.main || []).forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-m' + i })); });
+    h += '</div>';
 
     if (d.finisher) {
-      h += '<div class="block-label">' + esc(d.finisher.label) + ' — ' + esc(d.finisher.duration) + '</div><div class="ex-list">';
-      d.finisher.items.forEach(function (it, ii) {
-        h += exCard(Object.assign({}, it, { id: d.key + '-f' + ii }), false);
-      });
+      h += '<div class="blocklab">' + esc(d.finisher.label) + ' — ' + esc(d.finisher.duration) + '</div><div class="exlist">';
+      d.finisher.items.forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-f' + i })); });
       h += '</div>';
     }
 
-    if (d.cooldown) {
-      h += '<div class="note-strip" style="margin-top:1.4rem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg><span>' + esc(d.cooldown) + '</span></div>';
-    }
+    if (d.cooldown) h += '<div class="note warm" style="margin-top:1.2rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg><span>' + esc(d.cooldown) + '</span></div>';
 
     $('#detail').innerHTML = h;
-    bindDetail();
-    reveal();
-  }
-
-  function bindDetail() {
-    $$('#detail .set-btn').forEach(function (b) {
+    bindVideos($('#detail'));
+    $$('#detail .setbtn').forEach(function (b) {
       b.addEventListener('click', function () {
         var id = b.dataset.id, n = +b.dataset.n;
         setDone(id, doneSets(id) === n ? n - 1 : n);
-        refreshSets(id);
-        renderProgress();
-        var card = $('#days .day-card[data-day="' + selected + '"]');
-        if (card) renderDays();
+        refreshCard(id); renderProgress(); renderDays();
       });
     });
-    $$('#detail .rest-btn').forEach(function (b) {
+    $$('#detail .restbtn').forEach(function (b) {
       b.addEventListener('click', function () { startRest(+b.dataset.rest, b.dataset.name); });
     });
-    var hb = $('#hiitBtn');
-    if (hb) hb.addEventListener('click', startHiit);
+    var hb = $('#hiitBtn'); if (hb) hb.addEventListener('click', startHiit);
   }
 
-  function refreshSets(id) {
-    var dn = doneSets(id), card = $('#detail .ex-card[data-card="' + id + '"]');
+  function refreshCard(id) {
+    var dn = doneSets(id), card = $('#detail .excard[data-card="' + id + '"]');
     if (!card) return;
-    var btns = $$('.set-btn', card);
+    var btns = $$('.setbtn', card);
     btns.forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.n <= dn)); });
     card.classList.toggle('done', dn >= btns.length);
-    var cc = card.querySelector('.ex-count');
-    if (cc) cc.textContent = dn + '/' + btns.length + ' set';
+    var c = $('.excount', card); if (c) c.textContent = dn + '/' + btns.length + ' set';
   }
 
-  /* ---------------- menu makan ---------------- */
+  /* ---------------- menu ---------------- */
   function renderMeals() {
     var m = P.meals;
     $('#mealNote').textContent = m.total + ' · ' + m.note;
     $('#meals').innerHTML = m.items.map(function (x) {
-      return '<div class="meal rv"><div class="meal-slot">' + esc(x.slot) + '<small>' + esc(x.time) + '</small></div>' +
+      return '<div class="meal"><div class="mt"><b>' + esc(x.slot) + '</b><small>' + esc(x.time) + '</small></div>' +
         '<p>' + esc(x.desc) + '</p>' +
-        '<div class="kcal">' + x.kcal + '<small>kkal</small></div></div>';
+        '<div class="kc"><b>' + x.kcal + '</b><small>KKAL</small><small>' + x.p + ' g P</small></div></div>';
     }).join('') +
-    '<div class="meal-total rv"><b>Total kalori harian</b><div class="kcal">' + esc(m.total) + '</div></div>';
+    '<div class="mtotal"><b>Total harian</b><span>' + esc(m.total) + '</span></div>';
   }
 
   /* ---------------- progres ---------------- */
@@ -1343,242 +1444,128 @@ window.PROGRAM = {
     train.forEach(function (d) { var p = dayProgress(d); tot += p.total; got += p.got; if (p.pct === 100) full++; });
     var pct = tot ? Math.round(got / tot * 100) : 0;
 
-    $('#progGrid').innerHTML =
-      '<div class="pcard rv"><b>' + pct + '%</b><span>minggu ini selesai</span></div>' +
-      '<div class="pcard rv"><b>' + full + '/' + train.length + '</b><span>hari tuntas</span></div>' +
-      '<div class="pcard rv"><b>' + got + '</b><span>set diselesaikan</span></div>' +
-      '<div class="pcard rv"><b>' + (tot - got) + '</b><span>set tersisa</span></div>';
-    $('#progBar').style.width = pct + '%';
-
-    var hs = $('#heroStatus'), bar = $('#hsBar'), txt = $('#hsTxt');
-    if (hs) {
-      bar.style.width = pct + '%';
-      hs.classList.toggle('done', pct === 100);
-      if (got === 0) {
-        txt.innerHTML = 'Minggu ini belum ada set yang tercatat. Mulai dari latihan hari ini.';
-      } else if (pct === 100) {
-        txt.innerHTML = 'Minggu ini tuntas — <b>' + tot + '</b> dari <b>' + tot + '</b> set beres.';
-      } else {
-        txt.innerHTML = '<b>' + got + '</b> dari <b>' + tot + '</b> set minggu ini beres. Sisa ' + (tot - got) + '.';
-      }
-    }
+    $('#pgrid').innerHTML =
+      '<div class="pcard"><b>' + pct + '%</b><span>minggu ini selesai</span></div>' +
+      '<div class="pcard"><b>' + full + '/' + train.length + '</b><span>hari tuntas</span></div>' +
+      '<div class="pcard"><b>' + got + '</b><span>set diselesaikan</span></div>' +
+      '<div class="pcard"><b>' + (tot - got) + '</b><span>set tersisa</span></div>';
 
     $('#weekStrip').innerHTML = P.days.map(function (d) {
       var p = dayProgress(d);
       var cls = d.type === 'rest' ? 'rest' : (p.pct === 100 ? 'full' : (p.pct > 0 ? 'part' : ''));
-      return '<div class="wcell ' + cls + '"><b>' + esc(d.day.slice(0, 3)) + '</b>' +
-        '<span style="font-size:.7rem;color:var(--muted)">' + (d.type === 'rest' ? 'rest' : p.pct + '%') + '</span><i></i></div>';
+      return '<div class="wc ' + cls + '"><b>' + esc(d.day.slice(0, 3)) + '</b>' +
+        '<small>' + (d.type === 'rest' ? '—' : p.pct + '%') + '</small><i></i></div>';
     }).join('');
-    reveal();
+
+    var hs = $('#hstat'), bar = $('#hsBar'), txt = $('#hsTxt');
+    bar.style.width = pct + '%';
+    hs.classList.toggle('done', pct === 100);
+    if (got === 0) txt.innerHTML = 'Minggu ini belum ada set yang tercatat. Mulai dari latihan hari ini.';
+    else if (pct === 100) txt.innerHTML = 'Minggu ini tuntas — <b>' + tot + '</b> dari <b>' + tot + '</b> set beres.';
+    else txt.innerHTML = '<b>' + got + '</b> dari <b>' + tot + '</b> set minggu ini beres. Sisa ' + (tot - got) + '.';
+
+    $('#footNote').textContent = 'Minggu mulai ' + state.week + ' · alat dan video dari katalog Muscle Lab';
   }
 
-  /* ---------------- audio ---------------- */
+  /* ---------------- bunyi & getar ---------------- */
   var actx = null;
-  function beep(freq, dur, vol) {
+  function beep(f, dur, vol) {
     try {
       if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
       if (actx.state === 'suspended') actx.resume();
       var o = actx.createOscillator(), g = actx.createGain();
-      o.type = 'sine'; o.frequency.value = freq;
+      o.type = 'sine'; o.frequency.value = f;
       g.gain.setValueAtTime(vol || .18, actx.currentTime);
       g.gain.exponentialRampToValueAtTime(.001, actx.currentTime + (dur || .18));
-      o.connect(g); g.connect(actx.destination);
-      o.start(); o.stop(actx.currentTime + (dur || .18));
+      o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime + (dur || .18));
     } catch (e) {}
   }
-  function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+  var buzz = function (ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} };
 
   /* ---------------- timer ---------------- */
-  var dock = $('#dock'), tHandle = null, queue = [], cur = null, paused = false, wake = null;
-
+  var dock = $('#dock'), th = null, queue = [], cur = null, paused = false, wake = null, lastWhole = -1;
   function keepAwake(on) {
     try {
       if (on && 'wakeLock' in navigator) navigator.wakeLock.request('screen').then(function (w) { wake = w; }).catch(function () {});
       if (!on && wake) { wake.release(); wake = null; }
     } catch (e) {}
   }
+  function showDock(v) { dock.classList.toggle('show', v); if (!v) keepAwake(false); }
 
-  function showDock(v) {
-    dock.classList.toggle('show', v);
-    if (!v) { keepAwake(false); }
-  }
-
-  function startRest(sec, name) {
-    queue = [{ kind: 'rest', sec: sec, label: 'Istirahat', name: name || '—' }];
-    runNext();
-  }
+  function startRest(sec, name) { queue = [{ kind: 'rest', sec: sec, label: 'Istirahat', name: name || '—' }]; runNext(); }
 
   function startHiit() {
-    var d = dayByKey('rabu'), h = d.hiit, list = d.blocks[0].items;
-    queue = [{ kind: 'rest', sec: 10, label: 'Bersiap', name: 'Circuit dimulai' }];
-    for (var r = 1; r <= h.rounds; r++) {
-      list.forEach(function (it, i) {
-        queue.push({ kind: 'work', sec: h.work, label: 'Putaran ' + r + ' · kerja', name: it.name });
-        if (i < list.length - 1) queue.push({ kind: 'rest', sec: h.rest, label: 'Putaran ' + r + ' · istirahat', name: 'Siap: ' + list[i + 1].name });
-      });
-      if (r < h.rounds) queue.push({ kind: 'rest', sec: h.roundRest, label: 'Istirahat antar putaran', name: 'Putaran ' + (r + 1) + ' berikutnya' });
+    var d = byKey('rabu'), hh = d.hiit;
+    queue = [{ kind: 'rest', sec: 10, label: 'Bersiap', name: 'HIIT dimulai' }];
+    for (var b = 1; b <= 3; b++) {
+      for (var r = 1; r <= hh.rounds; r++) {
+        queue.push({ kind: 'work', sec: hh.work, label: 'Blok ' + b + ' · putaran ' + r, name: 'Kerja keras' });
+        if (r < hh.rounds) queue.push({ kind: 'rest', sec: hh.rest, label: 'Blok ' + b + ' · jeda', name: 'Pelan dulu' });
+      }
+      if (b < 3) queue.push({ kind: 'rest', sec: hh.roundRest, label: 'Istirahat antar blok', name: 'Blok ' + (b + 1) + ' berikutnya' });
     }
-    queue.push({ kind: 'done', sec: 0, label: 'Selesai', name: 'Circuit tuntas — kerja bagus!' });
+    queue.push({ kind: 'done', sec: 0, label: 'Selesai', name: 'HIIT tuntas, kerja bagus' });
     runNext();
   }
 
   function runNext() {
-    clearInterval(tHandle);
+    clearInterval(th);
     if (!queue.length) { showDock(false); cur = null; return; }
     cur = queue.shift();
-    if (cur.kind === 'done') {
-      paint(0, 1); beep(880, .5, .22); buzz([120, 80, 120]);
-      setTimeout(function () { showDock(false); }, 2600);
-      return;
-    }
-    cur.left = cur.sec; cur.total = cur.sec; paused = false;
+    if (cur.kind === 'done') { paint(0, 1); beep(880, .5, .22); buzz([120, 80, 120]); setTimeout(function () { showDock(false); }, 2600); return; }
+    cur.left = cur.sec; cur.total = cur.sec; paused = false; lastWhole = -1;
     $('#dockToggle').textContent = 'Jeda';
-    dock.classList.toggle('work', cur.kind === 'work');
     dock.classList.toggle('rest', cur.kind !== 'work');
     showDock(true); keepAwake(true);
     beep(cur.kind === 'work' ? 880 : 520, .16);
     paint(cur.left, cur.total);
-    tHandle = setInterval(tick, 250);
+    th = setInterval(tick, 250);
   }
-
-  var lastWhole = -1;
   function tick() {
     if (paused || !cur) return;
     cur.left -= .25;
     var w = Math.ceil(cur.left);
-    if (w !== lastWhole) {
-      lastWhole = w;
-      if (w > 0 && w <= 3) { beep(660, .1, .14); buzz(35); }
-    }
-    if (cur.left <= 0) { clearInterval(tHandle); beep(cur.kind === 'work' ? 520 : 880, .3, .2); buzz(140); runNext(); return; }
+    if (w !== lastWhole) { lastWhole = w; if (w > 0 && w <= 3) { beep(660, .1, .14); buzz(35); } }
+    if (cur.left <= 0) { clearInterval(th); beep(cur.kind === 'work' ? 520 : 880, .3, .2); buzz(140); runNext(); return; }
     paint(cur.left, cur.total);
   }
-
   function paint(left, total) {
     $('#dockLbl').textContent = cur ? cur.label : '';
     $('#dockEx').textContent = cur ? cur.name : '';
     $('#dockTime').textContent = mmss(Math.max(0, Math.ceil(left)));
     $('#dockBar').style.width = (total ? Math.max(0, left / total * 100) : 0) + '%';
   }
+  $('#dockToggle').addEventListener('click', function () { paused = !paused; this.textContent = paused ? 'Lanjut' : 'Jeda'; });
+  $('#dockPlus').addEventListener('click', function () { if (cur) { cur.left += 15; cur.total = Math.max(cur.total, cur.left); paint(cur.left, cur.total); } });
+  $('#dockClose').addEventListener('click', function () { clearInterval(th); queue = []; cur = null; showDock(false); });
 
-  $('#dockToggle').addEventListener('click', function () {
-    paused = !paused;
-    this.textContent = paused ? 'Lanjut' : 'Jeda';
-  });
-  $('#dockPlus').addEventListener('click', function () {
-    if (cur) { cur.left += 15; cur.total = Math.max(cur.total, cur.left); paint(cur.left, cur.total); }
-  });
-  $('#dockClose').addEventListener('click', function () {
-    clearInterval(tHandle); queue = []; cur = null; showDock(false);
-  });
-
-  /* ---------------- reveal on scroll ---------------- */
-  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { rootMargin: '0px 0px -8% 0px', threshold: .06 }) : null;
-  function reveal() {
-    $$('.rv:not(.in)').forEach(function (el, i) {
-      if (!io) { el.classList.add('in'); return; }
-      el.style.transitionDelay = Math.min(i * 35, 280) + 'ms';
-      io.observe(el);
-    });
+  /* ---------------- toast ---------------- */
+  var tt = null;
+  function toast(msg) {
+    var el = $('#toast'); el.textContent = msg; el.classList.add('show');
+    clearTimeout(tt); tt = setTimeout(function () { el.classList.remove('show'); }, 2200);
   }
 
-  /* ---------------- nav ---------------- */
-  var tog = $('#navTog'), nav = $('#nav');
-  tog.addEventListener('click', function () {
-    var open = nav.classList.toggle('open');
-    tog.setAttribute('aria-expanded', String(open));
-  });
-  $$('#nav a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); tog.setAttribute('aria-expanded', 'false'); }); });
-
-  var secs = ['jadwal', 'latihan', 'menu', 'progres'];
-  window.addEventListener('scroll', function () {
-    var y = window.scrollY + 120, on = '';
-    secs.forEach(function (id) { var el = document.getElementById(id); if (el && el.offsetTop <= y) on = id; });
-    $$('#nav a').forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + on); });
-  }, { passive: true });
-
+  /* ---------------- init ---------------- */
+  $('#gymName').textContent = P.meta.gym;
+  $('#greet').textContent = greeting();
+  $('#shuffleBtn').addEventListener('click', function () { nextMotto(); armMotto(); });
+  $('#startBtn').addEventListener('click', function () { selected = todayKey(); renderDays(); renderDetail(); go('latihan'); });
   $('#resetBtn').addEventListener('click', function () {
     if (!confirm('Reset semua centang minggu ini?')) return;
     state = { week: weekKey(), done: {} }; save();
-    renderDays(); renderDetail(); renderProgress();
+    renderDays(); renderDetail(); renderProgress(); toast('Minggu ini direset');
   });
 
-  /* ---------------- init ---------------- */
+  renderTabs(); paintMotto(); armMotto();
+  renderToday(); renderDays(); renderDetail(); renderMeals(); renderProgress();
 
-  /* ---------------- sapaan & motto ---------------- */
-  var MOTTO = [
-    ['Nggak ada mood.', 'Yang ada cuma jadwal.'],
-    ['Alasan atau hasil.', 'Pilih satu.'],
-    ['Yang diskip hari ini', 'nagih bulan depan.'],
-    ['Berhenti nunggu semangat.', 'Mulai aja.'],
-    ['Set terakhir', 'bukan formalitas.'],
-    ['Malasnya sementara.', 'Nyeselnya lama.'],
-    ['Badan berubah setelah', 'kepala berhenti nawar.'],
-    ['Diskon buat diri sendiri', 'itu yang bikin stuck.'],
-    ['Latihan 45 menit.', 'Atau nyesel 5 tahun.'],
-    ['Rencana tanpa keringat', 'cuma angan-angan.'],
-    ['Besok itu', 'nama lain dari nggak pernah.'],
-    ['Yang berat', 'emang bagiannya kamu.'],
-    ['Nggak ada versi gampang', 'dari versi terbaik.'],
-    ['Disiplin dulu.', 'Motivasi nyusul.'],
-    ['Satu rep lagi.', 'Selalu ada satu rep lagi.'],
-    ['Nggak ada yang nolong.', 'Angkat sendiri.'],
-    ['Progres itu pelan.', 'Berhenti itu instan.'],
-    ['Jangan hitung hari.', 'Bikin harinya berhitung.'],
-    ['Badan cuma ngikut', 'apa yang kepala putuskan.'],
-    ['Yang bikin beda', 'bukan hari pas semangat.'],
-    ['Datang aja dulu.', 'Sisanya urusan nanti.'],
-    ['Form dulu.', 'Ego belakangan.'],
-    ['Nggak sempat itu', 'cuma nggak prioritas.'],
-    ['Hari ini berat?', 'Bagus. Berarti kerja.'],
-    ['Konsisten emang nggak keren.', 'Tapi cuma itu yang jalan.'],
-    ['Berhenti nego', 'sama diri sendiri.'],
-    ['Piring juga latihan.', 'Jangan cuma barbel.'],
-    ['Tidur 7 jam', 'bagian dari programnya.'],
-    ['Minggu depan mulai?', 'Minggu lalu juga bilang gitu.'],
-    ['Yang lihat hasilnya', 'cuma yang selesaikan setnya.']
-  ];
+  var start = (location.hash || '').replace('#', '');
+  go(TABS.some(function (t) { return t[0] === start; }) ? start : 'beranda');
 
-  function greeting() {
-    var h = new Date().getHours();
-    if (h < 4) return 'Belum tidur, Cheri';
-    if (h < 11) return 'Selamat pagi, Cheri';
-    if (h < 15) return 'Selamat siang, Cheri';
-    if (h < 18) return 'Selamat sore, Cheri';
-    return 'Selamat malam, Cheri';
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
   }
-
-  var mIdx = Math.floor(Math.random() * MOTTO.length), mTimer = null;
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function paintMotto() {
-    var m = MOTTO[mIdx];
-    $('#mottoA').textContent = m[0];
-    $('#mottoB').textContent = m[1];
-  }
-  function nextMotto(step) {
-    var el = $('#motto');
-    mIdx = (mIdx + (step || 1) + MOTTO.length) % MOTTO.length;
-    if (reduce) { paintMotto(); return; }
-    el.classList.add('out');
-    setTimeout(function () { paintMotto(); el.classList.remove('out'); }, 460);
-  }
-  function armMotto() {
-    clearInterval(mTimer);
-    mTimer = setInterval(function () { if (!document.hidden) nextMotto(1); }, 9000);
-  }
-
-  $('#greet').textContent = greeting();
-  paintMotto();
-  armMotto();
-  $('#shuffleBtn').addEventListener('click', function () { nextMotto(1); armMotto(); });
-
-  $('#footWeek').textContent = 'Minggu mulai ' + weekKey() + ' · diperbarui otomatis';
-  renderToday(); renderDays(); renderDetail(); renderMeals(); renderProgress(); reveal();
-  // jaring pengaman: pastikan tidak ada konten yang tertinggal tersembunyi
-  setTimeout(function () { $$('.rv:not(.in)').forEach(function (el) { el.classList.add('in'); }); }, 2500);
 })();
 
 </script>
