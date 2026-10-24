@@ -157,6 +157,8 @@ a{color:var(--acc)}
 .blocklab{display:flex;align-items:center;gap:.7rem;margin:1.4rem 0 .8rem;
   font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:700}
 .blocklab::after{content:'';flex:1;height:1px;background:var(--line)}
+.blocklab.cool{color:var(--warm)}
+.blocklab.cool::after{background:rgba(242,120,92,.35)}
 
 .exlist{display:grid;gap:.9rem}
 .excard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm)}
@@ -218,6 +220,14 @@ a{color:var(--acc)}
 .fig .far .eq{opacity:.4}
 .fig .prop{stroke:#33456b;stroke-width:4;fill:none;stroke-linecap:round}
 .fig .ground{stroke:#33456b;stroke-width:3}
+
+/* panel angka treadmill dan dead hang */
+.dials{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:.6rem 0 .1rem}
+.dial{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:.45rem .3rem;text-align:center}
+.dial b{display:block;font-size:.95rem;font-weight:800;letter-spacing:-.02em;color:var(--warm);
+  font-variant-numeric:tabular-nums}
+.dial span{font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.cooldown .excard{border-color:rgba(242,120,92,.3)}
 
 /* ---------- menu makan ---------- */
 .meals{display:grid;gap:.7rem}
@@ -906,6 +916,16 @@ a{color:var(--acc)}
       a: p({ t: 66, dy: 30, hL: 0, kL: -88, hR: 4, kR: -92, aL: 4, fL: 0, aR: 8, fR: 0 }),
       b: p({ t: 88, dy: 32, hL: 0, kL: -88, hR: 4, kR: -92, aL: 24, fL: 0, aR: 28, fR: 0 })
     },
+    'dead-hang': {
+      name: 'Dead hang', equip: 'none', dur: 3.6, prop: P.bar,
+      a: p({ t: 0, dy: 8, aL: 178, fL: 0, aR: 175, fR: 3, hL: 3, kL: 0, hR: -3, kR: 0 }),
+      b: p({ t: 1, dy: 13, aL: 179, fL: 0, aR: 176, fR: 2, hL: -3, kL: 0, hR: 3, kR: 0 })
+    },
+    'incline-walk': {
+      name: 'Jalan incline', equip: 'none', dur: 1.6, prop: P.slope,
+      a: p({ t: 11, dy: -26, hL: 34, kL: -26, hR: -16, kR: 10, aL: -26, fL: 14, aR: 26, fR: 14 }),
+      b: p({ t: 11, dy: -26, hL: -16, kL: 10, hR: 34, kR: -26, aL: 26, fL: 14, aR: -26, fR: 14 })
+    },
     'rest-sleep': {
       name: 'Istirahat', equip: 'none', dur: 4.0, prop: P.mat,
       a: p(Object.assign({}, LIE, { dy: 50, aL: 20, fL: 30, aR: 16, fR: 34, hL: -14, kL: -26, hR: -10, kR: -30 })),
@@ -942,7 +962,7 @@ window.PROGRAM = {
    "focus": "Tarikan vertikal dan horizontal · prioritas punggung",
    "minutes": "55-60",
    "kcal": "320-420",
-   "count": "6+2",
+   "count": "6+2+2",
    "type": "strength",
    "accent": "lime",
    "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu band pull-apart dan rotasi bahu 2×15",
@@ -1087,6 +1107,78 @@ window.PROGRAM = {
       "note": "Kalau punggung terangkat, perkecil jangkauannya"
      }
     ]
+   },
+   "cool": {
+    "label": "Pendinginan · hari badan atas",
+    "duration": "35 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Jalan incline",
+      "y": null,
+      "fig": "incline-walk",
+      "desc": "Jalan menanjak di treadmill dengan langkah panjang dan dorongan dari tumit.",
+      "primary": [
+       "Jantung",
+       "Glute"
+      ],
+      "secondary": [
+       "Hamstring",
+       "Betis"
+      ],
+      "prescription": "30 menit",
+      "rest": 0,
+      "sets": 1,
+      "note": "Incline 10-12 persen, kecepatan 5,0 km per jam. Hari badan atas, kaki masih segar, jadi ini porsi penuh. Jangan pegang pegangan tangan. Kalau harus pegang supaya bertahan, berarti inclinenya terlalu tinggi, turunkan. Badan tetap tegak, jangan membungkuk atau jinjit.",
+      "dials": [
+       {
+        "v": "10-12%",
+        "k": "incline"
+       },
+       {
+        "v": "5,0",
+        "k": "km/jam"
+       },
+       {
+        "v": "30",
+        "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Dead hang",
+      "y": null,
+      "fig": "dead-hang",
+      "desc": "Gantung di bar dengan badan lurus, bahu dibiarkan memanjang, napas pelan dan dalam.",
+      "primary": [
+       "Punggung",
+       "Cengkeraman"
+      ],
+      "secondary": [
+       "Bahu",
+       "Perut"
+      ],
+      "prescription": "3 × 20-45 detik",
+      "rest": 45,
+      "sets": 3,
+      "note": "Selalu paling akhir supaya cengkeraman tidak lelah sebelum latihan tarik. Kalau bahu terasa kurang stabil atau tangan kesemutan, tarik bahu sedikit turun menjauh dari telinga.",
+      "dials": [
+       {
+        "v": "3",
+        "k": "set"
+       },
+       {
+        "v": "20-45",
+        "k": "detik"
+       },
+       {
+        "v": "45",
+        "k": "jeda detik"
+       }
+      ]
+     }
+    ]
    }
   },
   {
@@ -1098,7 +1190,7 @@ window.PROGRAM = {
    "focus": "Dorongan pinggul, hinge, dan tekukan lutut",
    "minutes": "55-60",
    "kcal": "330-430",
-   "count": "6+1",
+   "count": "6+1+2",
    "type": "strength",
    "accent": "lime",
    "warmup": "Warm-up 8 menit, sepeda ringan 5 menit lalu glute bridge badan sendiri 2×15",
@@ -1221,6 +1313,78 @@ window.PROGRAM = {
       "note": "Kalau berat, tekuk lutut bawah sebagai tumpuan"
      }
     ]
+   },
+   "cool": {
+    "label": "Pendinginan · hari kaki",
+    "duration": "20 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Jalan incline",
+      "y": null,
+      "fig": "incline-walk",
+      "desc": "Jalan menanjak di treadmill dengan langkah panjang dan dorongan dari tumit.",
+      "primary": [
+       "Jantung",
+       "Glute"
+      ],
+      "secondary": [
+       "Hamstring",
+       "Betis"
+      ],
+      "prescription": "15-20 menit",
+      "rest": 0,
+      "sets": 1,
+      "note": "Incline 6-8 persen, kecepatan 4,5-5,0 km per jam. Porsinya dipendekkan karena glute dan hamstring sudah dapat bagiannya dari mesin. Patokannya tes bicara, masih sanggup satu kalimat penuh tapi sudah tidak nyaman diajak ngobrol panjang.",
+      "dials": [
+       {
+        "v": "6-8%",
+        "k": "incline"
+       },
+       {
+        "v": "4,5-5,0",
+        "k": "km/jam"
+       },
+       {
+        "v": "15-20",
+        "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Dead hang",
+      "y": null,
+      "fig": "dead-hang",
+      "desc": "Gantung di bar dengan badan lurus, bahu dibiarkan memanjang, napas pelan dan dalam.",
+      "primary": [
+       "Punggung",
+       "Cengkeraman"
+      ],
+      "secondary": [
+       "Bahu",
+       "Perut"
+      ],
+      "prescription": "3 × 20-45 detik",
+      "rest": 45,
+      "sets": 3,
+      "note": "Selalu paling akhir supaya cengkeraman tidak lelah sebelum latihan tarik. Kalau bahu terasa kurang stabil atau tangan kesemutan, tarik bahu sedikit turun menjauh dari telinga.",
+      "dials": [
+       {
+        "v": "3",
+        "k": "set"
+       },
+       {
+        "v": "20-45",
+        "k": "detik"
+       },
+       {
+        "v": "45",
+        "k": "jeda detik"
+       }
+      ]
+     }
+    ]
    }
   },
   {
@@ -1232,7 +1396,7 @@ window.PROGRAM = {
    "focus": "Sesi pembakaran utama minggu ini",
    "minutes": "40",
    "kcal": "350-500",
-   "count": "1+3",
+   "count": "1+3+2",
    "type": "hiit",
    "accent": "orange",
    "warmup": "Warm-up 5 menit, jogging ringan di tempat lalu dynamic stretching",
@@ -1318,7 +1482,79 @@ window.PROGRAM = {
      }
     ]
    },
-   "cooldown": "Cool down 5 menit, stretching menyeluruh dan atur napas"
+   "cooldown": "Cool down 5 menit, stretching menyeluruh dan atur napas",
+   "cool": {
+    "label": "Pendinginan · setelah HIIT",
+    "duration": "12 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Jalan incline",
+      "y": null,
+      "fig": "incline-walk",
+      "desc": "Jalan menanjak di treadmill dengan langkah panjang dan dorongan dari tumit.",
+      "primary": [
+       "Jantung",
+       "Glute"
+      ],
+      "secondary": [
+       "Hamstring",
+       "Betis"
+      ],
+      "prescription": "10 menit",
+      "rest": 0,
+      "sets": 1,
+      "note": "Datar sampai incline 2 persen, kecepatan 4,5 km per jam. Hari ini cukup jadi pendinginan saja, kuota kardio keras sudah diisi HIIT.",
+      "dials": [
+       {
+        "v": "0-2%",
+        "k": "incline"
+       },
+       {
+        "v": "4,5",
+        "k": "km/jam"
+       },
+       {
+        "v": "10",
+        "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Dead hang",
+      "y": null,
+      "fig": "dead-hang",
+      "desc": "Gantung di bar dengan badan lurus, bahu dibiarkan memanjang, napas pelan dan dalam.",
+      "primary": [
+       "Punggung",
+       "Cengkeraman"
+      ],
+      "secondary": [
+       "Bahu",
+       "Perut"
+      ],
+      "prescription": "3 × 20-45 detik",
+      "rest": 45,
+      "sets": 3,
+      "note": "Selalu paling akhir supaya cengkeraman tidak lelah sebelum latihan tarik. Kalau bahu terasa kurang stabil atau tangan kesemutan, tarik bahu sedikit turun menjauh dari telinga.",
+      "dials": [
+       {
+        "v": "3",
+        "k": "set"
+       },
+       {
+        "v": "20-45",
+        "k": "detik"
+       },
+       {
+        "v": "45",
+        "k": "jeda detik"
+       }
+      ]
+     }
+    ]
+   }
   },
   {
    "key": "kamis",
@@ -1329,7 +1565,7 @@ window.PROGRAM = {
    "focus": "Semua pola dorong · penyeimbang hari punggung",
    "minutes": "55-60",
    "kcal": "320-420",
-   "count": "6+2",
+   "count": "6+2+2",
    "type": "strength",
    "accent": "lime",
    "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu rotasi bahu dan push-up ringan 2×10",
@@ -1471,6 +1707,78 @@ window.PROGRAM = {
       "note": "Punggung bawah harus tetap menempel lantai, kalau terangkat tekuk sedikit lutut"
      }
     ]
+   },
+   "cool": {
+    "label": "Pendinginan · hari badan atas",
+    "duration": "35 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Jalan incline",
+      "y": null,
+      "fig": "incline-walk",
+      "desc": "Jalan menanjak di treadmill dengan langkah panjang dan dorongan dari tumit.",
+      "primary": [
+       "Jantung",
+       "Glute"
+      ],
+      "secondary": [
+       "Hamstring",
+       "Betis"
+      ],
+      "prescription": "30 menit",
+      "rest": 0,
+      "sets": 1,
+      "note": "Incline 10-12 persen, kecepatan 5,0 km per jam. Sama seperti Senin, ini hari porsi penuh. Jangan pegang pegangan tangan. Kalau harus pegang supaya bertahan, berarti inclinenya terlalu tinggi, turunkan. Badan tetap tegak, jangan membungkuk atau jinjit.",
+      "dials": [
+       {
+        "v": "10-12%",
+        "k": "incline"
+       },
+       {
+        "v": "5,0",
+        "k": "km/jam"
+       },
+       {
+        "v": "30",
+        "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Dead hang",
+      "y": null,
+      "fig": "dead-hang",
+      "desc": "Gantung di bar dengan badan lurus, bahu dibiarkan memanjang, napas pelan dan dalam.",
+      "primary": [
+       "Punggung",
+       "Cengkeraman"
+      ],
+      "secondary": [
+       "Bahu",
+       "Perut"
+      ],
+      "prescription": "3 × 20-45 detik",
+      "rest": 45,
+      "sets": 3,
+      "note": "Selalu paling akhir supaya cengkeraman tidak lelah sebelum latihan tarik. Kalau bahu terasa kurang stabil atau tangan kesemutan, tarik bahu sedikit turun menjauh dari telinga.",
+      "dials": [
+       {
+        "v": "3",
+        "k": "set"
+       },
+       {
+        "v": "20-45",
+        "k": "detik"
+       },
+       {
+        "v": "45",
+        "k": "jeda detik"
+       }
+      ]
+     }
+    ]
    }
   },
   {
@@ -1482,7 +1790,7 @@ window.PROGRAM = {
    "focus": "Kaki depan, kardio panjang, lalu mobilitas",
    "minutes": "55-65",
    "kcal": "380-480",
-   "count": "3+3",
+   "count": "3+3+1",
    "type": "cardio",
    "accent": "cyan",
    "warmup": "Warm-up 8 menit, sepeda ringan 5 menit lalu squat badan sendiri 2×15",
@@ -1553,7 +1861,8 @@ window.PROGRAM = {
       "prescription": "25 menit",
       "rest": 0,
       "sets": 1,
-      "note": "Jalan cepat incline, sepeda, atau rowing. Detak jantung 60-70% maks, masih sanggup bicara"
+      "note": "Pakai treadmill incline 6-8 persen, kecepatan 4,5-5,0 km per jam, atau sepeda dan rowing. Patokannya tes bicara, masih sanggup satu kalimat penuh tapi sudah tidak nyaman diajak ngobrol panjang. Jangan pegang pegangan tangan.",
+      "fig": "incline-walk"
      },
      {
       "no": "",
@@ -1590,6 +1899,45 @@ window.PROGRAM = {
       "note": "Tahan tiap posisi 30-45 detik"
      }
     ]
+   },
+   "cool": {
+    "label": "Pendinginan · hari kaki",
+    "duration": "5 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Dead hang",
+      "y": null,
+      "fig": "dead-hang",
+      "desc": "Gantung di bar dengan badan lurus, bahu dibiarkan memanjang, napas pelan dan dalam.",
+      "primary": [
+       "Punggung",
+       "Cengkeraman"
+      ],
+      "secondary": [
+       "Bahu",
+       "Perut"
+      ],
+      "prescription": "3 × 20-45 detik",
+      "rest": 45,
+      "sets": 3,
+      "note": "Kardio zona 2 di blok sebelumnya sudah jadi jatah jalan inclinemu hari ini, jadi di sini tinggal gantung saja. Tetap paling akhir.",
+      "dials": [
+       {
+        "v": "3",
+        "k": "set"
+       },
+       {
+        "v": "20-45",
+        "k": "detik"
+       },
+       {
+        "v": "45",
+        "k": "jeda detik"
+       }
+      ]
+     }
+    ]
    }
   },
   {
@@ -1601,7 +1949,7 @@ window.PROGRAM = {
    "focus": "Jalan santai 20-30 menit atau yoga ringan",
    "minutes": "20-30",
    "kcal": "80-150",
-   "count": "2",
+   "count": "2+1",
    "type": "rest",
    "accent": "slate",
    "main": [
@@ -1618,7 +1966,7 @@ window.PROGRAM = {
      "prescription": "20-30 menit",
      "rest": 0,
      "sets": 1,
-     "note": ""
+     "note": "Boleh di treadmill incline 4-6 persen pelan, atau jalan di luar. Santai saja, ini untuk melancarkan pemulihan, bukan latihan."
     },
     {
      "no": "02",
@@ -1637,7 +1985,46 @@ window.PROGRAM = {
      "sets": 1,
      "note": ""
     }
-   ]
+   ],
+   "cool": {
+    "label": "Pendinginan",
+    "duration": "5 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Dead hang",
+      "y": null,
+      "fig": "dead-hang",
+      "desc": "Gantung di bar dengan badan lurus, bahu dibiarkan memanjang, napas pelan dan dalam.",
+      "primary": [
+       "Punggung",
+       "Cengkeraman"
+      ],
+      "secondary": [
+       "Bahu",
+       "Perut"
+      ],
+      "prescription": "3 × 20-45 detik",
+      "rest": 45,
+      "sets": 3,
+      "note": "Boleh dikurangi jadi 2 set kalau badan masih pegal dari Jumat.",
+      "dials": [
+       {
+        "v": "3",
+        "k": "set"
+       },
+       {
+        "v": "20-45",
+        "k": "detik"
+       },
+       {
+        "v": "45",
+        "k": "jeda detik"
+       }
+      ]
+     }
+    ]
+   }
   },
   {
    "key": "minggu",
@@ -1667,7 +2054,8 @@ window.PROGRAM = {
      "sets": 1,
      "note": ""
     }
-   ]
+   ],
+   "cooldown": "Hari ini benar-benar kosong, tanpa incline dan tanpa gantung. Satu hari tanpa apa pun per minggu itu bagian dari programnya, bukan kemalasan, dan justru di hari inilah otot yang kamu latih tumbuh."
   }
  ],
  "meals": {
@@ -1718,6 +2106,7 @@ window.PROGRAM = {
     var items = [];
     (d.main || []).forEach(function (it, i) { items.push(Object.assign({}, it, { id: d.key + '-m' + i, group: 'main' })); });
     if (d.finisher) d.finisher.items.forEach(function (it, i) { items.push(Object.assign({}, it, { id: d.key + '-f' + i, group: 'fin' })); });
+    if (d.cool) d.cool.items.forEach(function (it, i) { items.push(Object.assign({}, it, { id: d.key + '-c' + i, group: 'cool' })); });
     d._items = items;
     d._total = items.reduce(function (a, b) { return a + (b.sets || 1); }, 0);
   });
@@ -1779,7 +2168,7 @@ window.PROGRAM = {
     if (!window.Figure || !window.EXERCISES) return;
     var used = {};
     P.days.forEach(function (d) {
-      (d.main || []).concat(d.finisher ? d.finisher.items : []).forEach(function (it) {
+      (d.main || []).concat(d.finisher ? d.finisher.items : [], d.cool ? d.cool.items : []).forEach(function (it) {
         if (it.fig && window.EXERCISES[it.fig]) used[it.fig] = 1;
       });
     });
@@ -1984,11 +2373,22 @@ window.PROGRAM = {
           '<span class="exname">' + esc(it.name) + '</span>' +
           '<span class="excount">' + dn + '/' + n + ' set</span></div>' +
         '<p class="expres">' + esc(it.prescription) + '</p>' +
+        (it.dials ? '<div class="dials">' + it.dials.map(function (x) {
+          return '<div class="dial"><b>' + esc(x.v) + '</b><span>' + esc(x.k) + '</span></div>';
+        }).join('') + '</div>' : '') +
         (it.desc ? '<p class="exdesc">' + esc(it.desc) + '</p>' : '') +
         (tags ? '<div class="tags">' + tags + '</div>' : '') +
         (it.note ? '<p class="exnote">' + esc(it.note) + '</p>' : '') +
         '<div class="exact"><div class="sets">' + sets + '</div>' + rest + '</div>' +
       '</div></article>';
+  }
+
+  function why_note(d) {
+    if (d.type === 'rest') return '';
+    return '<div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>' +
+      '<span>Rutinitas tetap sesudah angkat beban. Jalan incline dulu, gantung paling akhir, ' +
+      'supaya cengkeraman tidak lelah sebelum latihan tarik.</span></div>';
   }
 
   function renderDetail() {
@@ -2019,6 +2419,14 @@ window.PROGRAM = {
       var off = (d.main || []).length;
       h += '<div class="blocklab">' + esc(d.finisher.label) + ' — ' + esc(d.finisher.duration) + '</div><div class="exlist anim">';
       d.finisher.items.forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-f' + i }), off + i); });
+      h += '</div>';
+    }
+
+    if (d.cool) {
+      var offc = (d.main || []).length + (d.finisher ? d.finisher.items.length : 0);
+      h += '<div class="blocklab cool">' + esc(d.cool.label) + ' — ' + esc(d.cool.duration) + '</div>' +
+why_note(d) + '<div class="exlist anim">';
+      d.cool.items.forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-c' + i }), offc + i); });
       h += '</div>';
     }
 
