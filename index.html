@@ -2592,17 +2592,21 @@ window.PROGRAM = {
   /* angka yang berjalan naik atau turun, bukan langsung berganti */
   function countTo(el, to, suffix) {
     if (!el) return;
-    var from = +(el.dataset.v || 0);
+    var from = +(el.dataset.v || 0), txt = to + (suffix || '');
     el.dataset.v = to;
-    if (reduce || from === to) { el.textContent = to + (suffix || ''); return; }
-    var t0 = performance.now(), dur = 620;
+    if (reduce || from === to) { el.textContent = txt; return; }
+    var t0 = performance.now(), dur = 620, done = false;
     function step(t) {
+      if (done) return;
       var k = Math.min(1, (t - t0) / dur);
       k = 1 - Math.pow(1 - k, 3);
       el.textContent = Math.round(from + (to - from) * k) + (suffix || '');
-      if (k < 1) requestAnimationFrame(step);
+      if (k < 1) requestAnimationFrame(step); else done = true;
     }
     requestAnimationFrame(step);
+    /* kalau layar mati atau aplikasi pindah ke belakang, frame animasi berhenti
+       dan angkanya bisa tertinggal, jadi nilai akhirnya dipastikan lewat timer */
+    setTimeout(function () { if (!done) { done = true; el.textContent = txt; } }, dur + 220);
   }
 
   /* ledakan kecil waktu satu hari tuntas */
