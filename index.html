@@ -159,6 +159,8 @@ a{color:var(--acc)}
 .stile.warm b{color:#d4573a}
 .stile.green .si{background:var(--good-soft);color:var(--good)}
 .stile.green b{color:var(--good)}
+.stile.aqua .si{background:rgba(52,168,186,.14);color:#1f8ba1}
+.stile.aqua b{color:#1f8ba1}
 
 /* fokus program */
 .focus{background:linear-gradient(145deg,#243a67,#141d33);border-radius:var(--r);padding:1.05rem 1.1rem;
@@ -247,10 +249,12 @@ a{color:var(--acc)}
 .wlab{display:flex;align-items:baseline;margin-top:1rem;font-size:.82rem;font-weight:700}
 .wlab i{margin-left:auto;font-style:normal;font-size:.76rem;color:var(--muted);font-weight:600;
   font-variant-numeric:tabular-nums}
-.wdots{display:grid;grid-template-columns:repeat(8,1fr);gap:.3rem;margin-top:.5rem}
-.wd{aspect-ratio:1;border-radius:11px;border:1px solid var(--line2);background:var(--bg);
-  display:grid;place-items:center;transition:all .18s var(--ease)}
-.wd svg{width:16px;height:16px;fill:var(--line2)}
+.wdots{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem;margin-top:.5rem}
+.wd{border-radius:14px;border:1px solid var(--line2);background:var(--bg);padding:.7rem .4rem;
+  display:flex;flex-direction:column;align-items:center;gap:.25rem;transition:all .18s var(--ease)}
+.wd svg{width:22px;height:22px;fill:var(--line2)}
+.wd b{font-size:.72rem;font-weight:800;color:var(--faint);letter-spacing:-.01em}
+.wd.on b{color:var(--acc)}
 .wd.on{background:var(--acc-soft);border-color:var(--acc)}
 .wd.on svg{fill:var(--acc)}
 .wd:active{transform:scale(.9)}
@@ -617,7 +621,10 @@ a{color:var(--acc)}
       </button>
     </div>
 
-    <div class="blocklab">Minggu ini</div>
+    <div class="blocklab">Statistik hari ini</div>
+    <div class="stats anim" id="dayRow"></div>
+
+    <div class="blocklab">Statistik minggu ini</div>
     <div class="stats anim" id="statRow"></div>
 
     <div class="blocklab">Fokus program</div>
@@ -625,12 +632,6 @@ a{color:var(--acc)}
 
     <div class="blocklab">Tangga calisthenics</div>
     <div id="ladderCard"></div>
-
-    <div class="blocklab">Tiga hari berikutnya</div>
-    <div class="nextdays anim" id="nextDays"></div>
-
-    <div class="blocklab">Makan berikutnya</div>
-    <div id="nextMeal"></div>
 
     <div class="blocklab">Target harian</div>
     <div id="targets"></div>
@@ -2651,7 +2652,8 @@ window.PROGRAM = {
     set: '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
     jam: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
     api: '<path d="M12 3c3 4 5 6 5 9a5 5 0 0 1-10 0c0-1.4.6-2.6 1.6-3.8C9.8 9.5 11 7 12 3Z"/>',
-    cek: '<path d="M20 6 9 17l-5-5"/>'
+    cek: '<path d="M20 6 9 17l-5-5"/>',
+    air: '<path d="M12 3s6 6.4 6 10.4a6 6 0 0 1-12 0C6 9.4 12 3 12 3Z"/>'
   };
   function stile(kind, tone, value, label) {
     return '<div class="stile ' + tone + '"><span class="si">' +
@@ -2675,6 +2677,19 @@ window.PROGRAM = {
       '<div style="--i:3">' + stile('cek', 'green', full + '/' + train.length, 'hari tuntas') + '</div>';
   }
 
+  /* statistik hari ini, dihitung dari centangan hari berjalan */
+  function renderDayStats() {
+    var row = $('#dayRow'); if (!row) return;
+    var d = byKey(todayKey()), p = dayProgress(d);
+    var mins = mid(d.minutes) * p.pct / 100;
+    var kcal = mid(d.kcal) * p.pct / 100;
+    row.innerHTML =
+      '<div style="--i:0">' + stile('set', 'blue', p.got + '/' + p.total, 'set hari ini') + '</div>' +
+      '<div style="--i:1">' + stile('jam', 'violet', minToHm(mins), 'waktu hari ini') + '</div>' +
+      '<div style="--i:2">' + stile('api', 'warm', Math.round(kcal) || 0, 'kkal hari ini') + '</div>' +
+      '<div style="--i:3">' + stile('air', 'aqua', waterGot() + '/' + WG + ' L', 'air hari ini') + '</div>';
+  }
+
   function renderFocus() {
     var train = P.days.filter(function (d) { return d.type !== 'rest'; }).length;
     $('#focusCard').innerHTML =
@@ -2691,46 +2706,13 @@ window.PROGRAM = {
       'seperti plank dan hollow, bukan pola menekuk seperti crunch.</p></div>';
   }
 
-  function renderNextDays() {
-    var i0 = P.days.map(function (d) { return d.key; }).indexOf(todayKey());
-    var h = '';
-    for (var k = 1; k <= 3; k++) {
-      var d = P.days[(i0 + k) % P.days.length], p = dayProgress(d);
-      h += '<button class="nday ' + d.type + '" type="button" data-day="' + d.key + '" style="--i:' + (k - 1) + '">' +
-        '<span class="nd">' + (k === 1 ? 'Besok' : esc(d.day)) + '</span>' +
-        '<b>' + esc(d.title) + '</b>' +
-        '<small>' + (d.type === 'rest' ? 'pemulihan' : esc(d.minutes) + ' menit · ' + p.total + ' set') + '</small></button>';
-    }
-    $('#nextDays').innerHTML = h;
-    $$('#nextDays .nday').forEach(function (b) {
-      b.addEventListener('click', function () { pickDay(b.dataset.day); });
-    });
-  }
-
-  function renderNextMeal() {
-    var now = new Date(), mn = now.getHours() * 60 + now.getMinutes();
-    var items = P.meals.items, pick = null, besok = false;
-    for (var i = 0; i < items.length; i++) {
-      var t = String(items[i].time).split('.');
-      if ((+t[0]) * 60 + (+(t[1] || 0)) > mn) { pick = items[i]; break; }
-    }
-    if (!pick) { pick = items[0]; besok = true; }
-    $('#nextMeal').innerHTML =
-      '<div class="mnext"><span class="mbar"></span>' +
-      '<div class="mbody"><div class="mtop"><b>' + esc(pick.slot) + '</b>' +
-      '<span class="mtime">' + (besok ? 'besok ' : '') + esc(pick.time) + '</span></div>' +
-      '<p>' + esc(pick.desc) + '</p>' +
-      '<div class="mkc"><span>' + pick.kcal + ' kkal</span><span>' + pick.p + ' g protein</span></div>' +
-      '</div></div>';
-  }
-
   /* air minum, disimpan per tanggal */
-  var WG = 8;
+  var WG = 3;
   function dayKeyStr() {
     var t = new Date();
     return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
   }
-  function waterGot() { return (state.water && state.water[dayKeyStr()]) || 0; }
+  function waterGot() { return Math.min((state.water && state.water[dayKeyStr()]) || 0, WG); }
   function waterSet(n) {
     if (!state.water) state.water = {};
     if (n <= 0) delete state.water[dayKeyStr()]; else state.water[dayKeyStr()] = Math.min(n, WG);
@@ -2741,7 +2723,9 @@ window.PROGRAM = {
     var w = waterGot(), dots = '';
     for (var i = 1; i <= WG; i++) {
       dots += '<button class="wd' + (i <= w ? ' on' : '') + '" type="button" data-w="' + i +
-        '" aria-label="Gelas ke-' + i + '"><svg viewBox="0 0 24 24"><path d="M6 4h12l-1.2 15.2A2 2 0 0 1 14.8 21H9.2a2 2 0 0 1-2-1.8L6 4Z"/></svg></button>';
+        '" aria-label="Liter ke-' + i + '">' +
+        '<svg viewBox="0 0 24 24"><path d="M12 3s6 6.4 6 10.4a6 6 0 0 1-12 0C6 9.4 12 3 12 3Z"/></svg>' +
+        '<b>1 L</b></button>';
     }
     $('#targets').innerHTML =
       '<div class="tcard"><div class="tgrid">' +
@@ -2749,15 +2733,15 @@ window.PROGRAM = {
         '<div class="titem"><b>' + esc(P.meta.protein) + '</b><span>protein</span></div>' +
         '<div class="titem"><b>' + esc(String(P.meta.water).replace('/hari', '')) + '</b><span>air</span></div>' +
       '</div>' +
-      '<div class="wlab">Air hari ini<i>' + w + ' / ' + WG + ' gelas</i></div>' +
+      '<div class="wlab">Air hari ini<i>' + w + ' / ' + WG + ' L</i></div>' +
       '<div class="wdots">' + dots + '</div>' +
-      '<p class="wnote">Satu gelas kira-kira 300 ml. Ketuk untuk menandai, hitungannya mulai lagi tiap hari.</p></div>';
+      '<p class="wnote">Satu ketukan sama dengan satu liter. Targetmu 2,5-3 L, jadi tiga ketukan sudah aman. Hitungannya mulai lagi tiap hari.</p></div>';
     $$('#targets .wd').forEach(function (b) {
       b.addEventListener('click', function () {
         var n = +b.dataset.w;
         waterSet(waterGot() === n ? n - 1 : n);
-        renderTargets();
-        if (waterGot() === WG) { toast('Target air hari ini beres'); celebrate(); }
+        renderTargets(); renderDayStats();
+        if (waterGot() === WG) { toast('Air hari ini sudah ' + WG + ' liter'); celebrate(); }
       });
     });
   }
@@ -2799,7 +2783,7 @@ window.PROGRAM = {
     });
   }
 
-  function renderHome() { renderStats(); renderFocus(); renderLadder(); renderNextDays(); renderNextMeal(); renderTargets(); }
+  function renderHome() { renderDayStats(); renderStats(); renderFocus(); renderLadder(); renderTargets(); }
 
   /* ---------------- jadwal ---------------- */
   var RC = 2 * Math.PI * 16;
@@ -3071,7 +3055,7 @@ why_note(d) + '<div class="exlist anim">';
     weekWas = got;
 
     $('#footNote').textContent = 'Minggu mulai ' + state.week + ' · alat dan video dari katalog Muscle Lab';
-    if ($('#statRow')) renderStats();
+    if ($('#statRow')) { renderStats(); renderDayStats(); }
   }
 
   /* ---------------- bunyi & getar ---------------- */
