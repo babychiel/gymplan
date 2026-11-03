@@ -281,6 +281,29 @@ a{color:var(--acc)}
 .ring .bgc{stroke:var(--bg2)} .ring .fgc{stroke:var(--acc);transition:stroke-dashoffset .6s var(--ease)}
 .ring text{font-size:12px;font-weight:800;fill:var(--ink);text-anchor:middle;dominant-baseline:central}
 
+/* fokus otot di kartu hari */
+.dbody .dfoc{display:block;color:var(--acc);font-weight:600;font-size:.72rem;margin-top:.15rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.daycard.rest .dbody .dfoc{color:var(--faint)}
+
+/* deretan otot di kepala halaman latihan */
+.dmus{margin-top:.9rem}
+.dmlab{display:block;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--faint);font-weight:700;margin-bottom:.4rem}
+.dmchips{display:flex;flex-wrap:wrap;gap:.3rem}
+.dmchip{display:inline-flex;align-items:center;gap:.3rem;font-size:.74rem;font-weight:600;
+  padding:.22rem .55rem;border-radius:99px;background:var(--bg2);color:var(--muted)}
+.dmchip.main{background:var(--acc-soft);color:var(--acc2)}
+.dmchip i{font-style:normal;font-size:.64rem;font-weight:800;opacity:.7;
+  font-variant-numeric:tabular-nums}
+
+/* label fokus di tiap kartu alat */
+.tagwrap{margin-top:.6rem;display:grid;gap:.3rem}
+.tagrow{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}
+.taglab{flex:none;width:62px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);font-weight:700}
+.tagrow .tags{margin-top:0;flex:1;min-width:0}
+
 /* ---------- detail latihan ---------- */
 .dhead{background:linear-gradient(150deg,#ffffff,#eef3ff);border:1px solid var(--line);border-radius:26px;
   padding:1.2rem;box-shadow:var(--sh);margin-bottom:1rem}
@@ -288,7 +311,7 @@ a{color:var(--acc)}
 .dhead p{margin:.35rem 0 0;color:var(--muted);font-size:.88rem}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:1rem}
 .metric{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:.55rem .5rem;text-align:center}
-.metric b{display:block;font-size:.92rem;font-weight:800;letter-spacing:-.02em}
+.metric b{display:block;font-size:.84rem;font-weight:800;letter-spacing:-.03em;white-space:nowrap}
 .metric span{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600}
 
 .note{display:flex;gap:.65rem;align-items:flex-start;background:var(--acc-soft);border-radius:var(--r-sm);
@@ -2423,6 +2446,19 @@ window.PROGRAM = {
     return { got: got, total: d._total || 1, pct: Math.round(got / (d._total || 1) * 100) };
   }
 
+  /* otot apa saja yang dikerjakan satu hari, diurutkan dari porsi terbesar.
+     Gerakan utama dihitung dua, gerakan pendukung dihitung satu. */
+  function muscleRank(d) {
+    var score = {}, prim = {};
+    (d._items || []).forEach(function (it) {
+      (it.primary || []).forEach(function (m) { score[m] = (score[m] || 0) + 2; prim[m] = (prim[m] || 0) + 1; });
+      (it.secondary || []).forEach(function (m) { score[m] = (score[m] || 0) + 1; });
+    });
+    return Object.keys(score)
+      .sort(function (a, b) { return score[b] - score[a]; })
+      .map(function (m) { return { m: m, n: prim[m] || 0 }; });
+  }
+
   var DOW = ['minggu', 'senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'];
   var todayKey = function () { return DOW[new Date().getDay()]; };
   var byKey = function (k) { return P.days.filter(function (d) { return d.key === k; })[0] || P.days[0]; };
@@ -2799,7 +2835,12 @@ window.PROGRAM = {
         '" type="button" data-day="' + d.key + '" style="--i:' + i + '">' +
         '<span class="dnum">' + (d.type === 'rest' ? '·' : d.n) + '</span>' +
         '<span class="dbody"><b>' + esc(d.day) + ' — ' + esc(d.title) + '</b>' +
-        '<small>' + esc(d.minutes) + ' menit · ' + esc(d.kcal) + ' kkal</small></span>' +
+        '<small>' + esc(d.minutes) + ' menit · ' + esc(d.kcal) + ' kkal</small>' +
+        (function () {
+          var top = muscleRank(d).filter(function (x) { return x.n > 0; })
+            .slice(0, 3).map(function (x) { return x.m; });
+          return top.length ? '<small class="dfoc">Fokus ' + esc(top.join(', ')) + '</small>' : '';
+        })() + '</span>' +
         (d.type === 'rest' ? '' : ring(p.pct)) + '</button>';
     }).join('');
     $$('#days .daycard').forEach(function (b) {
@@ -2821,8 +2862,15 @@ window.PROGRAM = {
       sets += '<button class="setbtn" type="button" data-id="' + it.id + '" data-n="' + i +
         '" aria-pressed="' + (i <= dn) + '" aria-label="Set ' + i + ' dari ' + n + '">' + i + '</button>';
     }
-    var tags = (it.primary || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') +
-      (it.secondary || []).map(function (t) { return '<span class="sec">' + esc(t) + '</span>'; }).join('');
+    var tags = '';
+    if ((it.primary || []).length) {
+      tags += '<div class="tagrow"><span class="taglab">Fokus</span><div class="tags">' +
+        it.primary.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div></div>';
+    }
+    if ((it.secondary || []).length) {
+      tags += '<div class="tagrow"><span class="taglab">Ikut kena</span><div class="tags">' +
+        it.secondary.map(function (t) { return '<span class="sec">' + esc(t) + '</span>'; }).join('') + '</div></div>';
+    }
     var rest = it.rest ? '<button class="restbtn" type="button" data-rest="' + it.rest + '" data-name="' + esc(it.name) + '">' +
       '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> ' +
       it.rest + ' dtk</button>' : '';
@@ -2838,7 +2886,7 @@ window.PROGRAM = {
           return '<div class="dial"><b>' + esc(x.v) + '</b><span>' + esc(x.k) + '</span></div>';
         }).join('') + '</div>' : '') +
         (it.desc ? '<p class="exdesc">' + esc(it.desc) + '</p>' : '') +
-        (tags ? '<div class="tags">' + tags + '</div>' : '') +
+        (tags ? '<div class="tagwrap">' + tags + '</div>' : '') +
         (it.note ? '<p class="exnote">' + esc(it.note) + '</p>' : '') +
         '<div class="exact"><div class="sets">' + sets + '</div>' + rest + '</div>' +
       '</div></article>';
@@ -2856,6 +2904,15 @@ window.PROGRAM = {
     var d = byKey(selected), p = dayProgress(d), h = '';
     h += '<div class="dhead"><span class="kick">' + esc(d.tag) + ' · ' + esc(d.day) + '</span>' +
       '<h2>' + esc(d.title) + '</h2><p>' + esc(d.focus) + '</p>' +
+      (function () {
+        var r = muscleRank(d).slice(0, 6);
+        if (!r.length) return '';
+        return '<div class="dmus"><span class="dmlab">Otot yang dikerjakan</span><div class="dmchips">' +
+          r.map(function (x) {
+            return '<span class="dmchip' + (x.n ? ' main' : '') + '">' + esc(x.m) +
+              (x.n ? '<i>' + x.n + '</i>' : '') + '</span>';
+          }).join('') + '</div></div>';
+      })() +
       '<div class="metrics">' +
         '<div class="metric"><b>' + esc(d.minutes) + '</b><span>menit</span></div>' +
         '<div class="metric"><b>' + esc(d.kcal) + '</b><span>kkal</span></div>' +
