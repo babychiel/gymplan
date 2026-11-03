@@ -417,8 +417,9 @@ a{color:var(--acc)}
 /* ---------- progres ---------- */
 .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin-bottom:1rem}
 .pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1rem;box-shadow:var(--sh-sm)}
-.pcard b{display:block;font-size:1.9rem;font-weight:800;color:var(--acc);line-height:1;font-variant-numeric:tabular-nums}
-.pcard span{font-size:.72rem;color:var(--muted);font-weight:600}
+.pcard b{display:block;font-size:1.62rem;font-weight:800;color:var(--acc);line-height:1;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap}
+.pcard span{font-size:.7rem;color:var(--muted);font-weight:600}
 .week{display:grid;grid-template-columns:repeat(7,1fr);gap:.35rem;margin-top:1rem}
 .wc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.55rem .2rem;text-align:center}
 .wc b{display:block;font-size:.72rem;font-weight:700}
@@ -562,6 +563,40 @@ a{color:var(--acc)}
 .wlabs span{text-align:center;font-size:.66rem;font-weight:700;color:var(--faint)}
 .wlabs span.now{color:var(--acc)}
 
+/* ---------- rekap bulanan & tahunan ---------- */
+.rcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:1.15rem;box-shadow:var(--sh-sm)}
+.rhead{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;margin-bottom:.9rem}
+.rhead b{font-size:1.02rem;font-weight:800;letter-spacing:-.01em}
+.rhead span{flex:none;font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--faint);font-weight:700}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.ritem{background:var(--bg2);border-radius:14px;padding:.65rem .55rem;min-width:0}
+.ritem b{display:block;font-size:1.12rem;font-weight:800;color:var(--ink);line-height:1.1;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.ritem span{display:block;font-size:.63rem;color:var(--muted);font-weight:600;
+  margin-top:.2rem;line-height:1.3}
+.ritem.hi b{color:var(--acc)}
+.rbars{display:flex;align-items:flex-end;gap:2px;height:76px;margin-top:1.1rem}
+.rb{flex:1;min-width:0;height:100%;border-radius:4px;background:var(--bg2);
+  display:flex;align-items:flex-end;overflow:hidden}
+.rb i{display:block;width:100%;height:0;border-radius:4px;
+  background:linear-gradient(180deg,var(--acc2),var(--acc));
+  transition:height .8s var(--ease)}
+.rb.full i{background:linear-gradient(180deg,#45d6ab,var(--good))}
+.rb.now{box-shadow:0 0 0 1.5px var(--acc-soft)}
+.rlabs{display:flex;gap:2px;margin-top:.45rem}
+.rlabs span{flex:1;min-width:0;text-align:center;font-size:.56rem;font-weight:700;
+  color:var(--faint);white-space:nowrap;font-variant-numeric:tabular-nums}
+.rlabs{overflow:visible}
+.rnote{margin:.95rem 0 0;font-size:.76rem;color:var(--muted);line-height:1.55}
+@media (min-width:420px){
+  .ritem b{font-size:1.22rem}
+  .ritem span{font-size:.66rem}
+  .rbars{height:92px}
+}
+
 /* perayaan */
 .burst{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:95}
 .burst i{position:absolute;width:9px;height:9px;border-radius:3px;background:var(--c);
@@ -624,9 +659,6 @@ a{color:var(--acc)}
     <div class="blocklab">Statistik hari ini</div>
     <div class="stats anim" id="dayRow"></div>
 
-    <div class="blocklab">Statistik minggu ini</div>
-    <div class="stats anim" id="statRow"></div>
-
     <div class="blocklab">Fokus program</div>
     <div id="focusCard"></div>
 
@@ -666,12 +698,21 @@ a{color:var(--acc)}
   <section class="view" id="v-progres">
     <div class="vhead">
       <span class="kick">Progres</span>
-      <h2>Minggu berjalan</h2>
-      <p>Centangan tersimpan di perangkat ini dan otomatis reset tiap Senin.</p>
+      <h2>Catatan latihanmu</h2>
+      <p>Centangan minggu berjalan reset tiap Senin, tapi rekap bulanan dan tahunan di bawah tersimpan terus.</p>
     </div>
+
+    <div class="blocklab">Minggu ini</div>
     <div class="pgrid" id="pgrid"></div>
     <div class="week" id="weekStrip"></div>
-    <button class="btn btn-ghost" id="resetBtn" type="button" style="margin-top:1.2rem;width:100%">Reset minggu ini</button>
+
+    <div class="blocklab">Rekap bulan ini</div>
+    <div id="mcard"></div>
+
+    <div class="blocklab">Rekap tahun ini</div>
+    <div id="ycard"></div>
+
+    <button class="btn btn-ghost" id="resetBtn" type="button" style="margin-top:1.4rem;width:100%">Reset minggu ini</button>
     <p style="color:var(--faint);font-size:.78rem;margin-top:1.4rem" id="footNote"></p>
   </section>
 
@@ -2438,7 +2479,7 @@ window.PROGRAM = {
   }
   var state = { week: weekKey(), done: {} };
   try { var raw = localStorage.getItem(KEY); if (raw) { var s = JSON.parse(raw); if (s && s.week === state.week) state = s; } } catch (e) {}
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} histSync(); }
   var doneSets = function (id) { return state.done[id] || 0; };
   function setDone(id, n) { if (n <= 0) delete state.done[id]; else state.done[id] = n; save(); }
   function dayProgress(d) {
@@ -2661,22 +2702,6 @@ window.PROGRAM = {
       SICON[kind] + '</svg></span><span class="sv"><b>' + esc(value) + '</b><span>' + esc(label) + '</span></span></div>';
   }
 
-  function renderStats() {
-    var train = P.days.filter(function (d) { return d.type !== 'rest'; });
-    var tot = 0, got = 0, full = 0, mins = 0, kcal = 0;
-    train.forEach(function (d) {
-      var p = dayProgress(d);
-      tot += p.total; got += p.got; if (p.pct === 100) full++;
-      mins += mid(d.minutes) * p.pct / 100;
-      kcal += mid(d.kcal) * p.pct / 100;
-    });
-    $('#statRow').innerHTML =
-      '<div style="--i:0">' + stile('set', 'blue', got + '/' + tot, 'set beres') + '</div>' +
-      '<div style="--i:1">' + stile('jam', 'violet', minToHm(mins), 'waktu latihan') + '</div>' +
-      '<div style="--i:2">' + stile('api', 'warm', Math.round(kcal) || 0, 'kkal terbakar') + '</div>' +
-      '<div style="--i:3">' + stile('cek', 'green', full + '/' + train.length, 'hari tuntas') + '</div>';
-  }
-
   /* statistik hari ini, dihitung dari centangan hari berjalan */
   function renderDayStats() {
     var row = $('#dayRow'); if (!row) return;
@@ -2746,6 +2771,60 @@ window.PROGRAM = {
     });
   }
 
+  /* ---------------- riwayat panjang ----------------
+     Centangan mingguan di gymplan.v2 terhapus tiap Senin, jadi tiap perubahan
+     dicatat ulang ke gymplan.hist dalam bentuk ringkasan per tanggal.
+     Satu catatan berisi s set beres, t set target, m menit, k kkal, w liter air. */
+  var HKEY = 'gymplan.hist', hist = { d: {} };
+  try { var hraw = localStorage.getItem(HKEY); if (hraw) { var hp = JSON.parse(hraw); if (hp && hp.d) hist = hp; } } catch (e) {}
+  function histSave() { try { localStorage.setItem(HKEY, JSON.stringify(hist)); } catch (e) {} }
+  function dstr(t) {
+    return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+  }
+  /* tanggal sebenarnya dari satu hari dalam minggu yang sedang tersimpan */
+  function dateOfDay(k) {
+    var i = DOW.indexOf(k); i = i <= 0 ? 6 : i - 1;
+    var q = state.week.split('-');
+    return dstr(new Date(+q[0], +q[1] - 1, +q[2] + i));
+  }
+  function histSync() {
+    var ch = false;
+    P.days.forEach(function (d) {
+      if (d.type === 'rest') return;
+      var p = dayProgress(d), key = dateOfDay(d.key), r = hist.d[key] || {};
+      if (!p.got) {
+        if (r.s != null) { delete r.s; delete r.t; delete r.m; delete r.k; ch = true; }
+      } else {
+        var mn = Math.round(mid(d.minutes) * p.pct / 100), kc = Math.round(mid(d.kcal) * p.pct / 100);
+        if (r.s !== p.got || r.t !== p.total || r.m !== mn || r.k !== kc) {
+          r.s = p.got; r.t = p.total; r.m = mn; r.k = kc; ch = true;
+        }
+      }
+      if (Object.keys(r).length) hist.d[key] = r;
+      else if (hist.d[key]) { delete hist.d[key]; ch = true; }
+    });
+    var wa = state.water || {};
+    Object.keys(wa).forEach(function (key) {
+      var r = hist.d[key] || {}, v = Math.min(wa[key], WG);
+      if (v && r.w !== v) { r.w = v; hist.d[key] = r; ch = true; }
+    });
+    if (ch) histSave();
+  }
+  /* jumlahkan catatan antara dua tanggal, batasnya ikut dihitung */
+  function histAgg(from, to) {
+    var o = { sets: 0, total: 0, mins: 0, kcal: 0, days: 0, full: 0, water: 0, wd: 0 };
+    Object.keys(hist.d).forEach(function (k) {
+      if (k < from || k > to) return;
+      var r = hist.d[k];
+      if (r.s) {
+        o.sets += r.s; o.total += r.t || 0; o.mins += r.m || 0; o.kcal += r.k || 0; o.days++;
+        if (r.t && r.s >= r.t) o.full++;
+      }
+      if (r.w) { o.water += r.w; o.wd++; }
+    });
+    return o;
+  }
+
   /* tangga calisthenics, disimpan terpisah supaya tidak ikut reset mingguan */
   var LKEY = 'gymplan.ladder', ladder = {};
   try { var lraw = localStorage.getItem(LKEY); if (lraw) ladder = JSON.parse(lraw) || {}; } catch (e) {}
@@ -2783,7 +2862,7 @@ window.PROGRAM = {
     });
   }
 
-  function renderHome() { renderDayStats(); renderStats(); renderFocus(); renderLadder(); renderTargets(); }
+  function renderHome() { renderDayStats(); renderFocus(); renderLadder(); renderTargets(); }
 
   /* ---------------- jadwal ---------------- */
   var RC = 2 * Math.PI * 16;
@@ -2991,7 +3070,96 @@ why_note(d) + '<div class="exlist anim">';
   }
 
   /* ---------------- progres ---------------- */
-  var PLAB = ['minggu ini selesai', 'hari tuntas', 'set diselesaikan', 'set tersisa'];
+  var PLAB = ['persen minggu ini', 'hari tuntas', 'set beres', 'set tersisa', 'menit latihan', 'kkal terbakar'];
+  var MON = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+             'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  function num(n) { return String(Math.round(n || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function ritem(v, lab, hi) {
+    return '<div class="ritem' + (hi ? ' hi' : '') + '"><b>' + esc(v) + '</b><span>' + esc(lab) + '</span></div>';
+  }
+  /* batang rekap tumbuh dari nol sesudah dipasang */
+  function growBars(host) {
+    $$('.rb', host).forEach(function (b) {
+      var h = +b.dataset.h || 0, fill = $('i', b);
+      if (reduce) fill.style.height = h + '%';
+      else requestAnimationFrame(function () { fill.style.height = h + '%'; });
+    });
+  }
+
+  /* rekap bulan berjalan, satu batang satu tanggal */
+  function renderMonth() {
+    var host = $('#mcard'); if (!host) return;
+    var t = new Date(), y = t.getFullYear(), mo = t.getMonth(), today = t.getDate();
+    var mm = String(mo + 1).padStart(2, '0');
+    var a = histAgg(y + '-' + mm + '-01', y + '-' + mm + '-31');
+    var last = new Date(y, mo + 1, 0).getDate();
+    var air = a.wd ? Math.round(a.water / a.wd * 10) / 10 : 0;
+    var bars = '', labs = '', i, r, pc;
+    for (i = 1; i <= last; i++) {
+      r = hist.d[y + '-' + mm + '-' + String(i).padStart(2, '0')] || {};
+      pc = r.s && r.t ? Math.round(r.s / r.t * 100) : 0;
+      bars += '<span class="rb' + (pc >= 100 ? ' full' : '') + (i === today ? ' now' : '') +
+        '" data-h="' + (pc ? Math.max(6, Math.min(100, pc)) : 0) +
+        '" title="' + i + ' ' + MON[mo] + ', ' + pc + ' persen"><i></i></span>';
+      labs += '<span>' + (i === 1 || i % 5 === 0 ? i : '') + '</span>';
+    }
+    host.innerHTML = '<div class="rcard">' +
+      '<div class="rhead"><b>' + MON[mo] + ' ' + y + '</b><span>bulan ini</span></div>' +
+      '<div class="rgrid">' +
+        ritem(a.days, 'hari latihan', 1) +
+        ritem(a.full, 'hari tuntas') +
+        ritem(num(a.sets), 'set beres') +
+        ritem(minToHm(a.mins), 'waktu latihan') +
+        ritem(num(a.kcal), 'kkal terbakar') +
+        ritem(air + ' L', 'air rata-rata') +
+      '</div>' +
+      '<div class="rbars">' + bars + '</div>' +
+      '<div class="rlabs">' + labs + '</div>' +
+      '<p class="rnote">Satu batang satu tanggal, tingginya persen set yang kamu centang hari itu.</p></div>';
+    growBars(host);
+  }
+
+  /* rekap tahun berjalan, satu batang satu bulan */
+  function renderYear() {
+    var host = $('#ycard'); if (!host) return;
+    var t = new Date(), y = t.getFullYear();
+    var a = histAgg(y + '-01-01', y + '-12-31');
+    var wk = {}, i;
+    Object.keys(hist.d).forEach(function (k) {
+      if (k < y + '-01-01' || k > y + '-12-31' || !hist.d[k].s) return;
+      wk[weekKey(new Date(+k.slice(0, 4), +k.slice(5, 7) - 1, +k.slice(8, 10)))] = 1;
+    });
+    var ms = [], max = 0, mm;
+    for (i = 0; i < 12; i++) {
+      mm = String(i + 1).padStart(2, '0');
+      ms.push(histAgg(y + '-' + mm + '-01', y + '-' + mm + '-31'));
+      if (ms[i].sets > max) max = ms[i].sets;
+    }
+    var best = -1;
+    for (i = 0; i < 12; i++) { if (max && ms[i].sets === max) { best = i; break; } }
+    var bars = '', labs = '';
+    ms.forEach(function (g, j) {
+      var h = max ? Math.round(g.sets / max * 100) : 0;
+      bars += '<span class="rb' + (j === t.getMonth() ? ' now' : '') +
+        '" data-h="' + (g.sets ? Math.max(6, h) : 0) +
+        '" title="' + MON[j] + ', ' + g.sets + ' set"><i></i></span>';
+      labs += '<span>' + MON[j].slice(0, 3) + '</span>';
+    });
+    host.innerHTML = '<div class="rcard">' +
+      '<div class="rhead"><b>Tahun ' + y + '</b><span>sepanjang tahun</span></div>' +
+      '<div class="rgrid">' +
+        ritem(a.days, 'hari latihan', 1) +
+        ritem(Object.keys(wk).length, 'minggu aktif') +
+        ritem(num(a.sets), 'set beres') +
+        ritem(minToHm(a.mins), 'waktu latihan') +
+        ritem(num(a.kcal), 'kkal terbakar') +
+        ritem(best < 0 ? '—' : MON[best].slice(0, 3), 'bulan teraktif') +
+      '</div>' +
+      '<div class="rbars">' + bars + '</div>' +
+      '<div class="rlabs">' + labs + '</div>' +
+      '<p class="rnote">Tinggi batang dibanding bulan paling ramai. Rekap ini tidak ikut terhapus waktu minggu baru mulai.</p></div>';
+    growBars(host);
+  }
   var weekWas = -1;
 
   function renderProgress() {
@@ -3008,10 +3176,18 @@ why_note(d) + '<div class="exlist anim">';
         return '<div class="pcard" style="--i:' + i + '"><b data-k="' + i + '">0</b><span>' + lab + '</span></div>';
       }).join('');
     }
+    var wmin = 0, wkcal = 0;
+    train.forEach(function (d) {
+      var p = dayProgress(d);
+      wmin += mid(d.minutes) * p.pct / 100;
+      wkcal += mid(d.kcal) * p.pct / 100;
+    });
     countTo($('b[data-k="0"]', pg), pct, '%');
     countTo($('b[data-k="1"]', pg), full, '/' + train.length);
     countTo($('b[data-k="2"]', pg), got, '');
     countTo($('b[data-k="3"]', pg), tot - got, '');
+    countTo($('b[data-k="4"]', pg), Math.round(wmin), '');
+    countTo($('b[data-k="5"]', pg), Math.round(wkcal), '');
 
     /* grafik batang mingguan, tumbuh dari nol */
     if (!$('.wbars', ws)) {
@@ -3054,8 +3230,13 @@ why_note(d) + '<div class="exlist anim">';
     }
     weekWas = got;
 
-    $('#footNote').textContent = 'Minggu mulai ' + state.week + ' · alat dan video dari katalog Muscle Lab';
-    if ($('#statRow')) { renderStats(); renderDayStats(); }
+    renderMonth(); renderYear();
+
+    var all = histAgg('0000-01-01', '9999-12-31');
+    $('#footNote').textContent = 'Minggu mulai ' + state.week +
+      ' · total sejak awal ' + num(all.sets) + ' set dalam ' + all.days + ' hari latihan' +
+      ' · alat dan video dari katalog Muscle Lab';
+    renderDayStats();
   }
 
   /* ---------------- bunyi & getar ---------------- */
@@ -3158,6 +3339,7 @@ why_note(d) + '<div class="exlist anim">';
   });
 
   renderTabs(); paintMotto(); armMotto();
+  histSync();
   renderToday(); renderDays(); renderDetail(); renderMeals(); renderProgress(); renderHome();
 
   var start = (location.hash || '').replace('#', '');
