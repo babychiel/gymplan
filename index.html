@@ -173,6 +173,40 @@ a{color:var(--acc)}
 .fchip{font-size:.72rem;font-weight:600;padding:.26rem .6rem;border-radius:99px;
   background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);color:#dce7ff}
 
+/* catatan di kartu fokus */
+.fnote{position:relative;z-index:1;margin:.8rem 0 0;font-size:.76rem;line-height:1.6;color:#b9c9e8}
+
+/* tangga calisthenics */
+.ladder{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);
+  padding:1rem;background-image:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.2) 70%,rgba(255,255,255,0))}
+.lhead{display:flex;align-items:baseline;gap:.6rem}
+.lhead b{font-size:1rem;font-weight:800}
+.lcount{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--acc);background:var(--acc-soft);
+  border-radius:99px;padding:.18rem .6rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.lbar{height:6px;border-radius:99px;background:var(--bg2);overflow:hidden;margin:.7rem 0 .9rem}
+.lbar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--acc),#6aa5ff);
+  transition:width .8s var(--ease)}
+.lrows{display:grid;gap:.45rem}
+.lrow{display:flex;align-items:flex-start;gap:.7rem;text-align:left;width:100%;
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:.65rem .7rem;
+  transition:all .18s var(--ease)}
+.lrow:active{transform:scale(.99)}
+.lnum{width:26px;height:26px;border-radius:9px;flex:none;display:grid;place-items:center;
+  background:var(--card);border:1px solid var(--line2);color:var(--muted);font-size:.78rem;font-weight:800}
+.lnum svg{width:14px;height:14px}
+.lbody{min-width:0}
+.lbody b{display:block;font-size:.88rem;font-weight:700;line-height:1.3}
+.lbody small{display:block;font-size:.74rem;color:var(--muted);line-height:1.5;margin-top:.18rem}
+.lrow.on{background:var(--good-soft);border-color:rgba(18,169,123,.4)}
+.lrow.on .lnum{background:var(--good);border-color:var(--good);color:#fff}
+.lrow.on .lbody b{color:#0d7f5d}
+.lnote{margin:.85rem 0 0;font-size:.74rem;color:var(--faint);line-height:1.55}
+
+/* blok calisthenics di halaman latihan */
+.blocklab.skill{color:#5d5bc9}
+.blocklab.skill::after{background:rgba(112,110,218,.35)}
+.skillist .excard{border-color:rgba(112,110,218,.32)}
+
 /* tiga hari berikutnya */
 .nextdays{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}
 .nday{display:block;text-align:left;background:var(--card);border:1px solid var(--line);
@@ -565,6 +599,9 @@ a{color:var(--acc)}
 
     <div class="blocklab">Fokus program</div>
     <div id="focusCard"></div>
+
+    <div class="blocklab">Tangga calisthenics</div>
+    <div id="ladderCard"></div>
 
     <div class="blocklab">Tiga hari berikutnya</div>
     <div class="nextdays anim" id="nextDays"></div>
@@ -1039,6 +1076,33 @@ a{color:var(--acc)}
       a: p({ t: 66, dy: 30, hL: 0, kL: -88, hR: 4, kR: -92, aL: 4, fL: 0, aR: 8, fR: 0 }),
       b: p({ t: 88, dy: 32, hL: 0, kL: -88, hR: 4, kR: -92, aL: 24, fL: 0, aR: 28, fR: 0 })
     },
+    /* ---------- CALISTHENICS DASAR ---------- */
+    'hollow-hold': {
+      name: 'Hollow hold', equip: 'none', dur: 3.4, prop: P.mat,
+      a: p({ rot: -90, dx: 16, dy: 40, t: -26, aL: 150, fL: 0, aR: 156, fR: 0, hL: 34, kL: 0, hR: 30, kR: 2 }),
+      b: p({ rot: -90, dx: 16, dy: 38, t: -30, aL: 154, fL: 0, aR: 160, fR: 0, hL: 38, kL: 0, hR: 34, kR: 2 })
+    },
+    'hollow-rock': {
+      name: 'Hollow rock', equip: 'none', dur: 1.8, prop: P.mat,
+      a: p({ rot: -90, dx: 10, dy: 36, t: -36, aL: 150, fL: 0, aR: 156, fR: 0, hL: 44, kL: 0, hR: 40, kR: 2 }),
+      b: p({ rot: -90, dx: 24, dy: 44, t: -18, aL: 146, fL: 0, aR: 152, fR: 0, hL: 22, kL: 0, hR: 18, kR: 2 })
+    },
+    'l-sit-tuck': {
+      name: 'Tuck L-sit', equip: 'none', dur: 3.2, prop: P.bench,
+      a: p({ t: 0, dy: 24, aL: 12, fL: -10, aR: -10, fR: 8, hL: 94, kL: -124, hR: 88, kR: -118 }),
+      b: p({ t: -4, dy: 20, aL: 13, fL: -11, aR: -9, fR: 7, hL: 99, kL: -128, hR: 93, kR: -122 })
+    },
+    'support-hold': {
+      name: 'Support hold', equip: 'none', dur: 3.4, prop: P.bench,
+      a: p({ t: 0, dy: 24, aL: 12, fL: -10, aR: -10, fR: 8, hL: 6, kL: 0, hR: -6, kR: 2 }),
+      b: p({ t: -3, dy: 20, aL: 13, fL: -11, aR: -9, fR: 7, hL: -6, kL: 2, hR: 6, kR: 0 })
+    },
+    'scapular-pull': {
+      name: 'Scapular pull', equip: 'none', dur: 2.2, prop: P.bar,
+      a: p({ t: 0, dy: 12, aL: 178, fL: 0, aR: 175, fR: 3, hL: 3, kL: 0, hR: -3, kR: 0 }),
+      b: p({ t: -2, dy: -2, aL: 178, fL: 0, aR: 175, fR: 3, hL: 3, kL: 0, hR: -3, kR: 0 })
+    },
+
     'dead-hang': {
       name: 'Dead hang', equip: 'none', dur: 3.6, prop: P.bar,
       a: p({ t: 0, dy: 8, aL: 178, fL: 0, aR: 175, fR: 3, hL: 3, kL: 0, hR: -3, kR: 0 }),
@@ -1069,11 +1133,12 @@ window.PROGRAM = {
  "meta": {
   "title": "Jadwal Gym Mingguan",
   "gym": "Muscle Lab Batam",
-  "goal": "Fat loss + glute & punggung",
+  "goal": "Perut & postur, lemak turun",
   "days": 5,
   "kcal": "±1880 kkal",
   "protein": "±163 g",
-  "water": "2,5-3 L/hari"
+  "water": "2,5-3 L/hari",
+  "bw": "78-80 kg"
  },
  "days": [
   {
@@ -1085,7 +1150,7 @@ window.PROGRAM = {
    "focus": "Tarikan vertikal dan horizontal · prioritas punggung",
    "minutes": "55-60",
    "kcal": "320-420",
-   "count": "6+2+2",
+   "count": "1+6+2+2",
    "type": "strength",
    "accent": "lime",
    "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu band pull-apart dan rotasi bahu 2×15",
@@ -1193,24 +1258,26 @@ window.PROGRAM = {
     }
    ],
    "finisher": {
-    "label": "Core · menekuk & anti-ekstensi",
+    "label": "Core · anti-ekstensi",
     "duration": "10 menit",
     "items": [
      {
       "no": "",
-      "name": "Abs Crunches Machine",
-      "y": "xtSmy9vbbUo",
-      "desc": "Membentuk otot perut dengan gerakan menekuk tubuh ke depan.",
+      "name": "Plank",
+      "y": null,
+      "fig": "plank",
+      "desc": "Tumpu siku, badan lurus, tulang rusuk ditarik turun dan panggul ditekuk ke dalam.",
       "primary": [
-       "Perut"
+       "Core dalam"
       ],
       "secondary": [
-       "Obliques"
+       "Bahu",
+       "Glute"
       ],
-      "prescription": "3 × 15",
+      "prescription": "3 × 45 detik",
       "rest": 45,
       "sets": 3,
-      "note": "Embuskan napas saat menekuk"
+      "note": "Pengganti crunch. Yang mengecilkan tampilan perut itu core yang menahan, bukan core yang menekuk berulang."
      },
      {
       "no": "",
@@ -1298,6 +1365,44 @@ window.PROGRAM = {
        {
         "v": "45",
         "k": "jeda detik"
+       }
+      ]
+     }
+    ]
+   },
+   "skill": {
+    "label": "Calisthenics · pola tarik",
+    "duration": "6 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Negative pull up",
+      "y": null,
+      "desc": "Naik dibantu mesin atau lompatan kecil, lalu turun selambat mungkin dengan kendali penuh.",
+      "primary": [
+       "Punggung atas"
+      ],
+      "secondary": [
+       "Bisep",
+       "Cengkeraman"
+      ],
+      "prescription": "3 × 3 (turun 5 detik)",
+      "rest": 90,
+      "sets": 3,
+      "note": "Ini jembatan paling cepat menuju pull up pertama. Yang melatih bukan naiknya, tapi turunnya. Hitung sampai lima saat turun, kalau cuma sanggup tiga detik berarti bantuannya masih kurang.",
+      "fig": "pull-up",
+      "dials": [
+       {
+        "v": "3",
+        "k": "set"
+       },
+       {
+        "v": "3",
+        "k": "rep"
+       },
+       {
+        "v": "5",
+        "k": "detik turun"
        }
       ]
      }
@@ -1548,7 +1653,7 @@ window.PROGRAM = {
     }
    ],
    "finisher": {
-    "label": "Core circuit · tiga pola",
+    "label": "Core circuit · hollow & anti-ekstensi",
     "duration": "3 putaran",
     "items": [
      {
@@ -1571,20 +1676,20 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Russian twist",
+      "name": "Hollow rock",
       "y": null,
-      "fig": "russian-twist",
-      "desc": "Duduk condong ke belakang, putar badan kiri kanan dengan kontrol.",
+      "fig": "hollow-rock",
+      "desc": "Dari posisi hollow, ayun badan maju mundur sebagai satu papan.",
       "primary": [
-       "Obliques"
+       "Core dalam"
       ],
       "secondary": [
        "Perut"
       ],
-      "prescription": "3 × 20",
-      "rest": 30,
+      "prescription": "3 × 12",
+      "rest": 45,
       "sets": 3,
-      "note": "Anti-rotasi, putar dari badan bukan dari lengan"
+      "note": "Pengganti russian twist. Lebih nyambung ke calisthenics dan lebih aman untuk pinggang."
      },
      {
       "no": "",
@@ -1688,7 +1793,7 @@ window.PROGRAM = {
    "focus": "Semua pola dorong · penyeimbang hari punggung",
    "minutes": "55-60",
    "kcal": "320-420",
-   "count": "6+2+2",
+   "count": "1+6+2+2",
    "type": "strength",
    "accent": "lime",
    "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu rotasi bahu dan push-up ringan 2×10",
@@ -1793,24 +1898,26 @@ window.PROGRAM = {
     }
    ],
    "finisher": {
-    "label": "Core · menekuk & anti-ekstensi",
+    "label": "Core · anti-ekstensi & anti-rotasi",
     "duration": "10 menit",
     "items": [
      {
       "no": "",
-      "name": "Abs Crunches Machine",
-      "y": "xtSmy9vbbUo",
-      "desc": "Membentuk otot perut dengan gerakan menekuk tubuh ke depan.",
+      "name": "Plank shoulder tap",
+      "y": null,
+      "fig": "plank-shoulder-tap",
+      "desc": "Posisi plank bertumpu telapak tangan, sentuh bahu bergantian tanpa panggul bergoyang.",
       "primary": [
-       "Perut"
+       "Core dalam"
       ],
       "secondary": [
+       "Bahu",
        "Obliques"
       ],
-      "prescription": "3 × 15",
+      "prescription": "3 × 16",
       "rest": 45,
       "sets": 3,
-      "note": ""
+      "note": "Ini melatih core menahan putaran. Kalau pinggul ikut berputar, lebarkan kaki dulu."
      },
      {
       "no": "",
@@ -1902,6 +2009,41 @@ window.PROGRAM = {
       ]
      }
     ]
+   },
+   "skill": {
+    "label": "Calisthenics · pola dorong",
+    "duration": "6 menit",
+    "items": [
+     {
+      "no": "",
+      "name": "Push up progresi",
+      "y": null,
+      "desc": "Kalau push up lantai belum bisa, tumpu tangan di bangku. Makin rendah bangkunya makin berat.",
+      "primary": [
+       "Dada"
+      ],
+      "secondary": [
+       "Trisep",
+       "Bahu",
+       "Core"
+      ],
+      "prescription": "3 × maksimal",
+      "rest": 75,
+      "sets": 3,
+      "note": "Jangan pakai lutut, pakai bangku. Badan tetap lurus satu papan dari bahu sampai mata kaki. Turunkan tinggi bangku kalau sudah bisa 10 kali bersih.",
+      "fig": "push-up",
+      "dials": [
+       {
+        "v": "3",
+        "k": "set"
+       },
+       {
+        "v": "10",
+        "k": "rep target"
+       }
+      ]
+     }
+    ]
    }
   },
   {
@@ -1989,20 +2131,21 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Bicycle crunch",
+      "name": "Hollow hold",
       "y": null,
-      "fig": "bicycle-crunch",
-      "desc": "Berbaring, siku bertemu lutut berlawanan bergantian dengan kontrol.",
+      "fig": "hollow-hold",
+      "desc": "Telentang, punggung bawah menempel lantai, bahu dan kaki terangkat sedikit.",
       "primary": [
-       "Obliques"
+       "Core dalam"
       ],
       "secondary": [
-       "Perut"
+       "Perut",
+       "Panggul"
       ],
-      "prescription": "3 × 20",
-      "rest": 30,
+      "prescription": "3 × 30 detik",
+      "rest": 45,
       "sets": 3,
-      "note": "Pelan saja, bukan adu cepat"
+      "note": "Penutup hari. Posisi yang sama dengan hari Selasa, makin sering makin cepat terbentuk."
      },
      {
       "no": "",
@@ -2207,6 +2350,32 @@ window.PROGRAM = {
     "p": 57
    }
   ]
+ },
+ "ladder": {
+  "title": "Calisthenics pelan-pelan",
+  "note": "Ini jalur sampingan, bukan fokus utama. Fokus utamamu tetap defisit kalori dan core, yang ini cuma supaya ada target yang kelihatan naik. Kerjakan berurutan, jangan lompat.",
+  "items": [
+   {
+    "n": 1,
+    "name": "Dead hang 60 detik",
+    "why": "Sudah kamu latih tiap hari di blok pendinginan. Tinggal dicatat detiknya."
+   },
+   {
+    "n": 2,
+    "name": "Hollow hold 45 detik",
+    "why": "Ini yang paling nyambung ke perut. Core menahan, panggul tertarik ke dalam, perut jadi lebih rata."
+   },
+   {
+    "n": 3,
+    "name": "Push up lantai 10x bersih",
+    "why": "Badan lurus satu papan dari bahu sampai mata kaki, dada sampai dekat lantai."
+   },
+   {
+    "n": 4,
+    "name": "Pull up bersih 1x",
+    "why": "Jalannya lewat negative pull up tiap Senin. Makin ringan badanmu, makin dekat."
+   }
+  ]
  }
 };
 
@@ -2227,6 +2396,7 @@ window.PROGRAM = {
   /* ---------------- daftar item per hari ---------------- */
   P.days.forEach(function (d) {
     var items = [];
+    if (d.skill) d.skill.items.forEach(function (it, i) { items.push(Object.assign({}, it, { id: d.key + '-s' + i, group: 'skill' })); });
     (d.main || []).forEach(function (it, i) { items.push(Object.assign({}, it, { id: d.key + '-m' + i, group: 'main' })); });
     if (d.finisher) d.finisher.items.forEach(function (it, i) { items.push(Object.assign({}, it, { id: d.key + '-f' + i, group: 'fin' })); });
     if (d.cool) d.cool.items.forEach(function (it, i) { items.push(Object.assign({}, it, { id: d.key + '-c' + i, group: 'cool' })); });
@@ -2291,7 +2461,7 @@ window.PROGRAM = {
     if (!window.Figure || !window.EXERCISES) return;
     var used = {};
     P.days.forEach(function (d) {
-      (d.main || []).concat(d.finisher ? d.finisher.items : [], d.cool ? d.cool.items : []).forEach(function (it) {
+      (d.main || []).concat(d.skill ? d.skill.items : [], d.finisher ? d.finisher.items : [], d.cool ? d.cool.items : []).forEach(function (it) {
         if (it.fig && window.EXERCISES[it.fig]) used[it.fig] = 1;
       });
     });
@@ -2479,7 +2649,10 @@ window.PROGRAM = {
         '<span class="fchip">' + (7 - train) + ' hari pulih</span>' +
         '<span class="fchip">' + esc(P.meta.kcal) + '</span>' +
         '<span class="fchip">protein ' + esc(P.meta.protein) + '</span>' +
-      '</div></div>';
+      '</div>' +
+      '<p class="fnote">Lemak perut turun kalau lemak total turun, lokasinya tidak bisa dipilih. ' +
+      'Yang bisa berubah cepat itu postur dan core dalam, dan itu sebabnya core kamu sekarang pola menahan ' +
+      'seperti plank dan hollow, bukan pola menekuk seperti crunch.</p></div>';
   }
 
   function renderNextDays() {
@@ -2553,7 +2726,44 @@ window.PROGRAM = {
     });
   }
 
-  function renderHome() { renderStats(); renderFocus(); renderNextDays(); renderNextMeal(); renderTargets(); }
+  /* tangga calisthenics, disimpan terpisah supaya tidak ikut reset mingguan */
+  var LKEY = 'gymplan.ladder', ladder = {};
+  try { var lraw = localStorage.getItem(LKEY); if (lraw) ladder = JSON.parse(lraw) || {}; } catch (e) {}
+  function ladderSave() { try { localStorage.setItem(LKEY, JSON.stringify(ladder)); } catch (e) {} }
+  function ladderDone() { return (P.ladder ? P.ladder.items : []).filter(function (x) { return ladder[x.n]; }).length; }
+
+  function renderLadder() {
+    var L = P.ladder; if (!L) return;
+    var done = ladderDone();
+    var rows = L.items.map(function (x) {
+      var on = !!ladder[x.n];
+      return '<button class="lrow' + (on ? ' on' : '') + '" type="button" data-l="' + x.n +
+        '" aria-pressed="' + on + '">' +
+        '<span class="lnum">' + (on ?
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' : x.n) + '</span>' +
+        '<span class="lbody"><b>' + esc(x.name) + '</b><small>' + esc(x.why) + '</small></span></button>';
+    }).join('');
+    $('#ladderCard').innerHTML =
+      '<div class="ladder"><div class="lhead"><b>' + esc(L.title) + '</b>' +
+      '<span class="lcount">' + done + ' dari ' + L.items.length + '</span></div>' +
+      '<div class="lbar"><i style="width:' + Math.round(done / L.items.length * 100) + '%"></i></div>' +
+      '<div class="lrows">' + rows + '</div>' +
+      '<p class="lnote">' + esc(L.note) + '</p></div>';
+    $$('#ladderCard .lrow').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var n = +b.dataset.l, was = ladderDone();
+        if (ladder[n]) delete ladder[n]; else ladder[n] = 1;
+        ladderSave(); renderLadder();
+        var now = ladderDone();
+        if (now > was) {
+          celebrate();
+          toast(now === P.ladder.items.length ? 'Tangga pertama tamat. Waktunya naik level.' : 'Target ' + n + ' beres');
+        }
+      });
+    });
+  }
+
+  function renderHome() { renderStats(); renderFocus(); renderLadder(); renderNextDays(); renderNextMeal(); renderTargets(); }
 
   /* ---------------- jadwal ---------------- */
   var RC = 2 * Math.PI * 16;
@@ -2662,19 +2872,32 @@ window.PROGRAM = {
         '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Jalankan</button></div>';
     }
 
+    var off0 = 0;
+    if (d.skill) {
+      h += '<div class="blocklab skill">' + esc(d.skill.label) + ' — ' + esc(d.skill.duration) + '</div>' +
+        '<div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+        'stroke-width="2" stroke-linecap="round"><path d="M12 2 3 7v6c0 5 3.8 8.4 9 9 5.2-.6 9-4 9-9V7l-9-5Z"/></svg>' +
+        '<span>Porsinya memang tipis, tapi taruh paling awal selagi masih segar. ' +
+        'Kalau ditaruh di akhir, tenagamu sudah habis dan latihannya jadi sia-sia.</span></div>' +
+        '<div class="exlist anim skillist">';
+      d.skill.items.forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-s' + i }), i); });
+      h += '</div>';
+      off0 = d.skill.items.length;
+    }
+
     h += '<div class="blocklab">Latihan utama</div><div class="exlist anim">';
-    (d.main || []).forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-m' + i }), i); });
+    (d.main || []).forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-m' + i }), off0 + i); });
     h += '</div>';
 
     if (d.finisher) {
-      var off = (d.main || []).length;
+      var off = off0 + (d.main || []).length;
       h += '<div class="blocklab">' + esc(d.finisher.label) + ' — ' + esc(d.finisher.duration) + '</div><div class="exlist anim">';
       d.finisher.items.forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-f' + i }), off + i); });
       h += '</div>';
     }
 
     if (d.cool) {
-      var offc = (d.main || []).length + (d.finisher ? d.finisher.items.length : 0);
+      var offc = off0 + (d.main || []).length + (d.finisher ? d.finisher.items.length : 0);
       h += '<div class="blocklab cool">' + esc(d.cool.label) + ' — ' + esc(d.cool.duration) + '</div>' +
 why_note(d) + '<div class="exlist anim">';
       d.cool.items.forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-c' + i }), offc + i); });
