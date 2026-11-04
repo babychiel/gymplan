@@ -401,6 +401,12 @@ a{color:var(--acc)}
 .hnote.gauge{padding:.7rem .8rem;border-radius:12px;background:rgba(226,86,58,.07);
   color:#8c3a24;border:1px solid rgba(226,86,58,.16)}
 
+/* langkah di dalam kartu latihan */
+.exhow{margin-top:.7rem;padding:.75rem .85rem;background:var(--bg2);border-radius:14px}
+.exhow .hlab{margin-bottom:.45rem}
+.exhow .hsteps{margin:0;gap:.4rem}
+.exhow .hsteps li{font-size:.8rem}
+
 /* animasi stick figure */
 .figbox{display:grid;place-items:center;padding:.3rem;
   background:radial-gradient(circle at 50% 42%,rgba(47,111,246,.16),transparent 70%),#0e1626}
@@ -1258,7 +1264,7 @@ window.PROGRAM = {
    "focus": "Tarikan punggung · bahu ditarik kembali ke belakang",
    "minutes": "55-60",
    "kcal": "320-420",
-   "count": "1+6+2+2",
+   "count": "1+6+2+3",
    "type": "strength",
    "accent": "lime",
    "warmup": "Warm-up 8 menit, treadmill jalan 5 menit lalu Vertical Pulldown Machine beban ringan 2×15 dan Mid Back / Rear Delt Row beban ringan 1×15, baru masuk ke set kerja",
@@ -1409,8 +1415,8 @@ window.PROGRAM = {
     ]
    },
    "cool": {
-    "label": "Pendinginan · hari badan atas",
-    "duration": "35 menit",
+    "label": "Pendinginan & postur · hari badan atas",
+    "duration": "37 menit",
     "items": [
      {
       "no": "",
@@ -1442,6 +1448,42 @@ window.PROGRAM = {
        {
         "v": "30",
         "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lalu panggul didorong lurus ke depan sampai paha depan sisi kaki belakang terasa ketarik. Badan tetap tegak, yang bergerak cuma panggul.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "steps": [
+       "Berlutut satu kaki di matras. Lutut belakang menempel lantai, kaki depan menapak dengan lutut ditekuk siku-siku.",
+       "Sebelum bergerak, remas glute sisi kaki belakang kuat-kuat. Panggulmu akan terasa terputar ke belakang, dan itu posisi awal yang benar.",
+       "Sambil remasan itu dijaga, dorong panggul lurus ke depan beberapa sentimeter saja. Jangan mencondongkan badan ke depan.",
+       "Badan tegak, perut ditahan ringan, pinggang jangan dilengkungkan. Rasanya harus di paha depan dekat lipatan panggul.",
+       "Tahan 40 detik sambil napas pelan, lalu ganti sisi. Dua kali tiap sisi."
+      ],
+      "note": "Mesin bisa menguatkan otot yang memegang postur, tapi tidak bisa memanjangkan otot panggul depan yang memendek karena kebanyakan duduk, dan otot itulah yang menarik panggulmu condong ke depan. Kalau yang terasa malah pinggang dan bukan paha depan, berarti panggulnya belum terputar ke belakang, remasan glute-nya kurang kuat. Jarak kuda-kudanya tidak perlu lebar, yang bikin terasa itu remasan glute ditambah dorongan panggul. Kalau lutut belakang sakit, alasi handuk.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
        }
       ]
      },
@@ -1528,7 +1570,7 @@ window.PROGRAM = {
    "focus": "Dorongan pinggul, hinge, dan tekukan lutut",
    "minutes": "55-60",
    "kcal": "330-430",
-   "count": "6+1+2",
+   "count": "6+1+3",
    "type": "strength",
    "accent": "lime",
    "warmup": "Warm-up 8 menit, treadmill jalan 5 menit lalu Selectorized Hip Thruster beban ringan 2×15 dan Lying Leg Curl beban ringan 1×15, baru masuk ke set kerja",
@@ -1653,8 +1695,8 @@ window.PROGRAM = {
     ]
    },
    "cool": {
-    "label": "Pendinginan · hari kaki",
-    "duration": "20 menit",
+    "label": "Pendinginan & postur · hari kaki",
+    "duration": "22 menit",
     "items": [
      {
       "no": "",
@@ -1686,6 +1728,42 @@ window.PROGRAM = {
        {
         "v": "15-20",
         "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lalu panggul didorong lurus ke depan sampai paha depan sisi kaki belakang terasa ketarik. Badan tetap tegak, yang bergerak cuma panggul.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "steps": [
+       "Berlutut satu kaki di matras. Lutut belakang menempel lantai, kaki depan menapak dengan lutut ditekuk siku-siku.",
+       "Sebelum bergerak, remas glute sisi kaki belakang kuat-kuat. Panggulmu akan terasa terputar ke belakang, dan itu posisi awal yang benar.",
+       "Sambil remasan itu dijaga, dorong panggul lurus ke depan beberapa sentimeter saja. Jangan mencondongkan badan ke depan.",
+       "Badan tegak, perut ditahan ringan, pinggang jangan dilengkungkan. Rasanya harus di paha depan dekat lipatan panggul.",
+       "Tahan 40 detik sambil napas pelan, lalu ganti sisi. Dua kali tiap sisi."
+      ],
+      "note": "Mesin bisa menguatkan otot yang memegang postur, tapi tidak bisa memanjangkan otot panggul depan yang memendek karena kebanyakan duduk, dan otot itulah yang menarik panggulmu condong ke depan. Kalau yang terasa malah pinggang dan bukan paha depan, berarti panggulnya belum terputar ke belakang, remasan glute-nya kurang kuat. Jarak kuda-kudanya tidak perlu lebar, yang bikin terasa itu remasan glute ditambah dorongan panggul. Kalau lutut belakang sakit, alasi handuk.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
        }
       ]
      },
@@ -1734,7 +1812,7 @@ window.PROGRAM = {
    "focus": "Sesi pembakaran utama minggu ini",
    "minutes": "45",
    "kcal": "350-500",
-   "count": "2+3+2",
+   "count": "2+3+3",
    "type": "hiit",
    "accent": "orange",
    "warmup": "Warm-up 5 menit di treadmill, incline sudah dipasang di angka yang akan kamu pakai, tiga menit jalan santai lalu dua menit naik sampai setengah tenaga",
@@ -1883,8 +1961,8 @@ window.PROGRAM = {
    },
    "cooldown": "Cool down 5 menit, stretching menyeluruh dan atur napas",
    "cool": {
-    "label": "Pendinginan · setelah HIIT",
-    "duration": "12 menit",
+    "label": "Pendinginan & postur · setelah HIIT",
+    "duration": "14 menit",
     "items": [
      {
       "no": "",
@@ -1916,6 +1994,42 @@ window.PROGRAM = {
        {
         "v": "10",
         "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lalu panggul didorong lurus ke depan sampai paha depan sisi kaki belakang terasa ketarik. Badan tetap tegak, yang bergerak cuma panggul.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "steps": [
+       "Berlutut satu kaki di matras. Lutut belakang menempel lantai, kaki depan menapak dengan lutut ditekuk siku-siku.",
+       "Sebelum bergerak, remas glute sisi kaki belakang kuat-kuat. Panggulmu akan terasa terputar ke belakang, dan itu posisi awal yang benar.",
+       "Sambil remasan itu dijaga, dorong panggul lurus ke depan beberapa sentimeter saja. Jangan mencondongkan badan ke depan.",
+       "Badan tegak, perut ditahan ringan, pinggang jangan dilengkungkan. Rasanya harus di paha depan dekat lipatan panggul.",
+       "Tahan 40 detik sambil napas pelan, lalu ganti sisi. Dua kali tiap sisi."
+      ],
+      "note": "Mesin bisa menguatkan otot yang memegang postur, tapi tidak bisa memanjangkan otot panggul depan yang memendek karena kebanyakan duduk, dan otot itulah yang menarik panggulmu condong ke depan. Kalau yang terasa malah pinggang dan bukan paha depan, berarti panggulnya belum terputar ke belakang, remasan glute-nya kurang kuat. Jarak kuda-kudanya tidak perlu lebar, yang bikin terasa itu remasan glute ditambah dorongan panggul. Kalau lutut belakang sakit, alasi handuk.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
        }
       ]
      },
@@ -1964,7 +2078,7 @@ window.PROGRAM = {
    "focus": "Pola dorong · diimbangi rear delt supaya bahu tidak maju",
    "minutes": "55-60",
    "kcal": "320-420",
-   "count": "1+6+2+2",
+   "count": "1+6+2+3",
    "type": "strength",
    "accent": "lime",
    "warmup": "Warm-up 8 menit, treadmill jalan 5 menit lalu Rear Delt Fly beban ringan 2×15 dan Incline Press Machine beban paling ringan 2×12, punggung disiapkan dulu sebelum mendorong",
@@ -2132,8 +2246,8 @@ window.PROGRAM = {
     ]
    },
    "cool": {
-    "label": "Pendinginan · hari badan atas",
-    "duration": "35 menit",
+    "label": "Pendinginan & postur · hari badan atas",
+    "duration": "37 menit",
     "items": [
      {
       "no": "",
@@ -2165,6 +2279,42 @@ window.PROGRAM = {
        {
         "v": "30",
         "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lalu panggul didorong lurus ke depan sampai paha depan sisi kaki belakang terasa ketarik. Badan tetap tegak, yang bergerak cuma panggul.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "steps": [
+       "Berlutut satu kaki di matras. Lutut belakang menempel lantai, kaki depan menapak dengan lutut ditekuk siku-siku.",
+       "Sebelum bergerak, remas glute sisi kaki belakang kuat-kuat. Panggulmu akan terasa terputar ke belakang, dan itu posisi awal yang benar.",
+       "Sambil remasan itu dijaga, dorong panggul lurus ke depan beberapa sentimeter saja. Jangan mencondongkan badan ke depan.",
+       "Badan tegak, perut ditahan ringan, pinggang jangan dilengkungkan. Rasanya harus di paha depan dekat lipatan panggul.",
+       "Tahan 40 detik sambil napas pelan, lalu ganti sisi. Dua kali tiap sisi."
+      ],
+      "note": "Mesin bisa menguatkan otot yang memegang postur, tapi tidak bisa memanjangkan otot panggul depan yang memendek karena kebanyakan duduk, dan otot itulah yang menarik panggulmu condong ke depan. Kalau yang terasa malah pinggang dan bukan paha depan, berarti panggulnya belum terputar ke belakang, remasan glute-nya kurang kuat. Jarak kuda-kudanya tidak perlu lebar, yang bikin terasa itu remasan glute ditambah dorongan panggul. Kalau lutut belakang sakit, alasi handuk.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
        }
       ]
      },
@@ -2248,7 +2398,7 @@ window.PROGRAM = {
    "focus": "Kaki depan, kardio panjang, lalu mobilitas",
    "minutes": "55-65",
    "kcal": "380-480",
-   "count": "3+3+1",
+   "count": "3+3+2",
    "type": "cardio",
    "accent": "cyan",
    "warmup": "Warm-up 8 menit, treadmill jalan 5 menit lalu GYM80 Leg Press beban ringan 2×15 dan Hack Squat Machine beban paling ringan 1×10, baru masuk ke set kerja",
@@ -2360,9 +2510,45 @@ window.PROGRAM = {
     ]
    },
    "cool": {
-    "label": "Pendinginan · hari kaki",
-    "duration": "5 menit",
+    "label": "Pendinginan & postur · hari kaki",
+    "duration": "7 menit",
     "items": [
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lalu panggul didorong lurus ke depan sampai paha depan sisi kaki belakang terasa ketarik. Badan tetap tegak, yang bergerak cuma panggul.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "steps": [
+       "Berlutut satu kaki di matras. Lutut belakang menempel lantai, kaki depan menapak dengan lutut ditekuk siku-siku.",
+       "Sebelum bergerak, remas glute sisi kaki belakang kuat-kuat. Panggulmu akan terasa terputar ke belakang, dan itu posisi awal yang benar.",
+       "Sambil remasan itu dijaga, dorong panggul lurus ke depan beberapa sentimeter saja. Jangan mencondongkan badan ke depan.",
+       "Badan tegak, perut ditahan ringan, pinggang jangan dilengkungkan. Rasanya harus di paha depan dekat lipatan panggul.",
+       "Tahan 40 detik sambil napas pelan, lalu ganti sisi. Dua kali tiap sisi."
+      ],
+      "note": "Mesin bisa menguatkan otot yang memegang postur, tapi tidak bisa memanjangkan otot panggul depan yang memendek karena kebanyakan duduk, dan otot itulah yang menarik panggulmu condong ke depan. Kalau yang terasa malah pinggang dan bukan paha depan, berarti panggulnya belum terputar ke belakang, remasan glute-nya kurang kuat. Jarak kuda-kudanya tidak perlu lebar, yang bikin terasa itu remasan glute ditambah dorongan panggul. Kalau lutut belakang sakit, alasi handuk.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
+       }
+      ]
+     },
      {
       "no": "",
       "name": "Dead hang",
@@ -2408,7 +2594,7 @@ window.PROGRAM = {
    "focus": "Jalan santai 20-30 menit atau yoga ringan",
    "minutes": "20-30",
    "kcal": "80-150",
-   "count": "2+1",
+   "count": "2+2",
    "type": "rest",
    "accent": "slate",
    "main": [
@@ -2446,9 +2632,45 @@ window.PROGRAM = {
     }
    ],
    "cool": {
-    "label": "Pendinginan",
-    "duration": "5 menit",
+    "label": "Pendinginan & postur",
+    "duration": "7 menit",
     "items": [
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lalu panggul didorong lurus ke depan sampai paha depan sisi kaki belakang terasa ketarik. Badan tetap tegak, yang bergerak cuma panggul.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "steps": [
+       "Berlutut satu kaki di matras. Lutut belakang menempel lantai, kaki depan menapak dengan lutut ditekuk siku-siku.",
+       "Sebelum bergerak, remas glute sisi kaki belakang kuat-kuat. Panggulmu akan terasa terputar ke belakang, dan itu posisi awal yang benar.",
+       "Sambil remasan itu dijaga, dorong panggul lurus ke depan beberapa sentimeter saja. Jangan mencondongkan badan ke depan.",
+       "Badan tegak, perut ditahan ringan, pinggang jangan dilengkungkan. Rasanya harus di paha depan dekat lipatan panggul.",
+       "Tahan 40 detik sambil napas pelan, lalu ganti sisi. Dua kali tiap sisi."
+      ],
+      "note": "Mesin bisa menguatkan otot yang memegang postur, tapi tidak bisa memanjangkan otot panggul depan yang memendek karena kebanyakan duduk, dan otot itulah yang menarik panggulmu condong ke depan. Kalau yang terasa malah pinggang dan bukan paha depan, berarti panggulnya belum terputar ke belakang, remasan glute-nya kurang kuat. Jarak kuda-kudanya tidak perlu lebar, yang bikin terasa itu remasan glute ditambah dorongan panggul. Kalau lutut belakang sakit, alasi handuk.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
+       }
+      ]
+     },
      {
       "no": "",
       "name": "Dead hang",
@@ -2863,7 +3085,8 @@ window.PROGRAM = {
       '<b>Punggung tegak</b> datang dari porsi tarikan yang lebih banyak daripada dorongan, ' +
       'dan dari bahu belakang yang ikut dilatih di hari dorong. ' +
       '<b>Panggul netral</b> datang dari glute dan hamstring yang kuat menarik panggul kembali, ' +
-      'ditambah perut yang dilatih berbeban supaya sanggup menahannya di sana.</p></div>';
+      'perut yang dilatih berbeban supaya sanggup menahannya di sana, dan stretch hip flexor ' +
+      'supaya otot yang menariknya condong ke depan ikut memanjang.</p></div>';
   }
 
   /* air minum, disimpan per tanggal */
@@ -3084,6 +3307,8 @@ window.PROGRAM = {
           return '<div class="dial"><b>' + esc(x.v) + '</b><span>' + esc(x.k) + '</span></div>';
         }).join('') + '</div>' : '') +
         (it.desc ? '<p class="exdesc">' + esc(it.desc) + '</p>' : '') +
+        (it.steps ? '<div class="exhow"><span class="hlab">Cara mengerjakannya</span><ol class="hsteps">' +
+          it.steps.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol></div>' : '') +
         (tags ? '<div class="tagwrap">' + tags + '</div>' : '') +
         (it.note ? '<p class="exnote">' + esc(it.note) + '</p>' : '') +
         '<div class="exact"><div class="sets">' + sets + '</div>' + rest + '</div>' +
