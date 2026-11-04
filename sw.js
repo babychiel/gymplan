@@ -1,5 +1,5 @@
 /* Service worker Gymplan — cache shell supaya tetap terbuka saat offline */
-const V = 'gymplan-v17';
+const V = 'gymplan-v18';
 const SHELL = ['./', './index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', e => {

@@ -933,7 +933,8 @@ a{color:var(--acc)}
              '<line x1="86" y1="156" x2="86" y2="182"/><line x1="132" y1="156" x2="132" y2="182"/></g>',
     slope:   '<g class="prop"><path d="M18 182 L182 128" /></g>',
     mat:     '<g class="prop"><rect x="20" y="176" width="160" height="7" rx="3"/></g>',
-    rope:    '<g class="prop"><line x1="170" y1="26" x2="170" y2="182"/><line x1="152" y1="26" x2="184" y2="26"/></g>'
+    rope:    '<g class="prop"><line x1="170" y1="26" x2="170" y2="182"/><line x1="152" y1="26" x2="184" y2="26"/></g>',
+    post:    '<g class="prop"><line x1="96" y1="22" x2="96" y2="182"/></g>'
   };
 
   function p(o) { return global.Figure.pose(o); }
@@ -1203,12 +1204,12 @@ a{color:var(--acc)}
       b: p({ dx: 8, dy: 32, t: -6, aL: 46, fL: 24, aR: 42, fR: 26,
              hL: 94, kL: -94, hR: -46, kR: -44 })
     },
-    'thoracic-ext': {
-      name: 'Buka punggung atas', equip: 'none', dur: 3.6, prop: P.bench,
-      a: p({ dx: -40, dy: 28, t: 74, aL: 78, fL: 0, aR: 82, fR: 0,
-             hL: -2, kL: -88, hR: 2, kR: -92 }),
-      b: p({ dx: -40, dy: 28, t: 86, aL: 90, fL: 0, aR: 94, fR: 0,
-             hL: -2, kL: -88, hR: 2, kR: -92 })
+    'chest-open': {
+      name: 'Buka dada di tiang', equip: 'none', dur: 3.6, prop: P.post,
+      a: p({ dx: 18, dy: 0, t: 0, aL: -90, fL: -90, aR: 14, fR: 8,
+             hL: 14, kL: -10, hR: -10, kR: 8 }),
+      b: p({ dx: 10, dy: 2, t: 10, aL: -96, fL: -84, aR: 20, fR: 10,
+             hL: 26, kL: -20, hR: -18, kR: 14 })
     },
     'dead-hang': {
       name: 'Dead hang', equip: 'none', dur: 3.6, prop: P.bar,
@@ -1473,22 +1474,21 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Buka punggung atas",
+      "name": "Buka dada di tiang",
       "y": null,
-      "fig": "thoracic-ext",
-      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "fig": "chest-open",
+      "desc": "Berdiri di samping tiang atau rangka beban. Tempelkan lengan bawah ke tiang dengan siku setinggi bahu, lalu langkahkan kaki ke depan sampai dada dan depan bahu terasa teregang.",
       "primary": [
-       "Punggung atas",
-       "Dada"
+       "Dada",
+       "Bahu depan"
       ],
       "secondary": [
-       "Latissimus",
-       "Bahu"
+       "Punggung atas"
       ],
-      "prescription": "2 × 30 detik",
+      "prescription": "2 × 30 detik per sisi",
       "rest": 0,
       "sets": 2,
-      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "note": "Pengganti buka punggung atas di bench, supaya tidak perlu berlutut dan pinggang tidak mungkin ikut melengkung. Yang maju dada, bukan pinggang. Siku jangan lebih tinggi dari bahu, kalau lebih tinggi sendi bahumu yang kena bukan dadanya. Rasanya harus di dada dan depan bahu. Kalau terasa mencengkeram di sendi bahu, berarti melangkahnya terlalu jauh, mundur sedikit.",
       "dials": [
        {
         "v": "30",
@@ -1496,7 +1496,7 @@ window.PROGRAM = {
        },
        {
         "v": "2",
-        "k": "set"
+        "k": "sisi"
        }
       ]
      },
@@ -1775,22 +1775,21 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Buka punggung atas",
+      "name": "Buka dada di tiang",
       "y": null,
-      "fig": "thoracic-ext",
-      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "fig": "chest-open",
+      "desc": "Berdiri di samping tiang atau rangka beban. Tempelkan lengan bawah ke tiang dengan siku setinggi bahu, lalu langkahkan kaki ke depan sampai dada dan depan bahu terasa teregang.",
       "primary": [
-       "Punggung atas",
-       "Dada"
+       "Dada",
+       "Bahu depan"
       ],
       "secondary": [
-       "Latissimus",
-       "Bahu"
+       "Punggung atas"
       ],
-      "prescription": "2 × 30 detik",
+      "prescription": "2 × 30 detik per sisi",
       "rest": 0,
       "sets": 2,
-      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "note": "Pengganti buka punggung atas di bench, supaya tidak perlu berlutut dan pinggang tidak mungkin ikut melengkung. Yang maju dada, bukan pinggang. Siku jangan lebih tinggi dari bahu, kalau lebih tinggi sendi bahumu yang kena bukan dadanya. Rasanya harus di dada dan depan bahu. Kalau terasa mencengkeram di sendi bahu, berarti melangkahnya terlalu jauh, mundur sedikit.",
       "dials": [
        {
         "v": "30",
@@ -1798,7 +1797,7 @@ window.PROGRAM = {
        },
        {
         "v": "2",
-        "k": "set"
+        "k": "sisi"
        }
       ]
      },
@@ -2047,22 +2046,21 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Buka punggung atas",
+      "name": "Buka dada di tiang",
       "y": null,
-      "fig": "thoracic-ext",
-      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "fig": "chest-open",
+      "desc": "Berdiri di samping tiang atau rangka beban. Tempelkan lengan bawah ke tiang dengan siku setinggi bahu, lalu langkahkan kaki ke depan sampai dada dan depan bahu terasa teregang.",
       "primary": [
-       "Punggung atas",
-       "Dada"
+       "Dada",
+       "Bahu depan"
       ],
       "secondary": [
-       "Latissimus",
-       "Bahu"
+       "Punggung atas"
       ],
-      "prescription": "2 × 30 detik",
+      "prescription": "2 × 30 detik per sisi",
       "rest": 0,
       "sets": 2,
-      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "note": "Pengganti buka punggung atas di bench, supaya tidak perlu berlutut dan pinggang tidak mungkin ikut melengkung. Yang maju dada, bukan pinggang. Siku jangan lebih tinggi dari bahu, kalau lebih tinggi sendi bahumu yang kena bukan dadanya. Rasanya harus di dada dan depan bahu. Kalau terasa mencengkeram di sendi bahu, berarti melangkahnya terlalu jauh, mundur sedikit.",
       "dials": [
        {
         "v": "30",
@@ -2070,7 +2068,7 @@ window.PROGRAM = {
        },
        {
         "v": "2",
-        "k": "set"
+        "k": "sisi"
        }
       ]
      },
@@ -2354,22 +2352,21 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Buka punggung atas",
+      "name": "Buka dada di tiang",
       "y": null,
-      "fig": "thoracic-ext",
-      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "fig": "chest-open",
+      "desc": "Berdiri di samping tiang atau rangka beban. Tempelkan lengan bawah ke tiang dengan siku setinggi bahu, lalu langkahkan kaki ke depan sampai dada dan depan bahu terasa teregang.",
       "primary": [
-       "Punggung atas",
-       "Dada"
+       "Dada",
+       "Bahu depan"
       ],
       "secondary": [
-       "Latissimus",
-       "Bahu"
+       "Punggung atas"
       ],
-      "prescription": "2 × 30 detik",
+      "prescription": "2 × 30 detik per sisi",
       "rest": 0,
       "sets": 2,
-      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "note": "Pengganti buka punggung atas di bench, supaya tidak perlu berlutut dan pinggang tidak mungkin ikut melengkung. Yang maju dada, bukan pinggang. Siku jangan lebih tinggi dari bahu, kalau lebih tinggi sendi bahumu yang kena bukan dadanya. Rasanya harus di dada dan depan bahu. Kalau terasa mencengkeram di sendi bahu, berarti melangkahnya terlalu jauh, mundur sedikit.",
       "dials": [
        {
         "v": "30",
@@ -2377,7 +2374,7 @@ window.PROGRAM = {
        },
        {
         "v": "2",
-        "k": "set"
+        "k": "sisi"
        }
       ]
      },
@@ -2607,22 +2604,21 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Buka punggung atas",
+      "name": "Buka dada di tiang",
       "y": null,
-      "fig": "thoracic-ext",
-      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "fig": "chest-open",
+      "desc": "Berdiri di samping tiang atau rangka beban. Tempelkan lengan bawah ke tiang dengan siku setinggi bahu, lalu langkahkan kaki ke depan sampai dada dan depan bahu terasa teregang.",
       "primary": [
-       "Punggung atas",
-       "Dada"
+       "Dada",
+       "Bahu depan"
       ],
       "secondary": [
-       "Latissimus",
-       "Bahu"
+       "Punggung atas"
       ],
-      "prescription": "2 × 30 detik",
+      "prescription": "2 × 30 detik per sisi",
       "rest": 0,
       "sets": 2,
-      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "note": "Pengganti buka punggung atas di bench, supaya tidak perlu berlutut dan pinggang tidak mungkin ikut melengkung. Yang maju dada, bukan pinggang. Siku jangan lebih tinggi dari bahu, kalau lebih tinggi sendi bahumu yang kena bukan dadanya. Rasanya harus di dada dan depan bahu. Kalau terasa mencengkeram di sendi bahu, berarti melangkahnya terlalu jauh, mundur sedikit.",
       "dials": [
        {
         "v": "30",
@@ -2630,7 +2626,7 @@ window.PROGRAM = {
        },
        {
         "v": "2",
-        "k": "set"
+        "k": "sisi"
        }
       ]
      },
@@ -2751,22 +2747,21 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Buka punggung atas",
+      "name": "Buka dada di tiang",
       "y": null,
-      "fig": "thoracic-ext",
-      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "fig": "chest-open",
+      "desc": "Berdiri di samping tiang atau rangka beban. Tempelkan lengan bawah ke tiang dengan siku setinggi bahu, lalu langkahkan kaki ke depan sampai dada dan depan bahu terasa teregang.",
       "primary": [
-       "Punggung atas",
-       "Dada"
+       "Dada",
+       "Bahu depan"
       ],
       "secondary": [
-       "Latissimus",
-       "Bahu"
+       "Punggung atas"
       ],
-      "prescription": "2 × 30 detik",
+      "prescription": "2 × 30 detik per sisi",
       "rest": 0,
       "sets": 2,
-      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "note": "Pengganti buka punggung atas di bench, supaya tidak perlu berlutut dan pinggang tidak mungkin ikut melengkung. Yang maju dada, bukan pinggang. Siku jangan lebih tinggi dari bahu, kalau lebih tinggi sendi bahumu yang kena bukan dadanya. Rasanya harus di dada dan depan bahu. Kalau terasa mencengkeram di sendi bahu, berarti melangkahnya terlalu jauh, mundur sedikit.",
       "dials": [
        {
         "v": "30",
@@ -2774,7 +2769,7 @@ window.PROGRAM = {
        },
        {
         "v": "2",
-        "k": "set"
+        "k": "sisi"
        }
       ]
      },
