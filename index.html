@@ -407,6 +407,68 @@ a{color:var(--acc)}
 .exhow .hsteps{margin:0;gap:.4rem}
 .exhow .hsteps li{font-size:.8rem}
 
+/* ---------- catatan berat & lingkar perut ---------- */
+.bodycard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:1.15rem;box-shadow:var(--sh-sm)}
+.bstats{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.bstat{background:var(--bg2);border-radius:14px;padding:.75rem .7rem}
+.blab{display:block;font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--faint);font-weight:700}
+.bstat b{display:block;margin-top:.3rem;font-size:1.42rem;font-weight:800;color:var(--ink);
+  line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bdelta{display:block;margin-top:.25rem;font-size:.66rem;font-weight:600;color:var(--faint);line-height:1.3}
+.bdelta.down{color:var(--good)}
+.bdelta.up{color:#e2563a}
+.binput{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-top:.9rem}
+.binput label{display:block}
+.binput label span{display:block;font-size:.66rem;font-weight:700;color:var(--muted);margin-bottom:.25rem}
+.binput input{width:100%;border:1px solid var(--line2);background:var(--bg);border-radius:12px;
+  padding:.6rem .7rem;font:inherit;font-size:1rem;font-weight:700;color:var(--ink);
+  font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.binput input::-webkit-outer-spin-button,.binput input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.binput input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.binput .btn{grid-column:1 / -1;margin-top:.1rem}
+.bnote{margin:.9rem 0 0;font-size:.76rem;line-height:1.55;color:var(--muted)}
+
+/* grafik perkembangan */
+.sparkbox + .sparkbox{margin-top:1rem}
+.sphead{display:flex;align-items:baseline;gap:.5rem;margin:.3rem 0 .4rem}
+.sphead b{font-size:1.25rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sphead i{font-style:normal;font-size:.72rem;font-weight:700;color:var(--faint)}
+.sphead i.down{color:var(--good)}
+.sphead i.up{color:#e2563a}
+.spark{display:block;width:100%;height:72px;overflow:visible}
+.spark .sl{fill:none;stroke:var(--acc);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;
+  vector-effect:non-scaling-stroke}
+.spark .sa{fill:var(--acc-soft);stroke:none}
+.spark .sd{fill:var(--acc);stroke:var(--card);stroke-width:2;vector-effect:non-scaling-stroke}
+.splabs{display:flex;justify-content:space-between;margin-top:.3rem}
+.splabs span{font-size:.6rem;font-weight:700;color:var(--faint);font-variant-numeric:tabular-nums}
+.snone{margin:.35rem 0 0;font-size:.76rem;color:var(--muted);line-height:1.5}
+
+/* ---------- kolom beban di kartu alat ---------- */
+.loadrow{margin-top:.8rem;padding:.75rem .8rem;background:var(--bg2);border-radius:14px;
+  border:1px solid transparent;transition:border-color .25s var(--ease)}
+.loadrow.ok{border-color:var(--good)}
+.llab{display:block;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--faint);font-weight:700;margin-bottom:.45rem}
+.lfields{display:flex;align-items:center;gap:.4rem}
+.lfields input{width:100%;min-width:0;border:1px solid var(--line2);background:var(--card);
+  border-radius:11px;padding:.5rem .55rem;font:inherit;font-size:.95rem;font-weight:800;
+  color:var(--ink);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.lfields input::-webkit-outer-spin-button,.lfields input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.lfields input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.lx{flex:none;font-size:.8rem;font-weight:700;color:var(--faint)}
+.lsave{flex:none;border:none;background:var(--acc);color:#fff;font:inherit;font-size:.8rem;
+  font-weight:800;padding:.52rem .8rem;border-radius:11px;cursor:pointer;
+  transition:transform .15s var(--ease)}
+.lsave:active{transform:scale(.96)}
+.lprev{display:block;margin-top:.45rem;font-size:.7rem;color:var(--muted);font-weight:600}
+
+/* aturan naik beban */
+.note.prog{background:var(--acc-soft);border-color:transparent}
+.note.prog span{color:var(--acc2)}
+
 /* animasi stick figure */
 .figbox{display:grid;place-items:center;padding:.3rem;
   background:radial-gradient(circle at 50% 42%,rgba(47,111,246,.16),transparent 70%),#0e1626}
@@ -692,6 +754,9 @@ a{color:var(--acc)}
     <div class="blocklab">Statistik hari ini</div>
     <div class="stats anim" id="dayRow"></div>
 
+    <div class="blocklab">Berat &amp; lingkar perut</div>
+    <div id="bodyCard"></div>
+
     <div class="blocklab">Fokus program</div>
     <div id="focusCard"></div>
 
@@ -734,6 +799,9 @@ a{color:var(--acc)}
       <h2>Catatan latihanmu</h2>
       <p>Centangan minggu berjalan reset tiap Senin, tapi rekap bulanan dan tahunan di bawah tersimpan terus.</p>
     </div>
+
+    <div class="blocklab">Perkembangan badan</div>
+    <div id="bodyChart"></div>
 
     <div class="blocklab">Minggu ini</div>
     <div class="pgrid" id="pgrid"></div>
@@ -1252,7 +1320,8 @@ window.PROGRAM = {
   "kcal": "±1880 kkal",
   "protein": "±163 g",
   "water": "2,5-3 L/hari",
-  "bw": "78-80 kg"
+  "bw": "80 kg → 72 kg",
+  "progress": "Aturan naik beban. Kalau dua sesi berturut-turut kamu sanggup dua rep di atas target, naikkan satu tingkat beban di sesi berikutnya lalu kembali ke batas bawah repnya. Kalau repmu jatuh di bawah target dua sesi berturut-turut, turun satu tingkat dulu. Catat bebannya tiap selesai gerakan, kolomnya ada di bawah tiap kartu alat."
  },
  "days": [
   {
@@ -1262,8 +1331,8 @@ window.PROGRAM = {
    "tag": "HARI 1",
    "title": "Punggung & Postur",
    "focus": "Tarikan punggung · bahu ditarik kembali ke belakang",
-   "minutes": "55-60",
-   "kcal": "320-420",
+   "minutes": "95-105",
+   "kcal": "680-820",
    "count": "1+6+2+3",
    "type": "strength",
    "accent": "lime",
@@ -1568,8 +1637,8 @@ window.PROGRAM = {
    "tag": "HARI 2",
    "title": "Glute & Hamstring",
    "focus": "Dorongan pinggul, hinge, dan tekukan lutut",
-   "minutes": "55-60",
-   "kcal": "330-430",
+   "minutes": "75-85",
+   "kcal": "470-570",
    "count": "6+1+3",
    "type": "strength",
    "accent": "lime",
@@ -1810,8 +1879,8 @@ window.PROGRAM = {
    "tag": "HARI 3",
    "title": "HIIT & Core",
    "focus": "Sesi pembakaran utama minggu ini",
-   "minutes": "45",
-   "kcal": "350-500",
+   "minutes": "55-60",
+   "kcal": "420-520",
    "count": "2+3+3",
    "type": "hiit",
    "accent": "orange",
@@ -2076,8 +2145,8 @@ window.PROGRAM = {
    "tag": "HARI 4",
    "title": "Dada, Bahu & Lengan",
    "focus": "Pola dorong · diimbangi rear delt supaya bahu tidak maju",
-   "minutes": "55-60",
-   "kcal": "320-420",
+   "minutes": "95-105",
+   "kcal": "660-800",
    "count": "1+6+2+3",
    "type": "strength",
    "accent": "lime",
@@ -2396,8 +2465,8 @@ window.PROGRAM = {
    "tag": "HARI 5",
    "title": "Quad, Zona 2 & Mobility",
    "focus": "Kaki depan, kardio panjang, lalu mobilitas",
-   "minutes": "55-65",
-   "kcal": "380-480",
+   "minutes": "75-85",
+   "kcal": "420-520",
    "count": "3+3+2",
    "type": "cardio",
    "accent": "cyan",
@@ -2592,8 +2661,8 @@ window.PROGRAM = {
    "tag": "RECOVERY",
    "title": "Active Recovery",
    "focus": "Jalan santai 20-30 menit atau yoga ringan",
-   "minutes": "20-30",
-   "kcal": "80-150",
+   "minutes": "30-40",
+   "kcal": "140-210",
    "count": "2+2",
    "type": "rest",
    "accent": "slate",
@@ -2959,6 +3028,39 @@ window.PROGRAM = {
     setTimeout(function () { if (!done) { done = true; el.textContent = txt; } }, dur + 220);
   }
 
+  /* kolom beban terakhir, cuma untuk gerakan yang pakai alat */
+  function loadRow(it) {
+    var L = loads[it.name];
+    var sub = !L ? 'Belum ada catatan. Isi sesudah set terakhir.'
+      : num1(L.w) + ' kg × ' + L.r + ' rep · ' + daysAgo(L.d) +
+        (L.pw != null && L.w > L.pw ? ' · naik dari ' + num1(L.pw) + ' kg' : '');
+    return '<div class="loadrow" data-ex="' + esc(it.name) + '">' +
+      '<span class="llab">Beban terakhir</span>' +
+      '<div class="lfields">' +
+        '<input type="number" step="0.5" inputmode="decimal" class="lw" value="' + (L ? L.w : '') + '" placeholder="kg">' +
+        '<span class="lx">×</span>' +
+        '<input type="number" step="1" inputmode="numeric" class="lr" value="' + (L ? L.r : '') + '" placeholder="rep">' +
+        '<button type="button" class="lsave">Simpan</button>' +
+      '</div>' +
+      '<small class="lprev">' + esc(sub) + '</small></div>';
+  }
+  function bindLoadRows() {
+    $$('#detail .loadrow').forEach(function (row) {
+      $('.lsave', row).addEventListener('click', function () {
+        var name = row.dataset.ex;
+        var w = parseFloat(String($('.lw', row).value).replace(',', '.'));
+        var r = parseInt($('.lr', row).value, 10);
+        if (!w || w <= 0 || !r || r <= 0) { toast('Isi beban dan repnya dulu'); return; }
+        var L = loadPut(name, w, r);
+        $('.lprev', row).textContent = num1(L.w) + ' kg × ' + L.r + ' rep · hari ini' +
+          (L.pw != null && L.w > L.pw ? ' · naik dari ' + num1(L.pw) + ' kg' : '');
+        row.classList.add('ok');
+        toast(L.pw != null && L.w > L.pw ? 'Beban naik, bagus' : 'Beban tersimpan');
+        beep(760, .1, .12);
+      });
+    });
+  }
+
   /* ledakan kecil waktu satu hari tuntas */
   var BURST = ['#2f6ff6', '#f2785c', '#12a97b', '#f7c948', '#8ab6ff'];
   function celebrate() {
@@ -3067,6 +3169,78 @@ window.PROGRAM = {
       '<div style="--i:1">' + stile('jam', 'violet', minToHm(mins), 'waktu hari ini') + '</div>' +
       '<div style="--i:2">' + stile('api', 'warm', Math.round(kcal) || 0, 'kkal hari ini') + '</div>' +
       '<div style="--i:3">' + stile('air', 'aqua', waterGot() + '/' + WG + ' L', 'air hari ini') + '</div>';
+  }
+
+  function renderBody() {
+    var host = $('#bodyCard'); if (!host) return;
+    var row = function (k, unit, lab) {
+      var now = bodyAvg(k, 0, 6), ref = bodyAvg(k, 28, 41);
+      var dl = (now != null && ref != null) ? now - ref : null;
+      var cls = dl == null ? '' : dl < -0.05 ? ' down' : dl > 0.05 ? ' up' : '';
+      return '<div class="bstat"><span class="blab">' + lab + '</span>' +
+        '<b>' + (now == null ? '—' : num1(now) + ' ' + unit) + '</b>' +
+        '<small class="bdelta' + cls + '">' + (dl == null ? 'belum cukup data' :
+          (dl > 0 ? '+' : dl < 0 ? '−' : '') + num1(Math.abs(dl)) + ' ' + unit + ' dalam sebulan') + '</small></div>';
+    };
+    var today = body.d[dayKeyStr()] || {};
+    host.innerHTML = '<div class="bodycard">' +
+      '<div class="bstats">' + row('w', 'kg', 'Berat badan') + row('p', 'cm', 'Lingkar perut') + '</div>' +
+      '<div class="binput">' +
+        '<label><span>Berat (kg)</span><input type="number" step="0.1" inputmode="decimal" id="bw" value="' +
+          (today.w != null ? today.w : '') + '" placeholder="80,0"></label>' +
+        '<label><span>Pinggang (cm)</span><input type="number" step="0.5" inputmode="decimal" id="bp" value="' +
+          (today.p != null ? today.p : '') + '" placeholder="95"></label>' +
+        '<button class="btn btn-primary" type="button" id="bsave">Simpan hari ini</button>' +
+      '</div>' +
+      '<p class="bnote">Timbang tiap pagi setelah dari kamar mandi sebelum makan. Angka besar di atas itu ' +
+      'rata-rata tujuh hari, bukan angka hari ini, karena berat harian naik turun satu sampai dua kilo ' +
+      'cuma karena air dan isi perut. Ukur pinggang setinggi pusar, pita jangan ditarik kencang, dan ' +
+      'jangan tahan napas. Lingkar perut lebih jujur daripada timbangan waktu lemak turun sambil otot naik.</p>' +
+      '</div>';
+    $('#bsave').addEventListener('click', function () {
+      var w = parseFloat(String($('#bw').value).replace(',', '.'));
+      var p = parseFloat(String($('#bp').value).replace(',', '.'));
+      bodySet('w', w); bodySet('p', p);
+      renderBody(); if ($('#bodyChart')) renderBodyChart();
+      toast('Catatan badan tersimpan'); celebrate();
+    });
+  }
+
+  /* grafik perkembangan di tab Progres */
+  function spark(pts, unit, lab) {
+    if (pts.length < 2) {
+      return '<div class="sparkbox"><span class="blab">' + lab + '</span>' +
+        '<p class="snone">Butuh minimal dua catatan supaya grafiknya bisa digambar.</p></div>';
+    }
+    var vs = pts.map(function (x) { return x.v; });
+    var lo = Math.min.apply(null, vs), hi = Math.max.apply(null, vs);
+    var pad = (hi - lo) * 0.15 || 1; lo -= pad; hi += pad;
+    var W = 300, H = 72;
+    var xy = pts.map(function (x, i) {
+      return [i / (pts.length - 1) * W, H - (x.v - lo) / (hi - lo) * H];
+    });
+    var d = xy.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+    var area = d + ' L' + W + ' ' + H + ' L0 ' + H + ' Z';
+    var first = vs[0], last = vs[vs.length - 1], dl = last - first;
+    return '<div class="sparkbox"><span class="blab">' + lab + '</span>' +
+      '<div class="sphead"><b>' + num1(last) + ' ' + unit + '</b>' +
+        '<i class="' + (dl < 0 ? 'down' : dl > 0 ? 'up' : '') + '">' +
+        (dl > 0 ? '+' : dl < 0 ? '−' : '') + num1(Math.abs(dl)) + ' ' + unit + '</i></div>' +
+      '<svg class="spark" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">' +
+        '<path class="sa" d="' + area + '"/><path class="sl" d="' + d + '"/>' +
+        '<circle class="sd" cx="' + xy[xy.length - 1][0].toFixed(1) + '" cy="' + xy[xy.length - 1][1].toFixed(1) + '" r="4"/>' +
+      '</svg>' +
+      '<div class="splabs"><span>' + pts[0].d.slice(8) + '/' + pts[0].d.slice(5, 7) + '</span>' +
+      '<span>' + pts[pts.length - 1].d.slice(8) + '/' + pts[pts.length - 1].d.slice(5, 7) + '</span></div></div>';
+  }
+  function renderBodyChart() {
+    var host = $('#bodyChart'); if (!host) return;
+    host.innerHTML = '<div class="rcard">' +
+      '<div class="rhead"><b>90 hari terakhir</b><span>berat &amp; pinggang</span></div>' +
+      spark(bodyPoints('w', 90), 'kg', 'Berat badan') +
+      spark(bodyPoints('p', 90), 'cm', 'Lingkar perut') +
+      '<p class="rnote">Garisnya naik turun itu normal. Yang dibaca arah umumnya selama tiga sampai empat ' +
+      'minggu, bukan beda antara kemarin dan hari ini.</p></div>';
   }
 
   function renderFocus() {
@@ -3183,6 +3357,57 @@ window.PROGRAM = {
     return o;
   }
 
+  /* ---------------- berat badan & lingkar perut ----------------
+     Disimpan per tanggal di gymplan.body, tidak pernah ikut reset mingguan. */
+  var BKEY = 'gymplan.body', body = { d: {} };
+  try { var braw = localStorage.getItem(BKEY); if (braw) { var bp = JSON.parse(braw); if (bp && bp.d) body = bp; } } catch (e) {}
+  function bodySave() { try { localStorage.setItem(BKEY, JSON.stringify(body)); } catch (e) {} }
+  function bodySet(k, v) {
+    var key = dayKeyStr();
+    if (!body.d[key]) body.d[key] = {};
+    if (v == null || isNaN(v) || v <= 0) delete body.d[key][k]; else body.d[key][k] = v;
+    if (!Object.keys(body.d[key]).length) delete body.d[key];
+    bodySave();
+  }
+  function shiftDay(n) {
+    var t = new Date(); t.setDate(t.getDate() - n); return dstr(t);
+  }
+  /* rata-rata satu ukuran dalam rentang hari ke belakang, batasnya ikut dihitung */
+  function bodyAvg(k, from, to) {
+    var sum = 0, n = 0, a = shiftDay(to), b = shiftDay(from);
+    Object.keys(body.d).forEach(function (key) {
+      if (key < a || key > b) return;
+      var v = body.d[key][k];
+      if (typeof v === 'number') { sum += v; n++; }
+    });
+    return n ? sum / n : null;
+  }
+  function bodyPoints(k, days) {
+    var a = shiftDay(days);
+    return Object.keys(body.d).filter(function (key) {
+      return key >= a && typeof body.d[key][k] === 'number';
+    }).sort().map(function (key) { return { d: key, v: body.d[key][k] }; });
+  }
+  function num1(v) { return (Math.round(v * 10) / 10).toString().replace('.', ','); }
+
+  /* ---------------- beban terakhir tiap alat ----------------
+     Dikunci memakai nama gerakan, bukan nomor urut, supaya tetap nyambung
+     walau urutan latihannya berubah. */
+  var LDKEY = 'gymplan.load', loads = {};
+  try { var lraw2 = localStorage.getItem(LDKEY); if (lraw2) loads = JSON.parse(lraw2) || {}; } catch (e) {}
+  function loadSave() { try { localStorage.setItem(LDKEY, JSON.stringify(loads)); } catch (e) {} }
+  function loadPut(name, w, r) {
+    var prev = loads[name];
+    loads[name] = { w: w, r: r, d: dayKeyStr(), pw: prev && prev.d !== dayKeyStr() ? prev.w : (prev ? prev.pw : null) };
+    loadSave();
+    return loads[name];
+  }
+  function daysAgo(key) {
+    var p = key.split('-'), t = new Date(+p[0], +p[1] - 1, +p[2]);
+    var n = Math.round((new Date(dayKeyStr()) - t) / 86400000);
+    return n <= 0 ? 'hari ini' : n === 1 ? 'kemarin' : n + ' hari lalu';
+  }
+
   /* tangga calisthenics, disimpan terpisah supaya tidak ikut reset mingguan */
   var LKEY = 'gymplan.ladder', ladder = {};
   try { var lraw = localStorage.getItem(LKEY); if (lraw) ladder = JSON.parse(lraw) || {}; } catch (e) {}
@@ -3220,7 +3445,7 @@ window.PROGRAM = {
     });
   }
 
-  function renderHome() { renderDayStats(); renderFocus(); renderLadder(); renderTargets(); }
+  function renderHome() { renderDayStats(); renderBody(); renderFocus(); renderLadder(); renderTargets(); }
 
   /* ---------------- jadwal ---------------- */
   var RC = 2 * Math.PI * 16;
@@ -3311,6 +3536,7 @@ window.PROGRAM = {
           it.steps.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol></div>' : '') +
         (tags ? '<div class="tagwrap">' + tags + '</div>' : '') +
         (it.note ? '<p class="exnote">' + esc(it.note) + '</p>' : '') +
+        (it.y ? loadRow(it) : '') +
         '<div class="exact"><div class="sets">' + sets + '</div>' + rest + '</div>' +
       '</div></article>';
   }
@@ -3384,7 +3610,14 @@ window.PROGRAM = {
       off0 = d.skill.items.length;
     }
 
-    h += '<div class="blocklab">Latihan utama</div><div class="exlist anim">';
+    h += '<div class="blocklab">Latihan utama</div>';
+    if (P.meta.progress && (d.main || []).some(function (x) { return x.y; })) {
+      h += '<div class="note prog"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" ' +
+        'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M3 17l6-6 4 4 7-7"/><path d="M14 8h6v6"/></svg>' +
+        '<span>' + esc(P.meta.progress) + '</span></div>';
+    }
+    h += '<div class="exlist anim">';
     (d.main || []).forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-m' + i }), off0 + i); });
     h += '</div>';
 
@@ -3423,6 +3656,7 @@ why_note(d) + '<div class="exlist anim">';
       b.addEventListener('click', function () { startRest(+b.dataset.rest, b.dataset.name); });
     });
     var hb = $('#hiitBtn'); if (hb) hb.addEventListener('click', startHiit);
+    bindLoadRows();
   }
 
   function refreshCard(id, flash) {
@@ -3609,7 +3843,7 @@ why_note(d) + '<div class="exlist anim">';
     }
     weekWas = got;
 
-    renderMonth(); renderYear();
+    renderBodyChart(); renderMonth(); renderYear();
 
     var all = histAgg('0000-01-01', '9999-12-31');
     $('#footNote').textContent = 'Minggu mulai ' + state.week +
