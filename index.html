@@ -177,6 +177,7 @@ a{color:var(--acc)}
 
 /* catatan di kartu fokus */
 .fnote{position:relative;z-index:1;margin:.8rem 0 0;font-size:.76rem;line-height:1.6;color:#b9c9e8}
+.fnote b{color:#fff;font-weight:700}
 
 /* tangga calisthenics */
 .ladder{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);
@@ -1168,6 +1169,21 @@ a{color:var(--acc)}
       b: p({ t: -2, dy: -2, aL: 178, fL: 0, aR: 175, fR: 3, hL: 3, kL: 0, hR: -3, kR: 0 })
     },
 
+    /* ---------- POSTUR ---------- */
+    'hip-flexor-stretch': {
+      name: 'Stretch hip flexor', equip: 'none', dur: 3.6, prop: P.mat,
+      a: p({ dx: -2, dy: 30, t: 2, aL: 52, fL: 26, aR: 48, fR: 28,
+             hL: 84, kL: -84, hR: -26, kR: -64 }),
+      b: p({ dx: 8, dy: 32, t: -6, aL: 46, fL: 24, aR: 42, fR: 26,
+             hL: 94, kL: -94, hR: -46, kR: -44 })
+    },
+    'thoracic-ext': {
+      name: 'Buka punggung atas', equip: 'none', dur: 3.6, prop: P.bench,
+      a: p({ dx: -40, dy: 28, t: 74, aL: 78, fL: 0, aR: 82, fR: 0,
+             hL: -2, kL: -88, hR: 2, kR: -92 }),
+      b: p({ dx: -40, dy: 28, t: 86, aL: 90, fL: 0, aR: 94, fR: 0,
+             hL: -2, kL: -88, hR: 2, kR: -92 })
+    },
     'dead-hang': {
       name: 'Dead hang', equip: 'none', dur: 3.6, prop: P.bar,
       a: p({ t: 0, dy: 8, aL: 178, fL: 0, aR: 175, fR: 3, hL: 3, kL: 0, hR: -3, kR: 0 }),
@@ -1198,7 +1214,7 @@ window.PROGRAM = {
  "meta": {
   "title": "Jadwal Gym Mingguan",
   "gym": "Muscle Lab Batam",
-  "goal": "Perut & postur, lemak turun",
+  "goal": "Perut rata, punggung tegak, panggul netral",
   "days": 5,
   "kcal": "±1880 kkal",
   "protein": "±163 g",
@@ -1212,13 +1228,13 @@ window.PROGRAM = {
    "n": 1,
    "tag": "HARI 1",
    "title": "Punggung & Postur",
-   "focus": "Tarikan vertikal dan horizontal · prioritas punggung",
+   "focus": "Tarikan punggung · bahu ditarik kembali ke belakang",
    "minutes": "55-60",
    "kcal": "320-420",
-   "count": "1+6+2+2",
+   "count": "1+6+2+4",
    "type": "strength",
    "accent": "lime",
-   "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu band pull-apart dan rotasi bahu 2×15",
+   "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu band pull-apart 2×15 dan buka punggung atas di bench 2×20 detik",
    "main": [
     {
      "no": "01",
@@ -1364,8 +1380,8 @@ window.PROGRAM = {
     ]
    },
    "cool": {
-    "label": "Pendinginan · hari badan atas",
-    "duration": "35 menit",
+    "label": "Pendinginan & postur · hari badan atas",
+    "duration": "39 menit",
     "items": [
      {
       "no": "",
@@ -1397,6 +1413,64 @@ window.PROGRAM = {
        {
         "v": "30",
         "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lutut belakang menempel lantai, lalu panggul didorong ke depan sampai paha depan sisi belakang terasa ketarik.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini gerakan paling penting untuk panggul yang condong ke depan. Urutannya, remas glute sisi belakang dulu sampai panggul terputar ke belakang, baru dorong panggul maju. Pinggang jangan dilengkungkan dan perut ditahan ringan. Kamu duduk hampir seharian, jadi otot inilah yang paling pendek dan paling bikin perut terlihat maju walau lemaknya sudah berkurang.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Buka punggung atas",
+      "y": null,
+      "fig": "thoracic-ext",
+      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "primary": [
+       "Punggung atas",
+       "Dada"
+      ],
+      "secondary": [
+       "Latissimus",
+       "Bahu"
+      ],
+      "prescription": "2 × 30 detik",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "dials": [
+       {
+        "v": "30",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "set"
        }
       ]
      },
@@ -1483,10 +1557,10 @@ window.PROGRAM = {
    "focus": "Dorongan pinggul, hinge, dan tekukan lutut",
    "minutes": "55-60",
    "kcal": "330-430",
-   "count": "6+1+2",
+   "count": "6+1+4",
    "type": "strength",
    "accent": "lime",
-   "warmup": "Warm-up 8 menit, sepeda ringan 5 menit lalu glute bridge badan sendiri 2×15",
+   "warmup": "Warm-up 8 menit, sepeda ringan 5 menit lalu glute bridge 2×15 dan dead bug 2×8 per sisi",
    "main": [
     {
      "no": "01",
@@ -1608,8 +1682,8 @@ window.PROGRAM = {
     ]
    },
    "cool": {
-    "label": "Pendinginan · hari kaki",
-    "duration": "20 menit",
+    "label": "Pendinginan & postur · hari kaki",
+    "duration": "24 menit",
     "items": [
      {
       "no": "",
@@ -1641,6 +1715,64 @@ window.PROGRAM = {
        {
         "v": "15-20",
         "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lutut belakang menempel lantai, lalu panggul didorong ke depan sampai paha depan sisi belakang terasa ketarik.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini gerakan paling penting untuk panggul yang condong ke depan. Urutannya, remas glute sisi belakang dulu sampai panggul terputar ke belakang, baru dorong panggul maju. Pinggang jangan dilengkungkan dan perut ditahan ringan. Kamu duduk hampir seharian, jadi otot inilah yang paling pendek dan paling bikin perut terlihat maju walau lemaknya sudah berkurang.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Buka punggung atas",
+      "y": null,
+      "fig": "thoracic-ext",
+      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "primary": [
+       "Punggung atas",
+       "Dada"
+      ],
+      "secondary": [
+       "Latissimus",
+       "Bahu"
+      ],
+      "prescription": "2 × 30 detik",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "dials": [
+       {
+        "v": "30",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "set"
        }
       ]
      },
@@ -1689,10 +1821,10 @@ window.PROGRAM = {
    "focus": "Sesi pembakaran utama minggu ini",
    "minutes": "40",
    "kcal": "350-500",
-   "count": "1+3+2",
+   "count": "1+3+4",
    "type": "hiit",
    "accent": "orange",
-   "warmup": "Warm-up 5 menit, jogging ringan di tempat lalu dynamic stretching",
+   "warmup": "Warm-up 5 menit, jogging ringan di tempat lalu buka panggul dan punggung atas masing-masing 2×20 detik",
    "hiit": {
     "work": 40,
     "rest": 20,
@@ -1777,8 +1909,8 @@ window.PROGRAM = {
    },
    "cooldown": "Cool down 5 menit, stretching menyeluruh dan atur napas",
    "cool": {
-    "label": "Pendinginan · setelah HIIT",
-    "duration": "12 menit",
+    "label": "Pendinginan & postur · setelah HIIT",
+    "duration": "16 menit",
     "items": [
      {
       "no": "",
@@ -1810,6 +1942,64 @@ window.PROGRAM = {
        {
         "v": "10",
         "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lutut belakang menempel lantai, lalu panggul didorong ke depan sampai paha depan sisi belakang terasa ketarik.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini gerakan paling penting untuk panggul yang condong ke depan. Urutannya, remas glute sisi belakang dulu sampai panggul terputar ke belakang, baru dorong panggul maju. Pinggang jangan dilengkungkan dan perut ditahan ringan. Kamu duduk hampir seharian, jadi otot inilah yang paling pendek dan paling bikin perut terlihat maju walau lemaknya sudah berkurang.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Buka punggung atas",
+      "y": null,
+      "fig": "thoracic-ext",
+      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "primary": [
+       "Punggung atas",
+       "Dada"
+      ],
+      "secondary": [
+       "Latissimus",
+       "Bahu"
+      ],
+      "prescription": "2 × 30 detik",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "dials": [
+       {
+        "v": "30",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "set"
        }
       ]
      },
@@ -1855,13 +2045,13 @@ window.PROGRAM = {
    "n": 4,
    "tag": "HARI 4",
    "title": "Dada, Bahu & Lengan",
-   "focus": "Semua pola dorong · penyeimbang hari punggung",
+   "focus": "Pola dorong · diimbangi rear delt supaya bahu tidak maju",
    "minutes": "55-60",
    "kcal": "320-420",
-   "count": "1+6+2+2",
+   "count": "1+6+2+4",
    "type": "strength",
    "accent": "lime",
-   "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu rotasi bahu dan push-up ringan 2×10",
+   "warmup": "Warm-up 8 menit, kardio ringan 5 menit lalu band pull-apart 2×15 baru push-up ringan 2×10, punggung disiapkan dulu sebelum mendorong",
    "main": [
     {
      "no": "01",
@@ -1881,21 +2071,32 @@ window.PROGRAM = {
      "note": "Turunkan 3 detik, jangan memantul di dada"
     },
     {
-     "no": "02",
-     "name": "Selectorized Chest Press",
-     "y": "-zLwVSx2Pfc",
-     "desc": "Membentuk otot dada dengan gerakan dorong menggunakan mesin beban pin.",
+     "no": "",
+     "name": "Rear Delt Fly",
+     "y": "91_k6j8WSOs",
+     "fig": "face-pull",
+     "desc": "Mesin Pec / Rear Delt Fly dipakai arah sebaliknya, lengan dibuka ke belakang sampai tulang belikat saling mendekat.",
      "primary": [
-      "Dada"
+      "Bahu belakang",
+      "Punggung atas"
      ],
      "secondary": [
-      "Trisep",
-      "Bahu"
+      "Trapezius"
      ],
-     "prescription": "3 × 10-12",
-     "rest": 75,
+     "prescription": "3 × 12-15",
+     "rest": 60,
      "sets": 3,
-     "note": "Siku sekitar 45 derajat dari badan"
+     "note": "Ini penukar Selectorized Chest Press. Hari dorong yang isinya dorong semua bikin bahu makin maju, dan bahu maju itu yang bikin badan kelihatan bungkuk. Beban ringan saja, yang dikejar rasa terbakar di bahu belakang, bukan angka. Gerakan dari belikat, bukan dari siku, dan jangan pakai ayunan badan.",
+     "dials": [
+      {
+       "v": "12-15",
+       "k": "reps"
+      },
+      {
+       "v": "3",
+       "k": "set"
+      }
+     ]
     },
     {
      "no": "03",
@@ -1986,26 +2187,37 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Leg raise",
+      "name": "Dead bug",
       "y": null,
-      "fig": "leg-raise",
-      "desc": "Berbaring, angkat kedua kaki lurus sampai tegak lalu turunkan pelan.",
+      "fig": "dead-bug",
+      "desc": "Telentang, lutut dan panggul ditekuk 90 derajat, lalu satu tangan dan kaki seberangnya diturunkan pelan tanpa pinggang terangkat.",
       "primary": [
-       "Perut"
+       "Perut dalam"
       ],
       "secondary": [
-       "Hip flexor"
+       "Hip flexor",
+       "Bahu"
       ],
-      "prescription": "3 × 15",
+      "prescription": "3 × 8 per sisi",
       "rest": 45,
       "sets": 3,
-      "note": "Punggung bawah harus tetap menempel lantai, kalau terangkat tekuk sedikit lutut"
+      "note": "Pengganti leg raise. Leg raise dengan core yang belum kuat justru menarik pinggang jadi melengkung dan memperparah panggul condong, dead bug melatih persis kebalikannya. Pinggang harus menempel lantai dari awal sampai akhir. Begitu pinggang mulai terangkat, berhenti, itu batas kemampuanmu hari ini.",
+      "dials": [
+       {
+        "v": "8",
+        "k": "per sisi"
+       },
+       {
+        "v": "3",
+        "k": "set"
+       }
+      ]
      }
     ]
    },
    "cool": {
-    "label": "Pendinginan · hari badan atas",
-    "duration": "35 menit",
+    "label": "Pendinginan & postur · hari badan atas",
+    "duration": "39 menit",
     "items": [
      {
       "no": "",
@@ -2037,6 +2249,64 @@ window.PROGRAM = {
        {
         "v": "30",
         "k": "menit"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lutut belakang menempel lantai, lalu panggul didorong ke depan sampai paha depan sisi belakang terasa ketarik.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini gerakan paling penting untuk panggul yang condong ke depan. Urutannya, remas glute sisi belakang dulu sampai panggul terputar ke belakang, baru dorong panggul maju. Pinggang jangan dilengkungkan dan perut ditahan ringan. Kamu duduk hampir seharian, jadi otot inilah yang paling pendek dan paling bikin perut terlihat maju walau lemaknya sudah berkurang.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Buka punggung atas",
+      "y": null,
+      "fig": "thoracic-ext",
+      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "primary": [
+       "Punggung atas",
+       "Dada"
+      ],
+      "secondary": [
+       "Latissimus",
+       "Bahu"
+      ],
+      "prescription": "2 × 30 detik",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "dials": [
+       {
+        "v": "30",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "set"
        }
       ]
      },
@@ -2120,10 +2390,10 @@ window.PROGRAM = {
    "focus": "Kaki depan, kardio panjang, lalu mobilitas",
    "minutes": "55-65",
    "kcal": "380-480",
-   "count": "3+3+1",
+   "count": "3+3+3",
    "type": "cardio",
    "accent": "cyan",
-   "warmup": "Warm-up 8 menit, sepeda ringan 5 menit lalu squat badan sendiri 2×15",
+   "warmup": "Warm-up 8 menit, sepeda ringan 5 menit lalu squat badan sendiri 2×15 dan stretch hip flexor ringan 2×20 detik per sisi",
    "main": [
     {
      "no": "01",
@@ -2214,10 +2484,10 @@ window.PROGRAM = {
      },
      {
       "no": "",
-      "name": "Mobility & stretching",
+      "name": "Mobility pinggul & pergelangan kaki",
       "y": null,
       "fig": "mobility",
-      "desc": "Hip flexor, hamstring, thoracic spine, dan bahu.",
+      "desc": "Buka pinggul dengan 90-90 dan deep squat hold, lalu dorong lutut melewati jari kaki untuk pergelangan kaki.",
       "primary": [
        "Fleksibilitas"
       ],
@@ -2227,14 +2497,72 @@ window.PROGRAM = {
       "prescription": "10 menit",
       "rest": 0,
       "sets": 1,
-      "note": "Tahan tiap posisi 30-45 detik"
+      "note": "Bagian punggung atas dan hip flexor sudah dikerjakan di blok pendinginan, jadi di sini fokusnya pinggul yang berputar dan pergelangan kaki. Pergelangan kaki yang kaku bikin squat jadi condong ke depan, dan itu balik lagi membebani pinggang."
      }
     ]
    },
    "cool": {
-    "label": "Pendinginan · hari kaki",
-    "duration": "5 menit",
+    "label": "Pendinginan & postur · hari kaki",
+    "duration": "9 menit",
     "items": [
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lutut belakang menempel lantai, lalu panggul didorong ke depan sampai paha depan sisi belakang terasa ketarik.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini gerakan paling penting untuk panggul yang condong ke depan. Urutannya, remas glute sisi belakang dulu sampai panggul terputar ke belakang, baru dorong panggul maju. Pinggang jangan dilengkungkan dan perut ditahan ringan. Kamu duduk hampir seharian, jadi otot inilah yang paling pendek dan paling bikin perut terlihat maju walau lemaknya sudah berkurang.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Buka punggung atas",
+      "y": null,
+      "fig": "thoracic-ext",
+      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "primary": [
+       "Punggung atas",
+       "Dada"
+      ],
+      "secondary": [
+       "Latissimus",
+       "Bahu"
+      ],
+      "prescription": "2 × 30 detik",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "dials": [
+       {
+        "v": "30",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "set"
+       }
+      ]
+     },
      {
       "no": "",
       "name": "Dead hang",
@@ -2318,9 +2646,67 @@ window.PROGRAM = {
     }
    ],
    "cool": {
-    "label": "Pendinginan",
-    "duration": "5 menit",
+    "label": "Pendinginan & postur",
+    "duration": "9 menit",
     "items": [
+     {
+      "no": "",
+      "name": "Stretch hip flexor",
+      "y": null,
+      "fig": "hip-flexor-stretch",
+      "desc": "Berlutut satu kaki di matras, lutut belakang menempel lantai, lalu panggul didorong ke depan sampai paha depan sisi belakang terasa ketarik.",
+      "primary": [
+       "Hip flexor",
+       "Paha depan"
+      ],
+      "secondary": [
+       "Glute",
+       "Perut"
+      ],
+      "prescription": "2 × 40 detik per sisi",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini gerakan paling penting untuk panggul yang condong ke depan. Urutannya, remas glute sisi belakang dulu sampai panggul terputar ke belakang, baru dorong panggul maju. Pinggang jangan dilengkungkan dan perut ditahan ringan. Kamu duduk hampir seharian, jadi otot inilah yang paling pendek dan paling bikin perut terlihat maju walau lemaknya sudah berkurang.",
+      "dials": [
+       {
+        "v": "40",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "sisi"
+       }
+      ]
+     },
+     {
+      "no": "",
+      "name": "Buka punggung atas",
+      "y": null,
+      "fig": "thoracic-ext",
+      "desc": "Berlutut di depan bench, dua siku di atas bench, lalu dada diturunkan pelan sampai punggung atas dan ketiak terasa terbuka.",
+      "primary": [
+       "Punggung atas",
+       "Dada"
+      ],
+      "secondary": [
+       "Latissimus",
+       "Bahu"
+      ],
+      "prescription": "2 × 30 detik",
+      "rest": 0,
+      "sets": 2,
+      "note": "Ini kebalikan dari posisi bungkuk. Dada turun, ketiak dibuka, dagu ditahan supaya tidak mendongak. Yang melengkung itu punggung bagian atas, bukan pinggang, jadi perut tetap ditahan ringan. Napas pelan, tiap buang napas dada turun sedikit lagi.",
+      "dials": [
+       {
+        "v": "30",
+        "k": "detik"
+       },
+       {
+        "v": "2",
+        "k": "set"
+       }
+      ]
+     },
      {
       "no": "",
       "name": "Dead hang",
@@ -2730,8 +3116,11 @@ window.PROGRAM = {
         '<span class="fchip">' + esc(P.meta.kcal) + '</span>' +
         '<span class="fchip">protein ' + esc(P.meta.protein) + '</span>' +
       '</div>' +
-      '<p class="fnote">Lemak perut turun kalau lemak total turun, lokasinya tidak bisa dipilih. ' +
-      'Yang bisa berubah cepat itu postur dan core dalam, dan itu sebabnya core kamu sekarang pola menahan ' +
+      '<p class="fnote">Tiga hal dikejar sekaligus. <b>Perut rata</b> datang dari defisit kalori, ' +
+      'bukan dari gerakan perut, karena lokasi lemak yang turun tidak bisa dipilih. ' +
+      '<b>Punggung tegak</b> datang dari porsi tarikan yang lebih banyak daripada dorongan, ' +
+      'ditambah buka punggung atas tiap selesai latihan. ' +
+      '<b>Panggul netral</b> datang dari stretch hip flexor, glute yang kuat, dan core pola menahan ' +
       'seperti plank dan hollow, bukan pola menekuk seperti crunch.</p></div>';
   }
 
