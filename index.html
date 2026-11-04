@@ -375,6 +375,32 @@ a{color:var(--acc)}
 .hiitcta p{margin:.2rem 0 0;font-size:.82rem;color:#8c3a24}
 .hiitcta .btn{width:auto;background:linear-gradient(145deg,#f58a70,#e2563a);box-shadow:0 10px 24px -12px rgba(226,86,58,.9)}
 
+/* ---------- panduan HIIT ---------- */
+.hhow{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:1.05rem 1.1rem;box-shadow:var(--sh-sm);margin:-.4rem 0 1.1rem}
+.hlab{display:block;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--faint);font-weight:700;margin-bottom:.55rem}
+.hlab + .hmach{margin-bottom:.2rem}
+.hsteps{margin:0 0 1rem;padding-left:1.15rem;display:grid;gap:.45rem}
+.hsteps li{font-size:.82rem;line-height:1.5;color:var(--muted)}
+.hsteps li::marker{color:var(--acc);font-weight:800}
+.hmach{display:grid;gap:.5rem}
+.hm{background:var(--bg2);border-radius:14px;padding:.7rem .75rem}
+.hm > b{display:flex;align-items:baseline;gap:.4rem;flex-wrap:wrap;
+  font-size:.86rem;font-weight:800;color:var(--ink);margin-bottom:.4rem}
+.hm > b i{font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--acc2);background:var(--acc-soft);
+  padding:.12rem .38rem;border-radius:99px}
+.hmr{display:flex;gap:.5rem;align-items:baseline}
+.hmr + .hmr{margin-top:.25rem}
+.hmr span{flex:none;width:44px;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;
+  font-weight:700;color:var(--faint)}
+.hmr.hot span{color:#e2563a}
+.hmr p{margin:0;font-size:.78rem;line-height:1.45;color:var(--muted)}
+.hnote{margin:.95rem 0 0;font-size:.78rem;line-height:1.55;color:var(--muted)}
+.hnote.gauge{padding:.7rem .8rem;border-radius:12px;background:rgba(226,86,58,.07);
+  color:#8c3a24;border:1px solid rgba(226,86,58,.16)}
+
 /* animasi stick figure */
 .figbox{display:grid;place-items:center;padding:.3rem;
   background:radial-gradient(circle at 50% 42%,rgba(47,111,246,.16),transparent 70%),#0e1626}
@@ -1829,24 +1855,73 @@ window.PROGRAM = {
     "work": 40,
     "rest": 20,
     "rounds": 6,
-    "roundRest": 60
+    "roundRest": 60,
+    "intro": "Tiga blok, tiap blok enam putaran. Satu putaran 40 detik keras lalu 20 detik pelan. Antar blok istirahat 60 detik. Total sekitar 20 menit.",
+    "steps": [
+     "Pilih satu alat dan setel dulu sebelum timer dijalankan, jangan sambil jalan.",
+     "Tekan Jalankan. Ada hitungan bersiap 10 detik, setelah itu timer jalan sendiri dan berbunyi tiap ganti fase.",
+     "Waktu layar menulis kerja keras, naikkan usaha dan tahan selama 40 detik penuh.",
+     "Waktu layar menulis pelan dulu, turunkan usahanya tapi kaki jangan berhenti selama 20 detik itu.",
+     "Enam putaran berarti satu blok beres. Istirahat 60 detik, lalu blok berikutnya mulai sendiri."
+    ],
+    "machines": [
+     {
+      "name": "Sepeda statis",
+      "tag": "paling cocok",
+      "keras": "Resistensi naik 3-4 tingkat dari santai, kayuh cepat",
+      "pelan": "Balik ke resistensi santai, kayuh pelan tapi terus"
+     },
+     {
+      "name": "Treadmill",
+      "tag": "",
+      "keras": "Incline 12-15 persen, kecepatan 6,0-6,5 km per jam, jalan cepat menanjak",
+      "pelan": "Pindah berdiri ke pijakan samping, mesin biarkan tetap jalan"
+     },
+     {
+      "name": "Rowing",
+      "tag": "",
+      "keras": "Tarikan kuat, 28-32 tarikan per menit",
+      "pelan": "Tarikan santai, 18-20 tarikan per menit"
+     }
+    ],
+    "gauge": "Ukuran kerasnya begini. Di detik ke-40 kamu seharusnya sudah tidak sanggup bicara satu kalimat penuh, cuma dua sampai tiga kata. Kalau di putaran keenam masih bisa ngobrol, bebannya kurang. Kalau di putaran kedua sudah mau tumbang, berarti kamu terlalu kencang di awal, pakai usaha yang sama rata dari putaran satu sampai enam.",
+    "why": "Sepeda statis paling cocok karena resistensinya berubah seketika, pas untuk jeda 20 detik yang pendek, dan lututmu tidak menerima benturan. Di treadmill, mesin butuh waktu untuk naik turun kecepatan, jadi setelannya dibiarkan tetap dan kamu yang pindah ke pijakan samping saat fase pelan."
    },
    "main": [
     {
      "no": "01",
      "name": "HIIT 40 / 20",
      "y": null,
-     "desc": "",
+     "desc": "Satu putaran itu 40 detik kerja keras lalu 20 detik pelan. Enam putaran berturut-turut sama dengan satu blok, dan satu blok memakan enam menit. Setelah satu blok, istirahat 60 detik, lalu ulangi sampai tiga blok. Totalnya sekitar 20 menit.",
      "primary": [
       "Jantung"
      ],
      "secondary": [
       "Endurance"
      ],
-     "prescription": "6 putaran × 3 blok",
+     "prescription": "3 blok × 6 putaran",
      "rest": 0,
      "sets": 3,
-     "note": "Treadmill, sepeda, atau rowing. 40 detik keras, 20 detik pelan, istirahat 60 detik antar blok"
+     "note": "Pakai satu alat saja dari awal sampai akhir, jangan pindah-pindah. Minggu pertama dua blok dulu sudah cukup, baru naik ke tiga kalau napasmu sudah sanggup. Kalau satu blok saja belum kuat, kurangi jumlah putaran jadi empat, jangan kurangi kerasnya, karena yang membakar lemak justru bagian kerasnya. Jangan pernah berhenti total di fase pelan, kaki tetap bergerak, karena berhenti mendadak bikin kepala pusing.",
+     "fig": "cardio-zone2",
+     "dials": [
+      {
+       "v": "40",
+       "k": "detik keras"
+      },
+      {
+       "v": "20",
+       "k": "detik pelan"
+      },
+      {
+       "v": "6",
+       "k": "putaran"
+      },
+      {
+       "v": "3",
+       "k": "blok"
+      }
+     ]
     }
    ],
    "finisher": {
@@ -3379,10 +3454,29 @@ window.PROGRAM = {
     if (d.warmup) h += '<div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span>' + esc(d.warmup) + '</span></div>';
 
     if (d.hiit) {
-      h += '<div class="hiitcta"><div><h4>Timer HIIT ' + d.hiit.work + ' / ' + d.hiit.rest + '</h4>' +
-        '<p>' + d.hiit.rounds + ' putaran per blok, istirahat ' + d.hiit.roundRest + ' detik antar blok.</p></div>' +
+      var hh = d.hiit;
+      h += '<div class="hiitcta"><div><h4>Timer HIIT ' + hh.work + ' / ' + hh.rest + '</h4>' +
+        '<p>' + esc(hh.intro || (hh.rounds + ' putaran per blok')) + '</p></div>' +
         '<button class="btn btn-primary" type="button" id="hiitBtn">' +
         '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Jalankan</button></div>';
+
+      if (hh.steps) {
+        h += '<div class="hhow">' +
+          '<span class="hlab">Cara mainnya</span>' +
+          '<ol class="hsteps">' + hh.steps.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>';
+        if (hh.machines) {
+          h += '<span class="hlab">Setelan per alat</span><div class="hmach">' +
+            hh.machines.map(function (m) {
+              return '<div class="hm"><b>' + esc(m.name) +
+                (m.tag ? '<i>' + esc(m.tag) + '</i>' : '') + '</b>' +
+                '<div class="hmr hot"><span>Keras</span><p>' + esc(m.keras) + '</p></div>' +
+                '<div class="hmr"><span>Pelan</span><p>' + esc(m.pelan) + '</p></div></div>';
+            }).join('') + '</div>';
+        }
+        if (hh.why) h += '<p class="hnote">' + esc(hh.why) + '</p>';
+        if (hh.gauge) h += '<p class="hnote gauge">' + esc(hh.gauge) + '</p>';
+        h += '</div>';
+      }
     }
 
     var off0 = 0;
