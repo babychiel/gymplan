@@ -29,6 +29,17 @@
   --acc:#2f6ff6; --acc2:#1b4fd6; --acc-soft:rgba(47,111,246,.10);
   --warm:#f2785c; --warm-soft:rgba(242,120,92,.12);
   --good:#12a97b; --good-soft:rgba(18,169,123,.12);
+
+  /* enam warna pokok. Yang pekat dipakai untuk teks, yang lembut untuk latar.
+     Warna kuat cuma muncul sedikit-sedikit di ikon, angka, dan batang grafik,
+     supaya tampilannya ceria tapi tidak ramai. */
+  --c1:#2f6ff6; --c1d:#1b4fd6; --c1s:rgba(47,111,246,.12);
+  --c2:#7b6bf0; --c2d:#5546c9; --c2s:rgba(123,107,240,.13);
+  --c3:#f2785c; --c3d:#d4573a; --c3s:rgba(242,120,92,.14);
+  --c4:#15b3b0; --c4d:#0d8a88; --c4s:rgba(21,179,176,.14);
+  --c5:#f0a429; --c5d:#bb7a0d; --c5s:rgba(240,164,41,.16);
+  --c6:#12a97b; --c6d:#0b8560; --c6s:rgba(18,169,123,.13);
+  --h:var(--c1); --hd:var(--c1d); --hs:var(--c1s);
   --r:22px; --r-sm:14px;
   --sh:0 18px 40px -20px rgba(32,52,105,.40),0 2px 6px -2px rgba(32,52,105,.10);
   --sh-sm:0 10px 24px -14px rgba(32,52,105,.34),0 1px 3px -1px rgba(32,52,105,.08);
@@ -50,10 +61,12 @@ body::before{
     radial-gradient(540px 440px at 4% 3%,rgba(94,146,255,.22),transparent 64%),
     radial-gradient(500px 400px at 97% 5%,rgba(242,120,92,.15),transparent 62%),
     radial-gradient(620px 520px at 94% 60%,rgba(52,168,186,.12),transparent 64%),
-    radial-gradient(580px 480px at 1% 86%,rgba(112,110,218,.12),transparent 64%),
+    radial-gradient(580px 480px at 1% 86%,rgba(123,107,240,.13),transparent 64%),
+    radial-gradient(520px 420px at 98% 88%,rgba(240,164,41,.13),transparent 62%),
+    radial-gradient(460px 380px at 20% 48%,rgba(18,169,123,.10),transparent 64%),
     radial-gradient(900px 700px at 50% 110%,rgba(47,111,246,.13),transparent 68%),
     linear-gradient(170deg,#eff4fd 0%,#e7edfa 50%,#eaeff9 100%);
-  background-blend-mode:soft-light,normal,normal,normal,normal,normal,normal,normal,normal;
+  background-blend-mode:soft-light,normal,normal,normal,normal,normal,normal,normal,normal,normal,normal;
 }
 body{
   margin:0;background:transparent;color:var(--ink);min-height:100dvh;
@@ -90,6 +103,15 @@ a{color:var(--acc)}
 .vhead h2{font-size:1.5rem}
 .vhead p{margin:.3rem 0 0;color:var(--muted);font-size:.9rem}
 .kick{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:700}
+
+/* tiap hari punya warnanya sendiri, diwarisi oleh seluruh isi halamannya */
+.daycard[data-day="senin"],#detail[data-day="senin"]{--h:var(--c1);--hd:var(--c1d);--hs:var(--c1s)}
+.daycard[data-day="selasa"],#detail[data-day="selasa"]{--h:var(--c2);--hd:var(--c2d);--hs:var(--c2s)}
+.daycard[data-day="rabu"],#detail[data-day="rabu"]{--h:var(--c3);--hd:var(--c3d);--hs:var(--c3s)}
+.daycard[data-day="kamis"],#detail[data-day="kamis"]{--h:var(--c4);--hd:var(--c4d);--hs:var(--c4s)}
+.daycard[data-day="jumat"],#detail[data-day="jumat"]{--h:var(--c5);--hd:var(--c5d);--hs:var(--c5s)}
+.daycard[data-day="sabtu"],#detail[data-day="sabtu"]{--h:var(--c6);--hd:var(--c6d);--hs:var(--c6s)}
+.daycard[data-day="minggu"],#detail[data-day="minggu"]{--h:#8793ab;--hd:#66718a;--hs:rgba(135,147,171,.14)}
 
 /* ---------- kartu ---------- */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm)}
@@ -206,8 +228,7 @@ a{color:var(--acc)}
 .lnote{margin:.85rem 0 0;font-size:.74rem;color:var(--faint);line-height:1.55}
 
 /* blok calisthenics di halaman latihan */
-.blocklab.skill{color:#5d5bc9}
-.blocklab.skill::after{background:rgba(112,110,218,.35)}
+.blocklab.skill{--lh:var(--c2);--lhd:var(--c2d)}
 .skillist .excard{border-color:rgba(112,110,218,.32)}
 
 /* tiga hari berikutnya */
@@ -245,7 +266,7 @@ a{color:var(--acc)}
   padding:1rem;background-image:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.2) 70%,rgba(255,255,255,0))}
 .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem}
 .titem{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:.6rem .4rem;text-align:center}
-.titem b{display:block;font-size:.92rem;font-weight:800;letter-spacing:-.02em;color:var(--acc);white-space:nowrap}
+.titem b{display:block;font-size:.92rem;font-weight:800;letter-spacing:-.02em;color:var(--p,var(--acc));white-space:nowrap}
 .titem span{font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:700}
 .wlab{display:flex;align-items:baseline;margin-top:1rem;font-size:.82rem;font-weight:700}
 .wlab i{margin-left:auto;font-style:normal;font-size:.76rem;color:var(--muted);font-weight:600;
@@ -272,22 +293,22 @@ a{color:var(--acc)}
   background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:.95rem 1rem;
   box-shadow:var(--sh-sm);transition:transform .2s var(--ease),border-color .2s var(--ease)}
 .daycard:active{transform:scale(.99)}
-.daycard.on{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft),var(--sh-sm)}
-.daycard.today{background:linear-gradient(140deg,#ffffff,#eef3ff)}
+.daycard.on{border-color:var(--h);box-shadow:0 0 0 3px var(--hs),var(--sh-sm)}
+.daycard.today{background:linear-gradient(140deg,#ffffff,color-mix(in srgb,var(--h) 13%,#fff))}
 .dnum{width:42px;height:42px;border-radius:13px;flex:none;display:grid;place-items:center;font-weight:800;
   background:var(--acc-soft);color:var(--acc);font-size:.95rem}
-.daycard.hiit .dnum{background:var(--warm-soft);color:var(--warm)}
+.dnum{background:var(--hs);color:var(--hd)}
 .daycard.rest .dnum{background:var(--bg2);color:var(--faint)}
 .dbody{flex:1;min-width:0}
 .dbody b{display:block;font-size:1rem;font-weight:700}
 .dbody small{display:block;color:var(--muted);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ring{width:40px;height:40px;flex:none}
 .ring circle{fill:none;stroke-width:5;stroke-linecap:round}
-.ring .bgc{stroke:var(--bg2)} .ring .fgc{stroke:var(--acc);transition:stroke-dashoffset .6s var(--ease)}
+.ring .bgc{stroke:var(--bg2)} .ring .fgc{stroke:var(--h,var(--acc));transition:stroke-dashoffset .6s var(--ease)}
 .ring text{font-size:12px;font-weight:800;fill:var(--ink);text-anchor:middle;dominant-baseline:central}
 
 /* fokus otot di kartu hari */
-.dbody .dfoc{display:block;color:var(--acc);font-weight:600;font-size:.72rem;margin-top:.15rem;
+.dbody .dfoc{display:block;color:var(--hd);font-weight:600;font-size:.72rem;margin-top:.15rem;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .daycard.rest .dbody .dfoc{color:var(--faint)}
 
@@ -310,7 +331,8 @@ a{color:var(--acc)}
 .tagrow .tags{margin-top:0;flex:1;min-width:0}
 
 /* ---------- detail latihan ---------- */
-.dhead{background:linear-gradient(150deg,#ffffff,#eef3ff);border:1px solid var(--line);border-radius:26px;
+.dhead{background:linear-gradient(150deg,#ffffff,color-mix(in srgb,var(--h) 14%,#fff));
+  border:1px solid color-mix(in srgb,var(--h) 22%,var(--line));border-radius:26px;
   padding:1.2rem;box-shadow:var(--sh);margin-bottom:1rem}
 .dhead h2{font-size:1.45rem;margin-top:.25rem}
 .dhead p{margin:.35rem 0 0;color:var(--muted);font-size:.88rem}
@@ -327,8 +349,18 @@ a{color:var(--acc)}
 .blocklab{display:flex;align-items:center;gap:.7rem;margin:1.4rem 0 .8rem;
   font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:700}
 .blocklab::after{content:'';flex:1;height:1px;background:var(--line)}
-.blocklab.cool{color:var(--warm)}
-.blocklab.cool::after{background:rgba(242,120,92,.35)}
+.blocklab::before{content:'';flex:none;width:9px;height:9px;border-radius:3px;
+  background:var(--lh,var(--h));box-shadow:0 2px 6px -2px var(--lh,var(--h))}
+.blocklab{color:var(--lhd,var(--hd))}
+.blocklab::after{background:color-mix(in srgb,var(--lh,var(--h)) 30%,transparent)}
+.blocklab.cool{--lh:var(--c3);--lhd:var(--c3d)}
+.blocklab.fin{--lh:var(--c4);--lhd:var(--c4d)}
+.blocklab.c1{--lh:var(--c1);--lhd:var(--c1d)}
+.blocklab.c2{--lh:var(--c2);--lhd:var(--c2d)}
+.blocklab.c3{--lh:var(--c3);--lhd:var(--c3d)}
+.blocklab.c4{--lh:var(--c4);--lhd:var(--c4d)}
+.blocklab.c5{--lh:var(--c5);--lhd:var(--c5d)}
+.blocklab.c6{--lh:var(--c6);--lhd:var(--c6d)}
 
 .exlist{display:grid;gap:.9rem}
 .excard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm)}
@@ -414,7 +446,7 @@ a{color:var(--acc)}
 .bstat{background:var(--bg2);border-radius:14px;padding:.75rem .7rem}
 .blab{display:block;font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;
   color:var(--faint);font-weight:700}
-.bstat b{display:block;margin-top:.3rem;font-size:1.42rem;font-weight:800;color:var(--ink);
+.bstat b{display:block;margin-top:.3rem;font-size:1.42rem;font-weight:800;color:var(--p,var(--ink));
   line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
 .bdelta{display:block;margin-top:.25rem;font-size:.66rem;font-weight:600;color:var(--faint);line-height:1.3}
 .bdelta.down{color:var(--good)}
@@ -488,7 +520,7 @@ a{color:var(--acc)}
 /* panel angka treadmill dan dead hang */
 .dials{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:.6rem 0 .1rem}
 .dial{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:.45rem .3rem;text-align:center}
-.dial b{display:block;font-size:.95rem;font-weight:800;letter-spacing:-.02em;color:var(--warm);
+.dial b{display:block;font-size:.95rem;font-weight:800;letter-spacing:-.02em;color:var(--p,var(--warm));
   font-variant-numeric:tabular-nums}
 .dial span{font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:700}
 .cooldown .excard{border-color:rgba(242,120,92,.3)}
@@ -502,7 +534,7 @@ a{color:var(--acc)}
 .meal .mt small{color:var(--faint);font-size:.72rem}
 .meal p{margin:0;font-size:.88rem;color:var(--ink)}
 .meal .kc{margin-left:auto;text-align:right;flex:none}
-.meal .kc b{display:block;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums}
+.meal .kc b{display:block;font-weight:800;color:var(--p,var(--acc));font-variant-numeric:tabular-nums}
 .meal .kc small{display:block;font-size:.65rem;color:var(--faint);letter-spacing:.05em;line-height:1.5}
 .mtotal{display:flex;justify-content:space-between;align-items:center;gap:1rem;background:linear-gradient(145deg,#4b8cfb,var(--acc2));
   color:#fff;border-radius:var(--r);padding:1rem 1.15rem;box-shadow:var(--sh)}
@@ -512,7 +544,7 @@ a{color:var(--acc)}
 /* ---------- progres ---------- */
 .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin-bottom:1rem}
 .pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1rem;box-shadow:var(--sh-sm)}
-.pcard b{display:block;font-size:1.62rem;font-weight:800;color:var(--acc);line-height:1;
+.pcard b{display:block;font-size:1.62rem;font-weight:800;color:var(--p,var(--acc));line-height:1;
   font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap}
 .pcard span{font-size:.7rem;color:var(--muted);font-weight:600}
 .week{display:grid;grid-template-columns:repeat(7,1fr);gap:.35rem;margin-top:1rem}
@@ -667,12 +699,12 @@ a{color:var(--acc)}
   color:var(--faint);font-weight:700}
 .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
 .ritem{background:var(--bg2);border-radius:14px;padding:.65rem .55rem;min-width:0}
-.ritem b{display:block;font-size:1.12rem;font-weight:800;color:var(--ink);line-height:1.1;
+.ritem b{display:block;font-size:1.12rem;font-weight:800;color:var(--p,var(--ink));line-height:1.1;
   font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap;
   overflow:hidden;text-overflow:ellipsis}
 .ritem span{display:block;font-size:.63rem;color:var(--muted);font-weight:600;
   margin-top:.2rem;line-height:1.3}
-.ritem.hi b{color:var(--acc)}
+.ritem.hi b{color:var(--p,var(--acc))}
 .rbars{display:flex;align-items:flex-end;gap:2px;height:76px;margin-top:1.1rem}
 .rb{flex:1;min-width:0;height:100%;border-radius:4px;background:var(--bg2);
   display:flex;align-items:flex-end;overflow:hidden}
@@ -692,7 +724,107 @@ a{color:var(--acc)}
   .rbars{height:92px}
 }
 
-/* perayaan */
+/* ---------- enam warna disebar ke kartu angka ----------
+   Tiap kartu mengambil satu warna dari antrean, teks memakai yang pekat
+   dan latarnya memakai yang lembut. Warna kuatnya cuma di angka, jadi
+   halaman terasa ceria tapi tulisannya tetap gampang dibaca. */
+.pgrid .pcard:nth-child(6n+1),.rgrid .ritem:nth-child(6n+1){--p:var(--c1d);--ps:var(--c1s)}
+.pgrid .pcard:nth-child(6n+2),.rgrid .ritem:nth-child(6n+2){--p:var(--c2d);--ps:var(--c2s)}
+.pgrid .pcard:nth-child(6n+3),.rgrid .ritem:nth-child(6n+3){--p:var(--c3d);--ps:var(--c3s)}
+.pgrid .pcard:nth-child(6n+4),.rgrid .ritem:nth-child(6n+4){--p:var(--c4d);--ps:var(--c4s)}
+.pgrid .pcard:nth-child(6n+5),.rgrid .ritem:nth-child(6n+5){--p:var(--c5d);--ps:var(--c5s)}
+.pgrid .pcard:nth-child(6n+6),.rgrid .ritem:nth-child(6n+6){--p:var(--c6d);--ps:var(--c6s)}
+.pcard{background:linear-gradient(160deg,var(--card) 52%,var(--ps,var(--acc-soft)))}
+.ritem{background:var(--ps,var(--bg2))}
+
+/* kartu berat dan lingkar perut */
+.bstats .bstat:nth-child(4n+1){--p:var(--c1d);--ps:var(--c1s)}
+.bstats .bstat:nth-child(4n+2){--p:var(--c3d);--ps:var(--c3s)}
+.bstats .bstat:nth-child(4n+3){--p:var(--c4d);--ps:var(--c4s)}
+.bstats .bstat:nth-child(4n+4){--p:var(--c5d);--ps:var(--c5s)}
+.bstat{background:var(--ps,var(--bg2))}
+
+/* panel angka di kartu latihan */
+.dials .dial:nth-child(4n+1){--p:var(--c3d)}
+.dials .dial:nth-child(4n+2){--p:var(--c5d)}
+.dials .dial:nth-child(4n+3){--p:var(--c4d)}
+.dials .dial:nth-child(4n+4){--p:var(--c2d)}
+
+/* menu makan, tiga warna berputar */
+.meals .meal:nth-child(3n+1){--p:var(--c1d);--ps:var(--c1s)}
+.meals .meal:nth-child(3n+2){--p:var(--c6d);--ps:var(--c6s)}
+.meals .meal:nth-child(3n+3){--p:var(--c5d);--ps:var(--c5s)}
+.meal{background:linear-gradient(135deg,var(--card) 70%,var(--ps,transparent))}
+.meal .mt b{color:var(--p,var(--ink))}
+
+/* grafik minggu ini, tiap batang memakai warna harinya */
+.wcol[data-w="senin"]{--b:var(--c1)}
+.wcol[data-w="selasa"]{--b:var(--c2)}
+.wcol[data-w="rabu"]{--b:var(--c3)}
+.wcol[data-w="kamis"]{--b:var(--c4)}
+.wcol[data-w="jumat"]{--b:var(--c5)}
+.wcol[data-w="sabtu"]{--b:var(--c6)}
+.wcol[data-w="minggu"]{--b:#8793ab}
+.wtrack i,.wcol.full .wtrack i{background:linear-gradient(180deg,
+  color-mix(in srgb,var(--b,var(--acc)) 55%,#fff),var(--b,var(--acc)))}
+.wcol.full .wval{color:var(--c6d)}
+
+/* batang tanggal ikut warna hari, jadi pola warnanya berulang tiap minggu */
+.rb[data-d="1"]{--b:var(--c1)}
+.rb[data-d="2"]{--b:var(--c2)}
+.rb[data-d="3"]{--b:var(--c3)}
+.rb[data-d="4"]{--b:var(--c4)}
+.rb[data-d="5"]{--b:var(--c5)}
+.rb[data-d="6"]{--b:var(--c6)}
+.rb[data-d="0"]{--b:#8793ab}
+.rbars .rb:nth-child(6n+1):not([data-d]){--b:var(--c1)}
+.rbars .rb:nth-child(6n+2):not([data-d]){--b:var(--c2)}
+.rbars .rb:nth-child(6n+3):not([data-d]){--b:var(--c3)}
+.rbars .rb:nth-child(6n+4):not([data-d]){--b:var(--c4)}
+.rbars .rb:nth-child(6n+5):not([data-d]){--b:var(--c5)}
+.rbars .rb:nth-child(6n+6):not([data-d]){--b:var(--c6)}
+.rb i,.rb.full i{background:linear-gradient(180deg,
+  color-mix(in srgb,var(--b,var(--acc)) 60%,#fff),var(--b,var(--acc)))}
+.rb.now{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--b,var(--acc)) 35%,transparent)}
+
+/* nomor tangga calisthenics yang belum beres */
+.lrows .lrow:nth-child(6n+1) .lnum{--p:var(--c1d);--ps:var(--c1s)}
+.lrows .lrow:nth-child(6n+2) .lnum{--p:var(--c2d);--ps:var(--c2s)}
+.lrows .lrow:nth-child(6n+3) .lnum{--p:var(--c3d);--ps:var(--c3s)}
+.lrows .lrow:nth-child(6n+4) .lnum{--p:var(--c4d);--ps:var(--c4s)}
+.lrows .lrow:nth-child(6n+5) .lnum{--p:var(--c5d);--ps:var(--c5s)}
+.lrows .lrow:nth-child(6n+6) .lnum{--p:var(--c6d);--ps:var(--c6s)}
+.lnum{background:var(--ps,var(--card));border-color:transparent;color:var(--p,var(--muted))}
+
+/* isi kepala halaman latihan ikut warna harinya */
+.dhead .kick{color:var(--hd)}
+.dhead .dmchip.main{background:var(--hs);color:var(--hd)}
+#detail .tags span{background:var(--hs);color:var(--hd)}
+#detail .hsteps li::marker{color:var(--hd)}
+
+/* tiga target harian, tiga warna */
+.tgrid .titem:nth-child(3n+1){--p:var(--c3d);--ps:var(--c3s)}
+.tgrid .titem:nth-child(3n+2){--p:var(--c2d);--ps:var(--c2s)}
+.tgrid .titem:nth-child(3n+3){--p:var(--c4d);--ps:var(--c4s)}
+.titem{background:var(--ps,var(--bg));border-color:transparent}
+
+/* sabtu itu hari pemulihan aktif, tetap hari latihan, jadi warnanya tidak dibuat kelabu */
+.daycard[data-day="sabtu"] .dnum{background:var(--hs);color:var(--hd)}
+
+/* gelas air warna toska, bukan biru, supaya beda dari angka lain */
+.wd.on b{color:var(--c4d)}
+.wd.on{background:var(--c4s);border-color:var(--c4)}
+.wd.on svg{fill:var(--c4)}
+
+/* dua grafik badan dibedakan warnanya, berat biru dan pinggang koral */
+#bodyChart .sparkbox{--b:var(--c1)}
+#bodyChart .sparkbox + .sparkbox{--b:var(--c3)}
+.spark .sl{stroke:var(--b,var(--acc))}
+.spark .sa{fill:color-mix(in srgb,var(--b,var(--acc)) 14%,transparent)}
+.spark .sd{fill:var(--b,var(--acc))}
+#bodyChart .sparkbox .sphead b{color:color-mix(in srgb,var(--b) 80%,#1b2440)}
+
+/* ---------- perayaan ---------- */
 .burst{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:95}
 .burst i{position:absolute;width:9px;height:9px;border-radius:3px;background:var(--c);
   animation:burst 1.1s var(--ease) forwards;animation-delay:var(--d)}
@@ -751,19 +883,19 @@ a{color:var(--acc)}
       </button>
     </div>
 
-    <div class="blocklab">Statistik hari ini</div>
+    <div class="blocklab c1">Statistik hari ini</div>
     <div class="stats anim" id="dayRow"></div>
 
-    <div class="blocklab">Berat &amp; lingkar perut</div>
+    <div class="blocklab c2">Berat &amp; lingkar perut</div>
     <div id="bodyCard"></div>
 
-    <div class="blocklab">Fokus program</div>
+    <div class="blocklab c3">Fokus program</div>
     <div id="focusCard"></div>
 
-    <div class="blocklab">Tangga calisthenics</div>
+    <div class="blocklab c4">Tangga calisthenics</div>
     <div id="ladderCard"></div>
 
-    <div class="blocklab">Target harian</div>
+    <div class="blocklab c5">Target harian</div>
     <div id="targets"></div>
   </section>
 
@@ -800,17 +932,17 @@ a{color:var(--acc)}
       <p>Centangan minggu berjalan reset tiap Senin, tapi rekap bulanan dan tahunan di bawah tersimpan terus.</p>
     </div>
 
-    <div class="blocklab">Perkembangan badan</div>
+    <div class="blocklab c6">Perkembangan badan</div>
     <div id="bodyChart"></div>
 
-    <div class="blocklab">Minggu ini</div>
+    <div class="blocklab c1">Minggu ini</div>
     <div class="pgrid" id="pgrid"></div>
     <div class="week" id="weekStrip"></div>
 
-    <div class="blocklab">Rekap bulan ini</div>
+    <div class="blocklab c2">Rekap bulan ini</div>
     <div id="mcard"></div>
 
-    <div class="blocklab">Rekap tahun ini</div>
+    <div class="blocklab c3">Rekap tahun ini</div>
     <div id="ycard"></div>
 
     <button class="btn btn-ghost" id="resetBtn" type="button" style="margin-top:1.4rem;width:100%">Reset minggu ini</button>
@@ -3623,7 +3755,7 @@ window.PROGRAM = {
 
     if (d.finisher) {
       var off = off0 + (d.main || []).length;
-      h += '<div class="blocklab">' + esc(d.finisher.label) + ' — ' + esc(d.finisher.duration) + '</div><div class="exlist anim">';
+      h += '<div class="blocklab fin">' + esc(d.finisher.label) + ' — ' + esc(d.finisher.duration) + '</div><div class="exlist anim">';
       d.finisher.items.forEach(function (it, i) { h += exCard(Object.assign({}, it, { id: d.key + '-f' + i }), off + i); });
       h += '</div>';
     }
@@ -3638,6 +3770,7 @@ why_note(d) + '<div class="exlist anim">';
 
     if (d.cooldown) h += '<div class="note warm" style="margin-top:1.2rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg><span>' + esc(d.cooldown) + '</span></div>';
 
+    $('#detail').dataset.day = d.key;
     $('#detail').innerHTML = h;
     bindVideos($('#detail'));
     $$('#detail .setbtn').forEach(function (b) {
@@ -3712,6 +3845,7 @@ why_note(d) + '<div class="exlist anim">';
       r = hist.d[y + '-' + mm + '-' + String(i).padStart(2, '0')] || {};
       pc = r.s && r.t ? Math.round(r.s / r.t * 100) : 0;
       bars += '<span class="rb' + (pc >= 100 ? ' full' : '') + (i === today ? ' now' : '') +
+        '" data-d="' + new Date(y, mo, i).getDay() +
         '" data-h="' + (pc ? Math.max(6, Math.min(100, pc)) : 0) +
         '" title="' + i + ' ' + MON[mo] + ', ' + pc + ' persen"><i></i></span>';
       labs += '<span>' + (i === 1 || i % 5 === 0 ? i : '') + '</span>';
